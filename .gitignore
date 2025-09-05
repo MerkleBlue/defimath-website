@@ -9,6 +9,7 @@
 /artifacts
 /cache
 .nyc_output/
+.next/
 /report
 /testfiles
 .DS_Store
