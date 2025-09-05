@@ -72,20 +72,20 @@ const Hero = () => {
               </p>
             </div>
             <h1 className="font-medium lg:text-76 md:text-70 text-54 lg:text-start text-center text-white mb-10">
-              Optimized Solidity <span className="text-primary">DeFi</span> & <span className="text-primary">Math</span> Primitives
+              Optimized <span className="text-primary">DeFi</span> & <span className="text-primary">Math</span> Primitives
             </h1>
             <div className="flex items-center md:justify-start justify-center gap-8">
               <button
                 className="bg-primary border border-primary rounded-lg text-21 font-medium hover:bg-transparent hover:text-primary text-darkmode py-2 px-7 z-50"
                 onClick={() => setIsBuyingOpen(true)}
               >
-                Buy Crypto
+                Unlock Tutorial
               </button>
               <button
                 className="bg-transparent border border-primary rounded-lg text-21 font-medium hover:bg-primary hover:text-darkmode text-primary py-2 px-7"
                 onClick={() => setIsSellingOpen(true)}
               >
-                Sell Crypto
+                Github
               </button>
             </div>
             <div className="flex items-center md:justify-start justify-center gap-12 mt-20">
