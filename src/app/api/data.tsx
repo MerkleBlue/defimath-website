@@ -102,10 +102,11 @@ export const portfolioData: { image: string; title: string }[] = [
 ];
 
 export const upgradeData: { title: string }[] = [
-  { title: "100% Secure" },
-  { title: "A Fraction of the Cost" },
-  { title: "More Durable" },
-  { title: "Easier to Use" },
+  { title: "DeFi derivatives: calls, puts, greeks, futures, etc." },
+  { title: "Math primitives: exp, ln, log, sqrt, stdCDF, error function, etc" },
+  { title: "Gas optimized: carefully engineered for minimal gas usage." },
+  { title: "100% coverage: fully tested with extensive unit tests." },
+  { title: "Open source: completely free and MIT licensed." },
 ];
 
 export const perksData: {
