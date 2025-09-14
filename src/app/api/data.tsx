@@ -2,8 +2,7 @@ import { title } from "process";
 
 export const footerlabels: { label: string; herf: string }[] = [
   { label: "Terms", herf: "#" },
-  { label: "Disclosures", herf: "#" },
-  { label: "Disclosures", herf: "#" },
+  { label: "Privacy Policy", herf: "#" },
   { label: "Latest News", herf: "#" },
 ];
 
@@ -117,20 +116,20 @@ export const perksData: {
 }[] = [
   {
     icon: "/images/perks/icon-support.svg",
-    title: "24/7 Support",
-    text: "Need help? Get your requests solved quickly via support team.",
+    title: "Support",
+    text: "Need help with integrations? We can help you get started.",
     space: "lg:mt-8",
   },
   {
     icon: "/images/perks/icon-community.svg",
     title: "Community",
-    text: "Join the conversations on our worldwide OKEx communities",
+    text: "Join the conversations, we are building a strong Solidity community.",
     space: "lg:mt-14",
   },
   {
     icon: "/images/perks/icon-academy.svg",
     title: "Academy",
-    text: "Learn blockchain and<br /> crypto for free.",
+    text: "Join our newsletter to unlock tutorials and resources.",
     space: "lg:mt-4",
   },
 ];

@@ -79,8 +79,8 @@ const Footer: FC = () => {
           <div className="lg:col-span-4 md:col-span-4 col-span-6">
             <h3 className="text-white text-24 font-medium">Subscribe</h3>
             <p className="text-muted text-opacity-60 text-18 mt-5">
-              Subscribe to get the latest
-              <br /> news form us
+              Subscribe to learn how to optimize <br />your Solidity code and get{" "}
+               news form us
             </p>
             <div className="relative lg:w-80%">
               <input
