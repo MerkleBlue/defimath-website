@@ -139,11 +139,11 @@ const Header: React.FC = () => {
               </div>
             )}
             <Link
-              href="#"
+              href="https://github.com/MerkleBlue/defimath" target="_blank"
               className="hidden lg:block bg-primary text-darkmode hover:bg-transparent hover:text-primary border border-primary px-4 py-2 rounded-lg"
-              onClick={() => {
-                setIsSignUpOpen(true);
-              }}
+              // onClick={() => {
+              //   setIsSignUpOpen(true);
+              // }}
             >
               Explore Code
             </Link>
