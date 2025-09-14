@@ -88,7 +88,7 @@ const Hero = () => {
                 Github
               </button>
             </div>
-            <div className="flex items-center md:justify-start justify-center gap-12 mt-20">
+            {/* <div className="flex items-center md:justify-start justify-center gap-12 mt-20">
               <Link href="#" className="hover:scale-110 duration-300">
                 <Image
                   src={`${getImagePrefix()}images/hero/playstore.png`}
@@ -105,7 +105,7 @@ const Hero = () => {
                   height={70}
                 />
               </Link>
-            </div>
+            </div> */}
           </motion.div>
           <motion.div
             {...rightAnimation}
@@ -121,7 +121,7 @@ const Hero = () => {
             </div>
           </motion.div>
         </div>
-        <CardSlider />
+        {/* <CardSlider /> */}
       </div>
       <div className="absolute w-50 h-50 bg-gradient-to-bl from-tealGreen from-50% to-charcoalGray to-60% blur-400 rounded-full -top-64 -right-14 -z-1"></div>
 

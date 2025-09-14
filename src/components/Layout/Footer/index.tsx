@@ -8,7 +8,7 @@ import Logo from "../Header/Logo";
 
 const Footer: FC = () => {
   return (
-    <footer className="pt-16 bg-darkmode">
+    <footer className="pt-16 bg-darkmode" id="footer">
       <div className="container mx-auto lg:max-w-screen-xl md:max-w-screen-md px-4">
         <div className="grid grid-cols-1 sm:grid-cols-12 lg:gap-20 md:gap-6 sm:gap-12 gap-6  pb-16">
           <div className="lg:col-span-4 md:col-span-6 col-span-6">

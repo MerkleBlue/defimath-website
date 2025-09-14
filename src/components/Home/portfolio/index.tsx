@@ -29,15 +29,16 @@ const Portfolio = () => {
             transition={{ duration: 0.6 }}
           >
             <p className="sm:text-28 text-18 text-muted mb-4">
-              Cryptocurrency <span className="text-primary">Portfolio</span>
+              Custom <span className="text-primary">Development</span>
             </p>
             <h2 className="text-white sm:text-40 text-30 mb-4 font-medium">
-              Create your crypto portfolio today with Cryp
-              <span className="text-primary">Go</span>!
+              We can help you with your next{" "}
+              <span className="text-primary">Solidity Project</span>  
+              {/* {" "}DeFi<span className="text-primary">Math</span> */}
             </h2>
             <p className="text-muted text-opacity-60 text-18">
-              Coinbase has a variety of features that make it the best
-              <br className="md:block hidden" /> place to start trading.
+              Contact us today to discuss your project and find out how 
+              <br className="md:block hidden" /> we can help you bring your vision to life.
             </p>
 
             <table className="w-full sm:w-[80%]">

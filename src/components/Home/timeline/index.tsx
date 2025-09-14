@@ -75,7 +75,7 @@ const TimeLine = () => {
                 <div className="text-left">
                   <h5 className="text-muted text-28 mb-3">Refinement</h5>
                   <p className="text-18 text-muted text-opacity-60">
-                    Refine and improve your solution
+                    Refine and improve your solution!
                   </p>
                 </div>
               </div>
