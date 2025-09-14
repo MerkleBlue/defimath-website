@@ -204,7 +204,7 @@ const Header: React.FC = () => {
               <MobileHeaderLink key={index} item={item} />
             ))}
             <div className="mt-4 flex flex-col space-y-4 w-full">
-              <Link
+              {/* <Link
                 href="#"
                 className="bg-transparent border border-primary text-primary px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white"
                 onClick={() => {
@@ -213,16 +213,16 @@ const Header: React.FC = () => {
                 }}
               >
                 Sign In2
-              </Link>
+              </Link> */}
               <Link
-                href="#"
-                className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-                onClick={() => {
-                  setIsSignUpOpen(true);
-                  setNavbarOpen(false);
-                }}
+                href="https://github.com/MerkleBlue/defimath" target="_blank"
+                className="bg-primary text-black px-4 py-2 rounded-lg hover:bg-blue-700"
+                // onClick={() => {
+                //   setIsSignUpOpen(true);
+                //   setNavbarOpen(false);
+                // }}
               >
-                Sign Up
+                Explore Code
               </Link>
             </div>
           </nav>
