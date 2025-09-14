@@ -40,11 +40,12 @@ const Footer: FC = () => {
               </Link>
             </div>
             <h3 className="text-white text-20 font-medium sm:mt-20 mt-12">
-              2025 &copy; DeFiMath
+              Connect with us, we are here to help!
             </h3>
             <h3 className="text-white text-20 font-medium sm:mt-20 mt-12">
-              Theme by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+              2025 &copy; <a href="https://merkleblue.com" target="_blank">MerkleBlue</a>. Theme by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
             </h3>
+
           </div>
           <div className="lg:col-span-2 md:col-span-3 col-span-6">
             <h4 className="text-white mb-4 font-medium text-24">Links</h4>
