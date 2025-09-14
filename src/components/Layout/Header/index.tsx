@@ -118,7 +118,7 @@ const Header: React.FC = () => {
             >
               Sign In2
             </Link> */}
-            {isSignInOpen && (
+            {/* {isSignInOpen && (
               <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div
                   ref={signInRef}
@@ -137,7 +137,7 @@ const Header: React.FC = () => {
                   <Signin />
                 </div>
               </div>
-            )}
+            )} */}
             <Link
               href="https://github.com/MerkleBlue/defimath" target="_blank"
               className="hidden lg:block bg-primary text-darkmode hover:bg-transparent hover:text-primary border border-primary px-4 py-2 rounded-lg"
@@ -212,7 +212,7 @@ const Header: React.FC = () => {
                   setNavbarOpen(false);
                 }}
               >
-                Sign In
+                Sign In2
               </Link>
               <Link
                 href="#"
