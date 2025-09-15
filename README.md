@@ -13,6 +13,15 @@ npm i
 npm run dev
 ```
 
+How to build for production
+```
+rm -rf .next out
+npm run build
+```
+```
+npx serve@latest out
+```
+
 ## Author
 
 Design and code is completely written by Getnext.jsTemplates design and development team.  
