@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "npm run build",
-    "deploy": "touch out/.nojekyll && gh-pages -d out --dotfiles"
+    "deploy": "DON'T USE THIS SCRIPT! touch out/.nojekyll && gh-pages -d out --dotfiles"
   },
   "dependencies": {
     "@iconify/icons-ion": "^1.2.10",
