@@ -3,6 +3,8 @@
 # dependencies
 /node_modules
 
+# build folder out should be ignored
+/out
 
 # misc
 /coverage
