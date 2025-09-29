@@ -23,9 +23,6 @@ On Github pages, `docs` folder is being used to host the website. So, after buil
 ```
 cp -R out/* docs/
 ```
-```
-npx serve@latest out
-```
 
 ## Author
 
