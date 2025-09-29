@@ -3,20 +3,25 @@ Website for DefiMath project
 
  
 ## Getting Started
-```
-1. Install Dependencies
+
+### Install Dependencies
 ```
 npm i
 ```
-23. Run local server
+### Run local server for development
 ```
 npm run dev
 ```
-
-How to build for production
+After this, you can visit [http://localhost:3000](http://localhost:3000) from your browser.
+### How to build for production
+Production is being built in `out` folder. To build for production, run:
 ```
 rm -rf .next out
 npm run build
+```
+On Github pages, `docs` folder is being used to host the website. So, after building for production, copy the contents of `out` folder to `docs` folder. here's how you can do it:
+```
+cp -R out/* docs/
 ```
 ```
 npx serve@latest out

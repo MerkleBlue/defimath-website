@@ -43,7 +43,7 @@ const Footer: FC = () => {
               Connect with us, we are here to help!
             </h3>
             <h3 className="text-white text-20 font-medium sm:mt-20 mt-12">
-              2025 &copy; <a href="https://merkleblue.com" target="_blank">MerkleBlue</a>. Theme by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+              2025 &copy; <a href="https://merkleblue.com" target="_blank">MerkleBlue v1.0.0</a>. Theme by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
             </h3>
 
           </div>
