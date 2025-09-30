@@ -8,7 +8,9 @@ import Upgrade from "@/components/Home/upgrade";
 import Perks from "@/components/Home/perks";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "CrypGo",
+  title: "DeFiMath - Optimized DeFi & Math Solidity Primitives",
+  description:
+    "DeFiMath is an open-source Solidity library offering optimized math and DeFi primitives, designed for precision and efficiency in financial calculations.",
 };
 
 export default function Home() {
