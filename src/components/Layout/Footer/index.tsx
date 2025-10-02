@@ -22,7 +22,7 @@ const Footer: FC = () => {
                   className="text-white group-hover:text-primary"
                 />
               </Link>
-              <Link href="https://www.linkedin.com/company/defi-math" className="group">
+              <Link href="https://www.linkedin.com/company/defi-math" target="_blank" rel="noopener noreferrer" className="group">
                 <Icon
                   icon="fa6-brands:linkedin-in"
                   width="24"
