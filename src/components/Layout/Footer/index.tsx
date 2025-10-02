@@ -14,23 +14,7 @@ const Footer: FC = () => {
           <div className="lg:col-span-4 md:col-span-6 col-span-6">
             <Logo />
             <div className="flex gap-6 items-center mt-8">
-              <Link href="#" className="group">
-                <Icon
-                  icon="fa6-brands:facebook-f"
-                  width="24"
-                  height="24"
-                  className="text-white group-hover:text-primary"
-                />
-              </Link>
-              <Link href="#" className="group">
-                <Icon
-                  icon="fa6-brands:instagram"
-                  width="24"
-                  height="24"
-                  className="text-white group-hover:text-primary"
-                />
-              </Link>
-              <Link href="#" className="group">
+              <Link href="https://x.com/defi_math" target="_blank" rel="noopener noreferrer" className="group">
                 <Icon
                   icon="fa6-brands:x-twitter"
                   width="24"
@@ -38,6 +22,23 @@ const Footer: FC = () => {
                   className="text-white group-hover:text-primary"
                 />
               </Link>
+              <Link href="https://www.linkedin.com/company/defi-math" className="group">
+                <Icon
+                  icon="fa6-brands:linkedin-in"
+                  width="24"
+                  height="24"
+                  className="text-white group-hover:text-primary"
+                />
+              </Link>
+              {/* <Link href="#" className="group">
+                <Icon
+                  icon="fa6-brands:facebook-f"
+                  width="24"
+                  height="24"
+                  className="text-white group-hover:text-primary"
+                />
+              </Link> */}
+
             </div>
             <h3 className="text-white text-20 font-medium sm:mt-20 mt-12">
               Connect with us, we are here to help!
