@@ -1,9 +1,10 @@
 import { title } from "process";
 
 export const footerlabels: { label: string; herf: string }[] = [
+  { label: "Blog", herf: "https://defimath.substack.com/" },
+  { label: "Latest News", herf: "/news/" },
   { label: "Terms", herf: "/terms/" },
   { label: "Privacy Policy", herf: "/privacy/" },
-  { label: "Latest News", herf: "/news/" },
 ];
 
 export const pricedeta: {
