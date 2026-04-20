@@ -83,7 +83,7 @@ const Hero = () => {
               </button>
               <button
                 className="bg-transparent border border-primary rounded-lg text-21 font-medium hover:bg-primary hover:text-darkmode text-primary py-2 px-7"
-                onClick={() => setIsSellingOpen(true)}
+                onClick={() => window.open('https://github.com/MerkleBlue/defimath', '_blank', 'noopener,noreferrer')}
               >
                 Github
               </button>
