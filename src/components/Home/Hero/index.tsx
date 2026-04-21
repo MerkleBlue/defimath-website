@@ -54,7 +54,7 @@ const Hero = () => {
 
   return (
     <section
-      className="relative md:pt-40 md:pb-28 py-20 overflow-hidden z-1"
+      className="relative md:pt-40 md:pb-10 py-20 overflow-hidden z-1"
       id="main-banner"
     >
       <div className="container mx-auto lg:max-w-screen-xl px-4">
@@ -111,12 +111,13 @@ const Hero = () => {
             {...rightAnimation}
             className="col-span-7 lg:block hidden"
           >
-            <div className="ml-20 -mr-64">
+            <div className="ml-20 flex justify-center">
               <Image
                 src= {`${getImagePrefix()}images/hero/banner-image.png`}
                 alt="Banner"
-                width={1150}
-                height={1150}
+                width={500}
+                height={500}
+                style={{ width: 500, height: 'auto', maxWidth: '100%' }}
               />
             </div>
           </motion.div>

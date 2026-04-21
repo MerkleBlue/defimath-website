@@ -6,7 +6,7 @@ import { getImagePrefix } from "@/utils/utils";
 
 const Portfolio = () => {
   return (
-    <section className="md:pt-48 sm:pt-28 pt-12" id="portfolio">
+    <section className="md:pt-20 sm:pt-12 pt-8" id="portfolio">
       <div className="container mx-auto lg:max-w-screen-xl px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 items-center gap-20">
           <motion.div
