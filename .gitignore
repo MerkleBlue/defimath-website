@@ -19,3 +19,6 @@ images/.DS_Store
 coverage.json
 package-lock.json
 *.csv
+
+# local agent instructions
+CLAUDE.md

@@ -2,7 +2,8 @@
 import { Documentation } from "@/components/Documentation/Documentation";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-    title: "Featurs | Crypgo",
+    title: "Docs | DefiMath",
+    description: "Documentation for DefiMath",
 };
 
 export default function Page() {
