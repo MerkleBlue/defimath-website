@@ -17,7 +17,7 @@ export function generateMetadata({ params }: Params): Metadata {
     if (!post) return { title: "Blog | DefiMath" };
     return {
         title: `${post.title} | DefiMath`,
-        description: post.excerpt ?? `DefiMath blog — ${post.title}`,
+        description: post.metaDescription ?? post.excerpt ?? `DefiMath blog — ${post.title}`,
     };
 }
 

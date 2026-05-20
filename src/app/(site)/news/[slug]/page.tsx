@@ -16,7 +16,7 @@ export function generateMetadata({ params }: Params): Metadata {
     if (!item) return { title: "News | DefiMath" };
     return {
         title: `${item.title} | DefiMath`,
-        description: item.excerpt ?? `DefiMath news — ${item.title}`,
+        description: item.metaDescription ?? item.excerpt ?? `DefiMath news — ${item.title}`,
     };
 }
 

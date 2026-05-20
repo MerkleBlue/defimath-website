@@ -10,6 +10,7 @@ export type NewsItem = {
   date: string; // ISO string
   version?: string;
   excerpt?: string;
+  metaDescription?: string; // <meta name="description">; falls back to excerpt
   content: string; // raw markdown body
 };
 
@@ -40,6 +41,8 @@ export function getAllNews(): NewsItem[] {
         date: toISO(data.date),
         version: data.version != null ? String(data.version) : undefined,
         excerpt: typeof data.excerpt === "string" ? data.excerpt : undefined,
+        metaDescription:
+          typeof data.metaDescription === "string" ? data.metaDescription : undefined,
         content,
       };
     })

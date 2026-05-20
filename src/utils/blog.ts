@@ -9,6 +9,7 @@ export type BlogPost = {
   title: string;
   date: string; // ISO string
   excerpt?: string;
+  metaDescription?: string; // <meta name="description">; falls back to excerpt
   coverImage?: string;
   author?: string;
   authorImage?: string;
@@ -41,6 +42,8 @@ export function getAllBlogPosts(): BlogPost[] {
         title: typeof data.title === "string" ? data.title : slug,
         date: toISO(data.date),
         excerpt: typeof data.excerpt === "string" ? data.excerpt : undefined,
+        metaDescription:
+          typeof data.metaDescription === "string" ? data.metaDescription : undefined,
         coverImage:
           typeof data.coverImage === "string" ? data.coverImage : undefined,
         author: typeof data.author === "string" ? data.author : undefined,
