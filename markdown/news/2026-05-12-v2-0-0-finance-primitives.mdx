@@ -1,0 +1,27 @@
+---
+title: v2.0.0 — API rename and finance primitives
+date: 2026-05-12
+version: "2.0.0"
+excerpt: Breaking — function names drop the `get` prefix. Adds compound interest, present value, log returns, and continuous/discrete conversions.
+---
+
+**Breaking change.** All public functions have been renamed to drop the
+`get` prefix — for example, `getCallPrice` is now `callOptionPrice`.
+Update call sites when upgrading.
+
+**New math primitives:**
+
+- `expm1` and `log1p`
+
+**New finance functions:**
+
+- `compoundInterest`
+- `presentValue`
+- `logReturn`
+- `continuousToDiscrete`
+- `discreteToContinuous`
+
+**Follow-up (v2.0.1):** `timeToExpirySec` renamed to `timeToExp`.
+
+Both `compoundInterest` and `presentValue` saw immediate gas optimizations
+after their first implementation.

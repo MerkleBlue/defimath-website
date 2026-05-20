@@ -41,3 +41,60 @@ section{
 .blog-details h3 {
   @apply mb-6 text-2xl font-bold dark:text-white sm:text-[28px] sm:leading-[40px];
 }
+
+/* Rendered markdown — shared by blog posts and news / release notes */
+.markdown-content p {
+  @apply mb-4 text-base font-medium text-muted text-opacity-95;
+}
+
+.markdown-content p:last-child {
+  @apply mb-0;
+}
+
+.markdown-content a {
+  @apply text-primary hover:underline;
+}
+
+.markdown-content strong {
+  @apply font-bold text-white;
+}
+
+.markdown-content ul {
+  @apply mb-4 list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95;
+}
+
+.markdown-content ol {
+  @apply mb-4 list-decimal list-inside space-y-2 text-base font-medium text-muted text-opacity-95;
+}
+
+.markdown-content h1 {
+  @apply mb-4 mt-8 text-2xl font-semibold text-white;
+}
+
+.markdown-content h2 {
+  @apply mb-3 mt-6 text-xl font-semibold text-white;
+}
+
+.markdown-content h3 {
+  @apply mb-3 mt-6 text-lg font-semibold text-white;
+}
+
+.markdown-content code {
+  @apply rounded bg-dark_grey px-1.5 py-0.5 text-sm text-primary;
+}
+
+.markdown-content pre {
+  @apply my-6 p-5 rounded-md bg-darkmode border-l-4 border-[#FF7A66] overflow-x-auto;
+}
+
+.markdown-content pre code {
+  @apply bg-transparent px-0 py-0 text-base text-[#FF7A66];
+}
+
+.markdown-content img {
+  @apply my-6 rounded-md;
+}
+
+.markdown-content hr {
+  @apply my-6 border-dark_border;
+}

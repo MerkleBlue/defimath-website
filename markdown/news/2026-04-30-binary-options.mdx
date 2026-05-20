@@ -1,0 +1,48 @@
+---
+title: Binary options pricing and Greeks
+date: 2026-04-30
+excerpt: Binary call and put pricing landed, with a full set of Greeks — delta, gamma, theta, vega.
+---
+
+DeFiMath now supports binary (cash-or-nothing) options end-to-end, with both
+call and put pricing plus the full Greek set. All functions assume a unit
+payout of 1 — scale the result for any payout size.
+
+**New functions:**
+
+- **`binaryCallPrice`** — Black-Scholes price of a binary call (pays 1 if
+  spot > strike at expiry, else 0). Computes `e^(-r·τ) · Φ(d2)`.
+- **`binaryPutPrice`** — Black-Scholes price of a binary put (pays 1 if
+  spot < strike at expiry, else 0).
+- **`binaryDelta`** — first-order sensitivity to the underlying price.
+  Returns both call and put delta in a single call.
+- **`binaryGamma`** — second-order sensitivity to the underlying price
+  (rate of change of delta). Returns both call and put.
+- **`binaryTheta`** — sensitivity to time, expressed per day. Returns both
+  call and put.
+- **`binaryVega`** — sensitivity to volatility, expressed per 1% change
+  in vol. Returns both call and put.
+
+This rounds out the binary options surface alongside the existing vanilla
+options support.
+
+## Use cases
+
+Binary options are the natural pricing primitive for any discrete, yes/no
+payoff. On-chain, the most obvious application is **prediction markets**
+— fair-value pricing for binary outcome shares
+(e.g. "will price > X at time T?") on Polymarket-style protocols. The
+same math underpins **depeg and catastrophic-event insurance**: protocols
+that pay out a fixed amount if a stablecoin breaks its peg, an oracle
+price crosses a threshold, or a similar discrete event occurs.
+
+Beyond that, binary pricing is what **structured yield products** need
+when they sell binaries to collect premium income — price and Greeks
+drive the risk management. Binaries also work as **threshold-based
+hedges** against specific triggers (liquidation levels, oracle bands,
+knock-out barriers) and as the pricing layer for **conditional rewards
+and incentives** that depend on an observable on-chain condition being
+met by a deadline.
+
+See the [DeFiMath GitHub repo](https://github.com/MerkleBlue/defimath)
+for full source and usage examples.

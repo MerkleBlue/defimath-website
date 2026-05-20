@@ -1,0 +1,22 @@
+---
+title: v1.0.4 — CLZ-based ln, sqrt and sqrtTime
+date: 2026-05-11
+version: "1.0.4"
+excerpt: Core math primitives rewritten using count-leading-zeros for tighter gas.
+---
+
+v1.0.4 ships a round of low-level optimizations on the core math primitives:
+
+- `ln` — rewritten using CLZ (count-leading-zeros)
+- `sqrt` — rewritten using CLZ
+- `sqrtTime` — rewritten using CLZ
+
+Every higher-level function that depends on these primitives — option
+pricing, Greeks, implied volatility — gets the gas savings transitively.
+
+On the primitives themselves, `ln` dropped from **508 → 375 gas** and
+`sqrt` from **344 → 245 gas**.
+
+These rewrites are made possible by the new `CLZ` opcode introduced in
+[EIP-7939](https://eips.ethereum.org/EIPS/eip-7939), part of the **Osaka**
+hard fork — DeFiMath's EVM target has been bumped accordingly.

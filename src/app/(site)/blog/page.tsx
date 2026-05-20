@@ -1,15 +1,15 @@
 import { Metadata } from "next";
-import { getNewsPage, getNewsTotalPages } from "@/utils/news";
-import { NewsListing } from "@/components/News/NewsListing";
+import { getBlogPage, getBlogTotalPages } from "@/utils/blog";
+import { BlogListing } from "@/components/Blog/BlogListing";
 
 export const metadata: Metadata = {
-    title: "Latest News | DefiMath",
-    description: "Latest news and release notes from DefiMath",
+    title: "Blog | DefiMath",
+    description: "Articles and insights from the DefiMath team",
 };
 
 export default function Page() {
-    const items = getNewsPage(1);
-    const totalPages = getNewsTotalPages();
+    const posts = getBlogPage(1);
+    const totalPages = getBlogTotalPages();
 
     return (
         <main>
@@ -17,10 +17,10 @@ export default function Page() {
                 <div className="container mx-auto lg:max-w-screen-xl px-4">
 
                     <h1 className="font-medium lg:text-56 md:text-50 text-54 lg:text-start text-center text-white mb-10">
-                        Latest News
+                        Blog
                     </h1>
 
-                    <NewsListing items={items} currentPage={1} totalPages={totalPages} />
+                    <BlogListing posts={posts} currentPage={1} totalPages={totalPages} />
 
                 </div>
             </section>

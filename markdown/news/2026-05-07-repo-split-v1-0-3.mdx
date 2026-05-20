@@ -1,0 +1,17 @@
+---
+title: v1.0.3 — Library and benchmark suite split into separate repos
+date: 2026-05-07
+version: "1.0.3"
+excerpt: DeFiMath is now a focused Solidity library; benchmark comparisons live in the new defimath-compare repo.
+---
+
+The DeFiMath repository has been split. Going forward:
+
+- **`defimath`** — the focused Solidity library: math primitives, options
+  pricing, Greeks, IV solver. This is what you `npm install`.
+- **`defimath-compare`** — the benchmark harness that compares DeFiMath
+  against other Solidity math libraries. Lives at
+  [MerkleBlue/defimath-compare](https://github.com/MerkleBlue/defimath-compare).
+
+The split keeps the library itself small and dependency-light. Comparisons,
+credits, and benchmark scripts have all been moved out.

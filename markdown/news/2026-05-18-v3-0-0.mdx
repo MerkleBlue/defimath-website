@@ -1,0 +1,48 @@
+---
+title: v3.0.0 — Portfolio analytics, Solidity 0.8.35, full test coverage
+date: 2026-05-18
+version: "3.0.0"
+excerpt: A major release adding statistics, risk and return functions for on-chain portfolio analytics, with a Solidity bump and 100% test coverage.
+---
+
+v3.0.0 is a major release. It extends DeFiMath beyond options pricing into
+general portfolio and performance math — useful for vaults, structured
+products, risk engines, and any protocol that needs to reason about returns
+on-chain — and ships under a fresh Solidity version with full test coverage.
+
+## Statistics
+
+- `mean` — arithmetic mean, Σ(vᵢ) / n.
+- `geometricMean` — geometric mean of two values, √(a · b).
+- `weightedAverage` — weighted average, Σ(vᵢ · wᵢ) / Σ(wᵢ).
+- `stdDev` — sample standard deviation, √(Σ(vᵢ − μ)² / (n − 1)).
+
+## Risk and return
+
+- `historicalVolatility` — annualized volatility from a price series
+  (sample std dev of log returns, annualized).
+- `sharpeRatio` — risk-adjusted return: (annualized return − risk-free
+  rate) / annualized volatility.
+- `maxDrawdown` — largest peak-to-trough decline on an equity curve,
+  expressed as a fraction.
+- `valueAtRisk` (VaR) — historical Value at Risk: the return threshold
+  below which losses fall with probability 1 − α.
+- `conditionalValueAtRisk` (CVaR) — Expected Shortfall: the mean return
+  in the left tail beyond VaR.
+- `yieldToMaturity` — closed-form YTM for a zero-coupon bond,
+  `ln(faceValue / price) / timeYear`, continuous compounding.
+- `internalRateOfReturn` — IRR via Newton-Raphson; solves
+  Σ Cᵢ · e^(−irr·tᵢ) = 0 from an initial guess.
+
+## Release polish
+
+- Bumped to **Solidity 0.8.35** (also remains compatible down to 0.8.31)
+- Compiler warnings cleaned up
+- Output parameters now have explicit names across the API
+- NatSpec author tags added throughout
+- Repository folder structure tightened
+- **100% test coverage** — every public function, every branch
+
+DeFiMath at v3.0.0 is a focused, fully-tested Solidity library covering
+options pricing, Greeks, implied volatility, finance primitives, and
+portfolio statistics.

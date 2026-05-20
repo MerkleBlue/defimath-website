@@ -1,0 +1,16 @@
+---
+title: Implied volatility solver and gas optimizations
+date: 2026-05-05
+excerpt: First implementation of getImpliedVolatility, plus a wave of gas and precision tuning across the math tables.
+---
+
+DeFiMath now ships an on-chain implied-volatility solver:
+
+- First implementation of `impliedVolatility` for vanilla options
+- Iterative optimization pass — gas and accuracy improvements for both
+  call and put paths
+- Compiler-level tuning: `viaIR` and updated optimizer runs
+- Updated math reference tables with the new results
+
+The IV solver completes the core options-pricing toolkit needed for
+protocols that mark positions, settle, or rebalance against live vol.
