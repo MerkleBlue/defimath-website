@@ -50,6 +50,17 @@ export function getNewsItem(slug: string): NewsItem | undefined {
   return getAllNews().find((item) => item.slug === slug);
 }
 
+/** Adjacent items in chronological order: `older` = previous in time, `newer` = next in time. */
+export function getAdjacentNews(slug: string): { older?: NewsItem; newer?: NewsItem } {
+  const all = getAllNews(); // sorted newest-first
+  const idx = all.findIndex((item) => item.slug === slug);
+  if (idx < 0) return {};
+  return {
+    newer: idx > 0 ? all[idx - 1] : undefined,
+    older: idx < all.length - 1 ? all[idx + 1] : undefined,
+  };
+}
+
 export const NEWS_PAGE_SIZE = 10;
 
 export function getNewsTotalPages(): number {

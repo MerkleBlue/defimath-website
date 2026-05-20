@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
-import { getAllNews, getNewsItem } from "@/utils/news";
+import { getAdjacentNews, getAllNews, getNewsItem } from "@/utils/news";
 import markdownToHtml from "@/utils/markdownToHtml";
 
 type Params = { params: { slug: string } };
@@ -30,6 +30,7 @@ export default async function Page({ params }: Params) {
     if (!item) notFound();
 
     const html = await markdownToHtml(item.content);
+    const { older, newer } = getAdjacentNews(params.slug);
 
     return (
         <main>
@@ -64,6 +65,45 @@ export default async function Page({ params }: Params) {
                         className="markdown-content"
                         dangerouslySetInnerHTML={{ __html: html }}
                     />
+
+                    {(older || newer) && (
+                        <nav
+                            aria-label="Adjacent news"
+                            className="mt-16 pt-8 border-t border-dark_border border-opacity-60 flex gap-4 flex-col sm:flex-row sm:justify-between"
+                        >
+                            {older ? (
+                                <Link
+                                    href={`/news/${older.slug}`}
+                                    className="group flex-1 min-w-0 p-5 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200"
+                                >
+                                    <span className="block text-sm font-medium text-muted text-opacity-60 mb-1">
+                                        ← Older
+                                    </span>
+                                    <span className="block text-base font-medium text-white group-hover:text-primary duration-200 truncate">
+                                        {older.title}
+                                    </span>
+                                </Link>
+                            ) : (
+                                <span className="flex-1" aria-hidden="true" />
+                            )}
+
+                            {newer ? (
+                                <Link
+                                    href={`/news/${newer.slug}`}
+                                    className="group flex-1 min-w-0 p-5 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200 sm:text-right"
+                                >
+                                    <span className="block text-sm font-medium text-muted text-opacity-60 mb-1">
+                                        Newer →
+                                    </span>
+                                    <span className="block text-base font-medium text-white group-hover:text-primary duration-200 truncate">
+                                        {newer.title}
+                                    </span>
+                                </Link>
+                            ) : (
+                                <span className="flex-1" aria-hidden="true" />
+                            )}
+                        </nav>
+                    )}
 
                 </div>
             </section>
