@@ -11,6 +11,7 @@ export type NewsItem = {
   version?: string;
   excerpt?: string;
   metaDescription?: string; // <meta name="description">; falls back to excerpt
+  metaKeywords?: string[]; // <meta name="keywords">; accept YAML list or comma string
   content: string; // raw markdown body
 };
 
@@ -18,6 +19,18 @@ function toISO(value: unknown): string {
   if (!value) return "";
   const d = new Date(value as string | number | Date);
   return isNaN(d.getTime()) ? String(value) : d.toISOString();
+}
+
+function parseKeywords(value: unknown): string[] | undefined {
+  if (Array.isArray(value)) {
+    const cleaned = value.map((v) => String(v).trim()).filter(Boolean);
+    return cleaned.length > 0 ? cleaned : undefined;
+  }
+  if (typeof value === "string") {
+    const cleaned = value.split(",").map((s) => s.trim()).filter(Boolean);
+    return cleaned.length > 0 ? cleaned : undefined;
+  }
+  return undefined;
 }
 
 /**
@@ -43,6 +56,7 @@ export function getAllNews(): NewsItem[] {
         excerpt: typeof data.excerpt === "string" ? data.excerpt : undefined,
         metaDescription:
           typeof data.metaDescription === "string" ? data.metaDescription : undefined,
+        metaKeywords: parseKeywords(data.metaKeywords),
         content,
       };
     })
