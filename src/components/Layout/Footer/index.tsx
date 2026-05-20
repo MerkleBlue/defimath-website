@@ -2,7 +2,6 @@ import React, { FC } from "react";
 import Link from "next/link";
 import { headerData } from "../Header/Navigation/menuData";
 import { footerlabels } from "@/app/api/data";
-import Image from "next/image";
 import { Icon } from "@iconify/react";
 import Logo from "../Header/Logo";
 
@@ -77,28 +76,6 @@ const Footer: FC = () => {
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="lg:col-span-4 md:col-span-4 col-span-6">
-            <h3 className="text-white text-24 font-medium">Subscribe</h3>
-            <p className="text-muted text-opacity-60 text-18 mt-5">
-              Subscribe to learn how to optimize <br />your Solidity code and get{" "}
-               news form us
-            </p>
-            <div className="relative lg:w-80%">
-              <input
-                type="email"
-                name="mail"
-                id="mail"
-                placeholder="Enter Email"
-                className="bg-transparent border border-dark_border border-opacity-60 py-4 text-white rounded-lg w-full mt-6 px-6"
-              />
-              <Icon
-                icon="tabler:send"
-                width="24"
-                height="24"
-                className="text-primary absolute right-7 bottom-4"
-              />
-            </div>
           </div>
         </div>
       </div>
