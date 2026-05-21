@@ -21,7 +21,7 @@ const MODULES = [
 export default function Page() {
     return (
         <>
-            <Breadcrumb items={[{ label: "Docs", href: "/docs" }, { label: "Overview" }]} />
+            <Breadcrumb items={[{ label: "Docs" }]} />
             <Overview />
             <Installation />
             <h2 id="modules" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Modules</h2>

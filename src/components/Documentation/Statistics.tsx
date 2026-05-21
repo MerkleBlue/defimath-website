@@ -8,6 +8,7 @@ export const Statistics = () => {
         Portfolio and performance analytics on-chain. Array-based functions
         scale with input size — gas figures below are for the listed size.
       </p>
+      <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
           { name: "geometricMean", gas: "330", description: "sqrt(a · b) — Uniswap V2 invariant" },

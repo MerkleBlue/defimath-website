@@ -9,6 +9,7 @@ export const Options = () => {
         an iterative implied-volatility solver. Greek functions return both
         call and put values in a single call.
       </p>
+      <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
           { name: "callOptionPrice", gas: "2,876", description: "European call price (Black-Scholes)" },
@@ -20,16 +21,14 @@ export const Options = () => {
           { name: "impliedVolatility", gas: "~13,100", description: "IV solver via Newton-Raphson" },
         ]}
       />
-      <div className="mt-6 p-6 rounded-md border border-dark_border border-opacity-60">
-        <p className="text-white font-medium mb-3">Pricing formula</p>
-        <p className="text-base font-medium text-muted text-opacity-95">
-          d₁ = [ln(S/K) + (r + σ²/2)·T] / (σ√T)
-          <br />
-          d₂ = d₁ − σ√T
-          <br />
-          Call = S·Φ(d₁) − K·e<sup>−r·T</sup>·Φ(d₂)
-        </p>
-      </div>
+      <h3 id="pricing-formula" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Pricing formula</h3>
+      <p className="text-base font-medium text-muted text-opacity-95">
+        d₁ = [ln(S/K) + (r + σ²/2)·T] / (σ√T)
+        <br />
+        d₂ = d₁ − σ√T
+        <br />
+        Call = S·Φ(d₁) − K·e<sup>−r·T</sup>·Φ(d₂)
+      </p>
     </div>
   );
 };

@@ -6,7 +6,7 @@ const MATH_EXAMPLE = `using DeFiMath for uint256;
 uint256 lnX = x.ln();
 uint256 root = x.sqrt();`;
 
-export const MathDocs = () => {
+export const Math = () => {
   return (
     <div className="pb-10">
       <h2 id="math" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Math primitives</h2>
@@ -16,6 +16,7 @@ export const MathDocs = () => {
         gas-efficient, and validated to sub-1e-12 absolute error against
         reference libraries.
       </p>
+      <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
           { name: "exp", gas: "333", description: "Exponential function e^x" },
@@ -30,7 +31,8 @@ export const MathDocs = () => {
           { name: "erf", gas: "685", description: "Error function" },
         ]}
       />
-      <pre className="mt-6 py-4 px-4 rounded-md bg-dark_grey relative overflow-x-auto">
+      <h3 id="example" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Example</h3>
+      <pre className="py-4 px-4 rounded-md bg-dark_grey relative overflow-x-auto">
         <code className="text-sm text-gray-400 font-mono whitespace-pre pe-16 block">{MATH_EXAMPLE}</code>
         <CopyButton value={MATH_EXAMPLE} />
       </pre>

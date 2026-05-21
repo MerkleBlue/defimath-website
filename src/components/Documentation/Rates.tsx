@@ -8,6 +8,7 @@ export const Rates = () => {
         Interest rate primitives — compounding, discounting, log returns,
         APR↔APY conversions, and closed-form / iterative yield calculations.
       </p>
+      <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
           { name: "compoundInterest", gas: "467", description: "Continuous compounding: P · e^(r·t)" },

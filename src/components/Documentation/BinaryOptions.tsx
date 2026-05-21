@@ -10,6 +10,7 @@ export const BinaryOptions = () => {
         payout — scale externally for other payouts. Greek functions return
         both call and put values in a single call.
       </p>
+      <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
           { name: "binaryCallPrice", gas: "2,092", description: "Cash-or-nothing call: e^(−r·τ) · Φ(d₂)" },

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Breadcrumb } from "@/components/Documentation/Breadcrumb";
-import { MathDocs } from "@/components/Documentation/MathDocs";
+import { Math } from "@/components/Documentation/Math";
 
 export const metadata: Metadata = {
     title: "Math — DeFiMath docs",
@@ -11,7 +11,7 @@ export default function Page() {
     return (
         <>
             <Breadcrumb items={[{ label: "Docs", href: "/docs" }, { label: "Math" }]} />
-            <MathDocs />
+            <Math />
         </>
     );
 }
