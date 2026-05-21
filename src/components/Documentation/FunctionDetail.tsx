@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { Breadcrumb, BreadcrumbItem } from "./Breadcrumb";
+import { CopyButton } from "./CopyButton";
 
 type ParamRow = { name: string; type: string; description: ReactNode };
 
 type Props = {
-  /** e.g. ["Math", "exp"] — last segment is the page title */
-  breadcrumb: string[];
+  /** Breadcrumb segments after the leading "Docs" link (which is auto-prepended). */
+  breadcrumb: BreadcrumbItem[];
   /** Module label shown as a pill next to the heading (e.g. "Math") */
   module: string;
   /** Function name without parens — heading shows it monospace */
@@ -79,21 +81,9 @@ export const FunctionDetail = ({
 }: Props) => {
   return (
     <article className="pt-4 pb-10">
-      <nav aria-label="Breadcrumb" className="text-sm font-medium text-muted text-opacity-60">
-        <Link href="/docs" className="hover:text-primary">Docs</Link>
-        {breadcrumb.map((segment, i) => (
-          <span key={i}>
-            {" / "}
-            {i === breadcrumb.length - 1 ? (
-              <span className="text-white">{segment}</span>
-            ) : (
-              <span>{segment}</span>
-            )}
-          </span>
-        ))}
-      </nav>
+      <Breadcrumb items={[{ label: "Docs", href: "/docs" }, ...breadcrumb]} />
 
-      <div className="flex flex-wrap items-center gap-3 mt-6 mb-3">
+      <div className="flex flex-wrap items-center gap-3 mb-3">
         <h1 className="font-mono text-white text-3xl md:text-4xl font-semibold">
           {name}
         </h1>
@@ -113,28 +103,29 @@ export const FunctionDetail = ({
         </div>
       )}
 
-      <h2 className="text-xl font-semibold text-white mt-10 mb-3">Signature</h2>
-      <pre className="py-4 px-4 rounded-md bg-darkmode border-l-4 border-[#FF7A66] overflow-x-auto">
-        <code className="text-base text-[#FF7A66] font-mono whitespace-pre">{signature}</code>
+      <h2 id="signature" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Signature</h2>
+      <pre className="py-4 px-4 rounded-md bg-darkmode border-l-4 border-[#FF7A66] overflow-x-auto relative">
+        <code className="text-base text-[#FF7A66] font-mono whitespace-pre pe-16 block">{signature}</code>
+        <CopyButton value={signature} />
       </pre>
 
       {parameters && parameters.length > 0 && (
         <>
-          <h2 className="text-xl font-semibold text-white mt-10 mb-3">Parameters</h2>
+          <h2 id="parameters" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Parameters</h2>
           <ParamTable rows={parameters} />
         </>
       )}
 
       {returns && returns.length > 0 && (
         <>
-          <h2 className="text-xl font-semibold text-white mt-10 mb-3">Returns</h2>
+          <h2 id="returns" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Returns</h2>
           <ParamTable rows={returns} />
         </>
       )}
 
       {behaviorItems && behaviorItems.length > 0 && (
         <>
-          <h2 className="text-xl font-semibold text-white mt-10 mb-3">Behavior</h2>
+          <h2 id="behavior" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Behavior</h2>
           <ul className="list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95">
             {behaviorItems.map((item, i) => (
               <li key={i}>{item}</li>
@@ -145,9 +136,10 @@ export const FunctionDetail = ({
 
       {example && (
         <>
-          <h2 className="text-xl font-semibold text-white mt-10 mb-3">Example</h2>
-          <pre className="py-4 px-4 rounded-md bg-darkmode border-l-4 border-[#FF7A66] overflow-x-auto">
-            <code className="text-base text-[#FF7A66] font-mono whitespace-pre">{example}</code>
+          <h2 id="example" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Example</h2>
+          <pre className="py-4 px-4 rounded-md bg-darkmode border-l-4 border-[#FF7A66] overflow-x-auto relative">
+            <code className="text-base text-[#FF7A66] font-mono whitespace-pre pe-16 block">{example}</code>
+            <CopyButton value={example} />
           </pre>
         </>
       )}

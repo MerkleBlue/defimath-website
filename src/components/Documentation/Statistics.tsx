@@ -2,8 +2,8 @@ import { FunctionTable } from "./FunctionTable";
 
 export const Statistics = () => {
   return (
-    <div id="statistics" className="md:scroll-m-[180px] scroll-m-28 pb-10">
-      <h3 className="text-2xl font-semibold mt-8 text-white">Statistics</h3>
+    <div className="pb-10">
+      <h2 id="statistics" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Statistics</h2>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Portfolio and performance analytics on-chain. Array-based functions
         scale with input size — gas figures below are for the listed size.

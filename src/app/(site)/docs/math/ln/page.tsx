@@ -9,7 +9,10 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <FunctionDetail
-            breadcrumb={["Math", "ln"]}
+            breadcrumb={[
+                { label: "Math", href: "/docs/math" },
+                { label: "ln" },
+            ]}
             module="Math"
             name="ln"
             summary="Computes the natural logarithm ln(x) for a 18-decimal fixed-point input."
@@ -34,7 +37,7 @@ using DeFiMath for uint256;
 
 uint256 x = 2e18;         // x = 2.0
 int256  y = x.ln();       // y ≈ 0.69314718e18`}
-            parentSectionHref="/docs#math"
+            parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />
     );

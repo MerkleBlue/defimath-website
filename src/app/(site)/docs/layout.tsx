@@ -1,4 +1,5 @@
 import { DocNavigation } from "@/components/Documentation/DocNavigation";
+import { OnThisPage } from "@/components/Documentation/OnThisPage";
 
 export default function DocsLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -8,8 +9,11 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
                     <div className="lg:col-span-3 col-span-12 lg:block hidden">
                         <DocNavigation />
                     </div>
-                    <div className="lg:col-span-9 col-span-12">
+                    <div className="lg:col-span-7 col-span-12" data-docs-content>
                         {children}
+                    </div>
+                    <div className="lg:col-span-2 col-span-12 lg:block hidden">
+                        <OnThisPage />
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { getAllBlogPosts, getBlogPost } from "@/utils/blog";
 import markdownToHtml from "@/utils/markdownToHtml";
+import { MarkdownContent } from "@/components/MarkdownContent";
 
 type Params = { params: { slug: string } };
 
@@ -74,10 +75,7 @@ export default async function Page({ params }: Params) {
                         </div>
                     )}
 
-                    <div
-                        className="markdown-content"
-                        dangerouslySetInnerHTML={{ __html: html }}
-                    />
+                    <MarkdownContent className="markdown-content" html={html} />
 
                 </div>
             </section>

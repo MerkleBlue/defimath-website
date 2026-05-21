@@ -1,9 +1,15 @@
+import { CopyButton } from "./CopyButton";
 import { FunctionTable } from "./FunctionTable";
+
+const MATH_EXAMPLE = `using DeFiMath for uint256;
+
+uint256 lnX = x.ln();
+uint256 root = x.sqrt();`;
 
 export const MathDocs = () => {
   return (
-    <div id="math" className="md:scroll-m-[180px] scroll-m-28 pb-10">
-      <h3 className="text-2xl font-semibold mt-8 text-white">Math primitives</h3>
+    <div className="pb-10">
+      <h2 id="math" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Math primitives</h2>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Low-level fixed-point primitives in 18-decimal format (
         <code className="text-primary">1e18 = 1.0</code>). All pure,
@@ -24,11 +30,10 @@ export const MathDocs = () => {
           { name: "erf", gas: "685", description: "Error function" },
         ]}
       />
-      <div className="mt-6 py-4 px-4 rounded-md bg-dark_grey">
-        <p className="text-sm text-gray-400">using DeFiMath for uint256;</p>
-        <p className="text-sm text-gray-400 mt-4">uint256 lnX = x.ln();</p>
-        <p className="text-sm text-gray-400 mt-2">uint256 root = x.sqrt();</p>
-      </div>
+      <pre className="mt-6 py-4 px-4 rounded-md bg-dark_grey relative overflow-x-auto">
+        <code className="text-sm text-gray-400 font-mono whitespace-pre pe-16 block">{MATH_EXAMPLE}</code>
+        <CopyButton value={MATH_EXAMPLE} />
+      </pre>
     </div>
   );
 };

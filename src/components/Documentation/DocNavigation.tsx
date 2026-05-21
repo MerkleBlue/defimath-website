@@ -8,20 +8,22 @@ type NavSection = {
   id: number;
   label: string;
   hash: string;
-  /** Path of the section's index anchor on the /docs page. */
-  anchorHref: string;
+  /** Where the top-level link goes when clicked. */
+  topHref: string;
+  /** If set, any pathname starting with this prefix makes the section active. */
+  basePath?: string;
   /** When present, the section is expandable. */
   functions?: FunctionLink[];
 };
 
 const DocsNav: NavSection[] = [
-  { id: 1, label: "Overview", hash: "overview", anchorHref: "/docs#overview" },
-  { id: 2, label: "Installation", hash: "installation", anchorHref: "/docs#installation" },
+  { id: 1, label: "Overview", hash: "overview", topHref: "/docs" },
   {
     id: 3,
     label: "Math",
     hash: "math",
-    anchorHref: "/docs#math",
+    topHref: "/docs/math",
+    basePath: "/docs/math",
     functions: [
       { name: "exp", href: "/docs/math/exp" },
       { name: "expm1", href: null },
@@ -35,12 +37,16 @@ const DocsNav: NavSection[] = [
       { name: "erf", href: null },
     ],
   },
-  { id: 4, label: "Options", hash: "options", anchorHref: "/docs#options" },
-  { id: 5, label: "Binary options", hash: "binary", anchorHref: "/docs#binary" },
-  { id: 6, label: "Futures", hash: "futures", anchorHref: "/docs#futures" },
-  { id: 7, label: "Rates", hash: "rates", anchorHref: "/docs#rates" },
-  { id: 8, label: "Statistics", hash: "statistics", anchorHref: "/docs#statistics" },
+  { id: 4, label: "Options", hash: "options", topHref: "/docs/options", basePath: "/docs/options" },
+  { id: 5, label: "Binary options", hash: "binary", topHref: "/docs/binary", basePath: "/docs/binary" },
+  { id: 6, label: "Futures", hash: "futures", topHref: "/docs/futures", basePath: "/docs/futures" },
+  { id: 7, label: "Rates", hash: "rates", topHref: "/docs/rates", basePath: "/docs/rates" },
+  { id: 8, label: "Statistics", hash: "statistics", topHref: "/docs/statistics", basePath: "/docs/statistics" },
 ];
+
+function stripTrailingSlash(p: string) {
+  return p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p;
+}
 
 const ChevronIcon = ({ open }: { open: boolean }) => (
   <svg
@@ -56,22 +62,31 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
 );
 
 export const DocNavigation = () => {
-  const pathname = usePathname() ?? "/docs";
-  const isIndex = pathname === "/docs" || pathname === "/docs/";
+  const pathname = stripTrailingSlash(usePathname() ?? "/docs");
+  const isIndex = pathname === "/docs";
 
-  // Active section from URL when on a function page; otherwise from scroll-spy.
-  const activeFromPath = DocsNav.find(
-    (s) => s.functions?.some((f) => f.href === pathname || f.href + "/" === pathname)
-  );
+  // Match the current section from the URL:
+  // 1. exact function URL → activeFunctionName set, parent section expands.
+  // 2. exact module page → section active at top level.
+  const activeFromPath = DocsNav.find((s) => {
+    if (s.functions?.some((f) => f.href === pathname)) return true;
+    if (s.basePath && pathname === s.basePath) return true;
+    return false;
+  });
   const activeFunctionName = activeFromPath?.functions?.find(
-    (f) => f.href === pathname || f.href + "/" === pathname
+    (f) => f.href === pathname
   )?.name;
+  const isOnModulePage = !!activeFromPath && !activeFunctionName;
 
   const [scrollActive, setScrollActive] = useState("overview");
   const visibleRef = useRef<Set<string>>(new Set());
-  // On a function page, only the function sub-link is highlighted (parent
-  // section is just expanded). On the /docs index, the scroll-spy section is.
-  const topLevelActive = isIndex ? scrollActive : null;
+  // Top-level highlight: on index, scroll-spy section; on module page, that section.
+  // On function pages, the function sub-link is highlighted instead.
+  const topLevelActive = isIndex
+    ? scrollActive
+    : isOnModulePage
+      ? activeFromPath!.hash
+      : null;
 
   // Scroll-spy — only when on the index page
   useEffect(() => {
@@ -125,15 +140,8 @@ export const DocNavigation = () => {
       return next;
     });
 
-  const topClass = (isActive: boolean) =>
-    `flex-1 py-2.5 px-4 rounded-md text-base font-medium ${
-      isActive
-        ? "bg-primary text-darkmode"
-        : "text-muted text-opacity-60 hover:bg-primary/20 hover:text-primary"
-    }`;
-
   return (
-    <div className="flex flex-col gap-0.5 mt-4 items-stretch fixed pe-4 xl:min-w-60 lg:min-w-52">
+    <div className="flex flex-col gap-0.5 mt-4 items-stretch sticky top-32 pe-4 max-h-[calc(100vh-9rem)] overflow-y-auto">
       {DocsNav.map((item) => {
         const isActive = item.hash === topLevelActive;
         const expandable = !!item.functions?.length;
@@ -141,11 +149,19 @@ export const DocNavigation = () => {
 
         return (
           <div key={item.id} className="flex flex-col">
-            <div className="flex items-center gap-1">
+            <div
+              className={`flex items-stretch rounded-md overflow-hidden ${
+                isActive ? "bg-primary" : "hover:bg-primary/20"
+              }`}
+            >
               <Link
-                href={item.anchorHref}
+                href={item.topHref}
                 onClick={() => isIndex && setScrollActive(item.hash)}
-                className={topClass(isActive)}
+                className={`flex-1 py-2.5 px-4 text-base font-medium ${
+                  isActive
+                    ? "text-darkmode"
+                    : "text-muted text-opacity-60 group-hover:text-primary"
+                }`}
               >
                 {item.label}
               </Link>
@@ -155,7 +171,9 @@ export const DocNavigation = () => {
                   onClick={() => toggle(item.hash)}
                   aria-expanded={isOpen}
                   aria-label={`${isOpen ? "Collapse" : "Expand"} ${item.label}`}
-                  className="p-2 rounded-md text-muted text-opacity-60 hover:bg-primary/20 hover:text-primary"
+                  className={`px-3 flex items-center ${
+                    isActive ? "text-darkmode" : "text-muted text-opacity-60"
+                  }`}
                 >
                   <ChevronIcon open={isOpen} />
                 </button>

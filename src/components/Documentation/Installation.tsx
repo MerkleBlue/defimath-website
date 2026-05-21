@@ -1,12 +1,30 @@
+import { CopyButton } from "./CopyButton";
+
+const IMPORT_USE = `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.31;
+
+import "defimath/derivatives/Options.sol";
+
+contract OptionsExchange {
+    function quote(
+        uint128 spot, uint128 strike, uint32 timeToExp,
+        uint64 vol, uint64 rate
+    ) external pure returns (uint256 callPx, uint256 putPx) {
+        callPx = DeFiMathOptions.callOptionPrice(spot, strike, timeToExp, vol, rate);
+        putPx  = DeFiMathOptions.putOptionPrice(spot, strike, timeToExp, vol, rate);
+    }
+}`;
+
 export const Installation = () => {
   return (
-    <div id="installation" className="md:scroll-m-[180px] scroll-m-28 pb-10">
-      <h3 className="text-2xl font-semibold mt-8 text-white">Installation</h3>
+    <div className="pb-10">
+      <h2 id="getting-started" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Getting started</h2>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         DeFiMath is published on npm as <code className="text-primary">defimath-lib</code>.
       </p>
-      <div className="mt-6 py-4 px-4 rounded-md bg-dark_grey">
-        <p className="text-sm text-gray-400">npm install defimath-lib</p>
+      <div className="mt-6 py-4 px-4 rounded-md bg-dark_grey relative">
+        <p className="text-sm text-gray-400 pe-16">npm install defimath-lib</p>
+        <CopyButton value="npm install defimath-lib" />
       </div>
       <div className="mt-6 p-6 rounded-md border border-dark_border border-opacity-60">
         <p className="text-white font-medium mb-3">Compiler requirements</p>
@@ -21,14 +39,15 @@ export const Installation = () => {
           — both the compiler version and EVM target are hard requirements.
         </p>
       </div>
-      <div className="mt-6 p-6 rounded-md border border-dark_border border-opacity-60">
-        <p className="text-white font-medium mb-3">Import and use</p>
-        <div className="py-4 px-4 rounded-md bg-dark_grey">
-          <p className="text-sm text-gray-400">import {"{ DeFiMath }"} from &quot;defimath-lib/contracts/math/Math.sol&quot;;</p>
-          <p className="text-sm text-gray-400 mt-2">using DeFiMath for uint256;</p>
-          <p className="text-sm text-gray-400 mt-4">uint256 lnX = x.ln();</p>
-        </div>
-      </div>
+      <h2 id="import-and-use" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Import and use</h2>
+      <pre className="py-4 px-4 rounded-md bg-dark_grey relative overflow-x-auto">
+        <code className="text-sm text-gray-400 font-mono whitespace-pre pe-16 block">{IMPORT_USE}</code>
+        <CopyButton value={IMPORT_USE} />
+      </pre>
+      <p className="text-base font-medium text-muted text-opacity-95 mt-3">
+        All values use 18-decimal fixed-point (<code className="text-primary">1e18 = 1.0</code>).
+        Time is in seconds. See module docs for full parameter conventions.
+      </p>
     </div>
   );
 };

@@ -2,8 +2,8 @@ import { FunctionTable } from "./FunctionTable";
 
 export const BinaryOptions = () => {
   return (
-    <div id="binary" className="md:scroll-m-[180px] scroll-m-28 pb-10">
-      <h3 className="text-2xl font-semibold mt-8 text-white">Binary options</h3>
+    <div className="pb-10">
+      <h2 id="binary" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Binary options</h2>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Cash-or-nothing binary options. The call pays 1 if spot {">"} strike at
         expiry, otherwise 0; the put is symmetric. All functions assume a unit

@@ -2,8 +2,8 @@ import { FunctionTable } from "./FunctionTable";
 
 export const Options = () => {
   return (
-    <div id="options" className="md:scroll-m-[180px] scroll-m-28 pb-10">
-      <h3 className="text-2xl font-semibold mt-8 text-white">Options</h3>
+    <div className="pb-10">
+      <h2 id="options" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Options</h2>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Black-Scholes pricing for European options, the full Greek set, and
         an iterative implied-volatility solver. Greek functions return both

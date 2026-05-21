@@ -9,7 +9,10 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <FunctionDetail
-            breadcrumb={["Math", "exp"]}
+            breadcrumb={[
+                { label: "Math", href: "/docs/math" },
+                { label: "exp" },
+            ]}
             module="Math"
             name="exp"
             summary="Computes the exponential function e^x for a signed 18-decimal fixed-point input."
@@ -34,7 +37,7 @@ using DeFiMath for int256;
 
 int256 x = 1e18;          // x = 1.0
 uint256 y = x.exp();      // y ≈ 2.71828e18`}
-            parentSectionHref="/docs#math"
+            parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />
     );
