@@ -1,7 +1,7 @@
 import { CopyButton } from "./CopyButton";
 import { FunctionTable } from "./FunctionTable";
 
-const MATH_EXAMPLE = `import { DeFiMath } from "defimath-lib/contracts/math/Math.sol";
+const MATH_EXAMPLE = `import "defimath-lib/contracts/math/Math.sol";
 
 uint256 root = DeFiMath.sqrt(x);
 int256  lnX  = DeFiMath.ln(x);

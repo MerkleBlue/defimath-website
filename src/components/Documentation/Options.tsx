@@ -1,7 +1,7 @@
 import { CopyButton } from "./CopyButton";
 import { FunctionTable } from "./FunctionTable";
 
-const OPTIONS_EXAMPLE = `import { DeFiMathOptions } from "defimath-lib/contracts/derivatives/Options.sol";
+const OPTIONS_EXAMPLE = `import "defimath-lib/contracts/derivatives/Options.sol";
 
 uint256 callPx = DeFiMathOptions.callOptionPrice(spot, strike, timeToExp, vol, rate);
 uint256 putPx  = DeFiMathOptions.putOptionPrice (spot, strike, timeToExp, vol, rate);

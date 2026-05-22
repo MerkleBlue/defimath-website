@@ -31,12 +31,10 @@ export default function Page() {
                 <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) for fast integer-part extraction; see <a className="text-primary hover:underline" href="https://eips.ethereum.org/EIPS/eip-7939" target="_blank" rel="noopener noreferrer">EIP-7939</a>.</>,
                 <>Pure assembly hot path; no external calls or storage.</>,
             ]}
-            example={`import { DeFiMath } from "defimath-lib/contracts/math/Math.sol";
+            example={`import "defimath-lib/contracts/math/Math.sol";
 
-using DeFiMath for uint256;
-
-uint256 x = 2e18;         // x = 2.0
-int256  y = x.ln();       // y ≈ 0.69314718e18`}
+uint256 x = 2e18;            // x = 2.0
+int256  y = DeFiMath.ln(x);  // y ≈ 0.69314718e18`}
             parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />

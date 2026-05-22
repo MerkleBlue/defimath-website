@@ -31,12 +31,10 @@ export default function Page() {
                 <>For very negative inputs (roughly <code className="text-primary">x &lt; −41.45e18</code>) returns 0 — a graceful underflow, not a revert.</>,
                 <>Pure assembly hot path; no external calls or storage.</>,
             ]}
-            example={`import { DeFiMath } from "defimath-lib/contracts/math/Math.sol";
+            example={`import "defimath-lib/contracts/math/Math.sol";
 
-using DeFiMath for int256;
-
-int256 x = 1e18;          // x = 1.0
-uint256 y = x.exp();      // y ≈ 2.71828e18`}
+int256  x = 1e18;             // x = 1.0
+uint256 y = DeFiMath.exp(x);  // y ≈ 2.71828e18`}
             parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />
