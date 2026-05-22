@@ -9,7 +9,7 @@ export default function Page() {
     return (
         <main>
             <section className="relative md:pt-40 md:pb-28 py-20 overflow-hidden z-1" id="main-banner">
-                <div className="container mx-auto lg:max-w-screen-xl px-4">
+                <div className="container mx-auto lg:max-w-screen-md px-4">
 
                     <h1 className="font-medium lg:text-56 md:text-50 text-54 lg:text-start text-center text-white mb-10">
                         Privacy Policy

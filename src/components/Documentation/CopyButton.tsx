@@ -27,8 +27,8 @@ export const CopyButton = ({ value, orange = false }: Props) => {
         }
       }}
       aria-label={copied ? "Copied to clipboard" : "Copy to clipboard"}
-      className={`absolute top-2 right-2 rounded font-medium ${
-        orange ? "px-3 py-1.5 text-sm" : "px-2 py-1 text-xs"
+      className={`absolute right-2 rounded font-medium ${
+        orange ? "top-1/2 -translate-y-1/2 px-3 py-1.5 text-sm" : "top-2 px-2 py-1 text-xs"
       } ${palette}`}
     >
       {copied ? "Copied" : "Copy"}
