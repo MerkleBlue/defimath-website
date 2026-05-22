@@ -3,7 +3,7 @@ import { CopyButton } from "./CopyButton";
 const IMPORT_USE = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.31;
 
-import "defimath/derivatives/Options.sol";
+import "defimath-lib/contracts/derivatives/Options.sol";
 
 contract OptionsExchange {
     function quote(

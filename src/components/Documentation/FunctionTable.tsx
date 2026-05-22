@@ -1,4 +1,12 @@
-type Row = { name: string; gas: string; description: string };
+import Link from "next/link";
+
+type Row = {
+  name: string;
+  gas: string;
+  description: string;
+  /** When set, the function name renders as a link to this URL (its Layer-3 page). */
+  href?: string;
+};
 
 export const FunctionTable = ({ rows }: { rows: Row[] }) => {
   return (
@@ -22,7 +30,13 @@ export const FunctionTable = ({ rows }: { rows: Row[] }) => {
               }
             >
               <td className="py-2 px-3 font-mono text-primary whitespace-nowrap">
-                {r.name}
+                {r.href ? (
+                  <Link href={r.href} className="hover:underline">
+                    {r.name}
+                  </Link>
+                ) : (
+                  r.name
+                )}
               </td>
               <td className="py-2 px-3 text-muted text-opacity-95 whitespace-nowrap">
                 {r.gas}
