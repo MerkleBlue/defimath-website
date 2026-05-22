@@ -1,5 +1,6 @@
 import { CopyButton } from "./CopyButton";
 import { FunctionTable } from "./FunctionTable";
+import { InstallCommand } from "../InstallCommand";
 
 const STATS_EXAMPLE = `import "defimath-lib/contracts/finance/Stats.sol";
 
@@ -52,6 +53,7 @@ export const Statistics = () => {
           { name: "conditionalValueAtRisk", gas: "32,917 @ 30", description: "Expected shortfall (left-tail mean)" },
         ]}
       />
+      <InstallCommand className="mt-6" />
 
       <h3 id="conventions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Conventions</h3>
       <ul className="list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95">

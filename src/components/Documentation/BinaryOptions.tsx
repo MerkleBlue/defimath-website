@@ -1,5 +1,6 @@
 import { CopyButton } from "./CopyButton";
 import { FunctionTable } from "./FunctionTable";
+import { InstallCommand } from "../InstallCommand";
 
 const BINARY_EXAMPLE = `import "defimath-lib/contracts/derivatives/Binary.sol";
 
@@ -41,6 +42,7 @@ export const BinaryOptions = () => {
           { name: "binaryVega", gas: "1,913", description: "Sensitivity per 1% vol — returns (νcall, νput)" },
         ]}
       />
+      <InstallCommand className="mt-6" />
 
       <h3 id="conventions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Conventions</h3>
       <ul className="list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95">

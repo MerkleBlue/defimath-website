@@ -4,6 +4,7 @@ import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import { ThemeProvider } from "next-themes";
 import ScrollToTop from "@/components/ScrollToTop";
+import { AnalyticsPageviews } from "@/components/AnalyticsPageviews";
 import Aoscompo from "@/utils/aos";
 import Script from "next/script";
 const font = DM_Sans({ subsets: ["latin"] });
@@ -24,7 +25,7 @@ export default function RootLayout({
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+            window.gtag = function gtag(){window.dataLayer.push(arguments);};
             gtag('js', new Date());
             gtag('config', 'G-NK671MJFPG');
           `}
@@ -43,6 +44,7 @@ export default function RootLayout({
             <Footer />
           </Aoscompo>
           <ScrollToTop />
+          <AnalyticsPageviews />
         </ThemeProvider>
       </body>
     </html>

@@ -1,5 +1,6 @@
 import { CopyButton } from "./CopyButton";
 import { FunctionTable } from "./FunctionTable";
+import { InstallCommand } from "../InstallCommand";
 
 const OPTIONS_EXAMPLE = `import "defimath-lib/contracts/derivatives/Options.sol";
 
@@ -44,6 +45,7 @@ export const Options = () => {
           { name: "impliedVolatility", gas: "~13,100", description: "IV solver via Newton-Raphson" },
         ]}
       />
+      <InstallCommand className="mt-6" />
 
       <h3 id="conventions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Conventions</h3>
       <ul className="list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95">
