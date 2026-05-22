@@ -10,7 +10,9 @@ import { MarkdownContent } from "@/components/MarkdownContent";
 type Params = { params: { slug: string } };
 
 export function generateStaticParams() {
-    return getAllBlogPosts().map((post) => ({ slug: post.slug }));
+    const posts = getAllBlogPosts();
+    if (posts.length === 0) return [{ slug: "__placeholder__" }];
+    return posts.map((post) => ({ slug: post.slug }));
 }
 
 export function generateMetadata({ params }: Params): Metadata {
