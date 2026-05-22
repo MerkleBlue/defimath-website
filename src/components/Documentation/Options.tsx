@@ -99,7 +99,7 @@ export const Options = () => {
               <td className="py-2 px-4 text-muted text-opacity-95">1e15 (largest allowed spot price)</td>
             </tr>
             <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MAX_SS_RATIO</td>
+              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MAX_STSP_RATIO</td>
               <td className="py-2 px-4 text-muted text-opacity-95">5× (strike must be within [spot/5, spot·5])</td>
             </tr>
             <tr className="border-b border-dark_border border-opacity-20">
