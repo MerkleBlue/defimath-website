@@ -6,11 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy": "DON'T USE THIS SCRIPT! touch out/.nojekyll && gh-pages -d out --dotfiles"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@iconify/icons-ion": "^1.2.10",
     "@iconify/react": "^5.0.1",
     "aos": "^2.3.4",
     "date-fns": "^3.4.0",
@@ -18,11 +16,8 @@
     "framer-motion": "^12.40.0",
     "gray-matter": "^4.0.3",
     "next": "^16.2.6",
-    "next-auth": "^4.24.7",
-    "next-themes": "^0.4.6",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-hot-toast": "^2.6.0",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1"
   },
@@ -31,8 +26,6 @@
     "@types/node": "^20",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
-    "@types/react-slick": "^0.23.13",
-    "gh-pages": "^6.3.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
