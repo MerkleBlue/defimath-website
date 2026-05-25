@@ -4,6 +4,16 @@ import Link from "next/link";
 import { HeaderItem } from "../../../../types/menu";
 import { usePathname } from "next/navigation";
 
+const stripTrailingSlash = (s: string) => s.replace(/\/$/, "") || "/";
+
+const isActive = (pathname: string, href: string): boolean => {
+  if (href.includes("#")) return false;
+  const p = stripTrailingSlash(pathname);
+  const h = stripTrailingSlash(href);
+  if (h === "/") return p === "/";
+  return p === h || p.startsWith(h + "/");
+};
+
 const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const path = usePathname();
@@ -25,7 +35,7 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
       <Link
         href={item.href}
         className={`text-17 flex font-medium hover:text-primary capitalized  ${
-          path === item.href ? "text-primary " : " text-muted "
+          isActive(path, item.href) ? "text-primary " : " text-muted "
         }`}
       >
         {item.label}
@@ -58,7 +68,7 @@ const HeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
               key={index}
               href={subItem.href}
               className={`block px-4 py-2   ${
-                path === subItem.href
+                isActive(path, subItem.href)
                   ? "bg-primary text-white"
                   : "text-black dark:text-white hover:bg-primary"
               }`}

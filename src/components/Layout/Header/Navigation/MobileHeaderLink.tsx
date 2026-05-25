@@ -1,9 +1,21 @@
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { HeaderItem } from "../../../../types/menu";
+
+const stripTrailingSlash = (s: string) => s.replace(/\/$/, "") || "/";
+
+const isActive = (pathname: string, href: string): boolean => {
+  if (href.includes("#")) return false;
+  const p = stripTrailingSlash(pathname);
+  const h = stripTrailingSlash(href);
+  if (h === "/") return p === "/";
+  return p === h || p.startsWith(h + "/");
+};
 
 const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
   const [submenuOpen, setSubmenuOpen] = useState(false);
+  const path = usePathname();
 
   const handleToggle = () => {
     setSubmenuOpen(!submenuOpen);
@@ -14,7 +26,9 @@ const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
       <Link
         href={item.href}
         onClick={item.submenu ? handleToggle : undefined}
-        className="flex items-center justify-between w-full py-2 text-muted focus:outline-none"
+        className={`flex items-center justify-between w-full py-2 focus:outline-none ${
+          isActive(path, item.href) ? "text-primary" : "text-muted"
+        }`}
       >
         {item.label}
         {item.submenu && (
@@ -41,7 +55,9 @@ const MobileHeaderLink: React.FC<{ item: HeaderItem }> = ({ item }) => {
             <Link
               key={index}
               href={subItem.href}
-              className="block py-2 text-gray-500 hover:bg-gray-200"
+              className={`block py-2 hover:bg-gray-200 ${
+                isActive(path, subItem.href) ? "text-primary" : "text-gray-500"
+              }`}
             >
               {subItem.label}
             </Link>
