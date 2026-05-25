@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
-import { portfolioData } from "@/app/api/data";
+import { developmentData } from "@/app/api/data";
 import { motion } from "framer-motion";
 import { getImagePrefix } from "@/utils/utils";
 
-const Portfolio = () => {
+const Development = () => {
   return (
-    <section className="md:pt-20 sm:pt-12 pt-8" id="portfolio">
+    <section className="md:pt-20 sm:pt-12 pt-8" id="development">
       <div className="container mx-auto lg:max-w-screen-xl px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 items-center gap-20">
           <motion.div
@@ -43,7 +43,7 @@ const Portfolio = () => {
 
             <table className="w-full sm:w-[80%]">
               <tbody>
-                {portfolioData.map((item, index) => (
+                {developmentData.map((item, index) => (
                   <tr
                     key={index}
                     className="border-b border-dark_border border-opacity-10"
@@ -74,4 +74,4 @@ const Portfolio = () => {
   );
 };
 
-export default Portfolio;
+export default Development;

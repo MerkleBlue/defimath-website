@@ -1,17 +1,17 @@
-import { perksData } from "@/app/api/data";
+import { connectData } from "@/app/api/data";
 import { getImagePrefix } from "@/utils/utils";
 import Image from "next/image";
 
-const Perks = () => {
+const Connect = () => {
   return (
-    <section className="pt-28 pb-28 relative">
+    <section className="pt-28 pb-28 relative" id="connect">
       <div className="container mx-auto lg:max-w-screen-xl px-4">
         <div className="text-center">
           <h2 className="text-white sm:text-40 text-30 font-medium">
             Let's connect and solve <span className="text-primary">problems </span> together
           </h2>
           <div className="mt-16 border border-border grid lg:grid-cols-3 sm:grid-cols-2 border-opacity-20 py-16 gap-10 px-20 rounded-3xl sm:bg-perk bg-dark_grey bg-opacity-35 lg:bg-bottom bg-center bg-no-repeat">
-            {perksData.map((item, index) => (
+            {connectData.map((item, index) => (
               <div
                 key={index}
                 className="text-center flex items-center justify-end flex-col"
@@ -42,4 +42,4 @@ const Perks = () => {
   );
 };
 
-export default Perks;
+export default Connect;

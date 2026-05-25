@@ -86,7 +86,7 @@ export const pricedeta: {
   },
 ];
 
-export const portfolioData: { image: string; title: string }[] = [
+export const developmentData: { image: string; title: string }[] = [
   {
     image: "/images/portfolio/icon-wallet.svg",
     title: "Development & Optimization",
@@ -101,7 +101,7 @@ export const portfolioData: { image: string; title: string }[] = [
   },
 ];
 
-export const upgradeData: { title: string }[] = [
+export const featuresData: { title: string }[] = [
   { title: "DeFi derivatives: calls, puts, greeks, futures, etc." },
   { title: "Math primitives: exp, ln, log, sqrt, stdCDF, error function, etc" },
   { title: "Gas optimized: carefully engineered for minimal gas usage." },
@@ -109,7 +109,7 @@ export const upgradeData: { title: string }[] = [
   { title: "Open source: completely free and MIT licensed." },
 ];
 
-export const perksData: {
+export const connectData: {
   icon: string;
   title: string;
   text: string;

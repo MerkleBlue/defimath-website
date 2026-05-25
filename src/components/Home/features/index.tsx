@@ -1,11 +1,11 @@
-import { upgradeData } from "@/app/api/data";
+import { featuresData } from "@/app/api/data";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { getImagePrefix } from "@/utils/utils";
 
-const Upgrade = () => {
+const Features = () => {
   return (
-    <section className="md:py-40 py-20" id="upgrade">
+    <section className="md:pt-20 md:pb-40 pt-10 pb-20" id="features">
       <div className="container mx-auto lg:max-w-screen-xl px-4">
         <div className="grid lg:grid-cols-2 sm:gap-0 gap-10 items-center">
           <div>
@@ -18,7 +18,7 @@ const Upgrade = () => {
               primitives. Built for Ethereum developers looking to create secure, and gas-efficient advanced financial applications.
             </p>
             <div className="grid sm:grid-cols-1 lg:w-70% text-nowrap sm:gap-10 gap-5">
-              {upgradeData.map((item, index) => (
+              {featuresData.map((item, index) => (
                 <div key={index} className="flex gap-5 ">
                   <div>
                     <Icon
@@ -54,4 +54,4 @@ const Upgrade = () => {
   );
 };
 
-export default Upgrade;
+export default Features;
