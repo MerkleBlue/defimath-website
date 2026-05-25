@@ -17,7 +17,7 @@ const Portfolio = () => {
           >
             <Image
               src= {`${getImagePrefix()}images/portfolio/img-portfolio.png`}
-              alt="Crypto Portfolio"
+              alt="Solidity development"
               width={780}
               height={700}
             />

@@ -27,18 +27,7 @@ const Hero = () => {
       <div className="container mx-auto lg:max-w-screen-xl px-4">
         <div className="grid grid-cols-12">
           <motion.div {...leftAnimation} className="lg:col-span-5 col-span-12">
-            <div className="flex gap-6 items-center lg:justify-start justify-center mb-5 mt-24">
-              <Image
-                src= {`${getImagePrefix()}images/icons/icon-bag.svg`}
-                alt="icon"
-                width={40}
-                height={40}
-              />
-              <p className="text-white sm:text-28 text-18 mb-0">
-                Introducing <span className="text-primary"></span>
-              </p>
-            </div>
-            <h1 className="font-medium lg:text-76 md:text-70 text-54 lg:text-start text-center text-white mb-10">
+            <h1 className="font-medium lg:text-76 md:text-70 text-54 lg:text-start text-center text-white mt-24 mb-10">
               Optimized <span className="text-primary">DeFi</span> & <span className="text-primary">Math</span> Primitives
             </h1>
             <div className="flex items-center md:justify-start justify-center gap-8">
