@@ -5,7 +5,7 @@ import { getImagePrefix } from "@/utils/utils";
 
 const Features = () => {
   return (
-    <section className="md:pt-20 md:pb-40 pt-10 pb-20" id="features">
+    <section className="md:pt-20 md:pb-10 pt-10 pb-5" id="features">
       <div className="container mx-auto lg:max-w-screen-xl px-4">
         <div className="grid lg:grid-cols-2 sm:gap-0 gap-10 items-center">
           <div>
