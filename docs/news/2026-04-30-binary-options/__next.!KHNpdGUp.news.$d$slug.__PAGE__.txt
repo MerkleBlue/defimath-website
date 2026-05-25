@@ -1,0 +1,49 @@
+1:"$Sreact.fragment"
+2:I[22016,["/_next/static/chunks/12yvflptq_cos.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0j28la1zeksu8.js"],""]
+3:I[9308,["/_next/static/chunks/12yvflptq_cos.js","/_next/static/chunks/0d3shmwh5_nmn.js","/_next/static/chunks/0j28la1zeksu8.js"],"MarkdownContent"]
+a:I[97367,["/_next/static/chunks/12yvflptq_cos.js","/_next/static/chunks/0d3shmwh5_nmn.js"],"OutletBoundary"]
+b:"$Sreact.suspense"
+4:T95f,<p>DeFiMath now supports binary (cash-or-nothing) options end-to-end, with both
+call and put pricing plus the full Greek set. All functions assume a unit
+payout of 1 — scale the result for any payout size.</p>
+<p><strong>New functions:</strong></p>
+<ul>
+<li><strong><code>binaryCallPrice</code></strong> — Black-Scholes price of a binary call (pays 1 if
+spot > strike at expiry, else 0). Computes <code>e^(-r·τ) · Φ(d2)</code>.</li>
+<li><strong><code>binaryPutPrice</code></strong> — Black-Scholes price of a binary put (pays 1 if
+spot &#x3C; strike at expiry, else 0).</li>
+<li><strong><code>binaryDelta</code></strong> — first-order sensitivity to the underlying price.
+Returns both call and put delta in a single call.</li>
+<li><strong><code>binaryGamma</code></strong> — second-order sensitivity to the underlying price
+(rate of change of delta). Returns both call and put.</li>
+<li><strong><code>binaryTheta</code></strong> — sensitivity to time, expressed per day. Returns both
+call and put.</li>
+<li><strong><code>binaryVega</code></strong> — sensitivity to volatility, expressed per 1% change
+in vol. Returns both call and put.</li>
+</ul>
+<p>This rounds out the binary options surface alongside the existing vanilla
+options support.</p>
+<h2>Use cases</h2>
+<p>Binary options are the natural pricing primitive for any discrete, yes/no
+payoff. On-chain, the most obvious application is <strong>prediction markets</strong>
+— fair-value pricing for binary outcome shares
+(e.g. "will price > X at time T?") on Polymarket-style protocols. The
+same math underpins <strong>depeg and catastrophic-event insurance</strong>: protocols
+that pay out a fixed amount if a stablecoin breaks its peg, an oracle
+price crosses a threshold, or a similar discrete event occurs.</p>
+<p>Beyond that, binary pricing is what <strong>structured yield products</strong> need
+when they sell binaries to collect premium income — price and Greeks
+drive the risk management. Binaries also work as <strong>threshold-based
+hedges</strong> against specific triggers (liquidation levels, oracle bands,
+knock-out barriers) and as the pricing layer for <strong>conditional rewards
+and incentives</strong> that depend on an observable on-chain condition being
+met by a deadline.</p>
+<p>See the <a href="https://github.com/MerkleBlue/defimath">DeFiMath GitHub repo</a>
+for full source and usage examples.</p>
+0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"children":["$","section",null,{"className":"relative md:pt-40 md:pb-28 pt-32 pb-20 overflow-hidden z-1","id":"main-banner","children":["$","div",null,{"className":"container mx-auto lg:max-w-screen-md px-4","children":[["$","$L2",null,{"href":"/news","className":"text-primary text-base font-medium hover:underline","children":"← Back to news"}],["$","div",null,{"className":"flex flex-wrap items-center gap-3 mt-8 mb-3","children":["$undefined",["$","span",null,{"className":"text-sm font-medium text-muted text-opacity-60","children":"Apr 30, 2026"}]]}],["$","h1",null,{"className":"font-medium lg:text-54 md:text-44 text-40 text-white mb-8","children":"Binary options pricing and Greeks"}],["$","$L3",null,{"className":"markdown-content","html":"$4"}],["$","nav",null,{"aria-label":"Adjacent news","className":"mt-16 pt-8 border-t border-dark_border border-opacity-60 flex gap-4 flex-col sm:flex-row sm:justify-between","children":[["$","$L2",null,{"href":"/news/2026-02-20-published-to-npm","className":"group flex-1 min-w-0 p-5 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200","children":["$L5","$L6"]}],"$L7"]}]]}]}]}],["$L8"],"$L9"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"OjvMT1gOpUu2ub8Te6DNC"}
+5:["$","span",null,{"className":"block text-sm font-medium text-muted text-opacity-60 mb-1","children":"← Older"}]
+6:["$","span",null,{"className":"block text-base font-medium text-white group-hover:text-primary duration-200 truncate","children":"DeFiMath is now on npm"}]
+7:["$","$L2",null,{"href":"/news/2026-05-05-implied-volatility","className":"group flex-1 min-w-0 p-5 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200 sm:text-right","children":[["$","span",null,{"className":"block text-sm font-medium text-muted text-opacity-60 mb-1","children":"Newer →"}],["$","span",null,{"className":"block text-base font-medium text-white group-hover:text-primary duration-200 truncate","children":"Implied volatility solver and gas optimizations"}]]}]
+8:["$","script","script-0",{"src":"/_next/static/chunks/0j28la1zeksu8.js","async":true}]
+9:["$","$La",null,{"children":["$","$b",null,{"name":"Next.MetadataOutlet","children":"$@c"}]}]
+c:null
