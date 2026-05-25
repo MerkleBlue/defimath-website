@@ -16,7 +16,7 @@ int256 apy = DeFiMathRates.continuousToDiscrete(int256(0.05e18));`;
 export const Rates = () => {
   return (
     <div className="pb-10">
-      <h1 id="rates" className="text-3xl md:text-4xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Rates</h1>
+      <h1 id="rates" className="text-40 md:text-44 lg:text-54 font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Rates</h1>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Interest rate primitives — compounding, discounting, log returns,
         APR↔APY conversions, and closed-form / iterative yield calculations.

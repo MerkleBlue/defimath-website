@@ -84,7 +84,7 @@ export const FunctionDetail = ({
       <Breadcrumb items={[{ label: "Docs", href: "/docs" }, ...breadcrumb]} />
 
       <div className="flex flex-wrap items-center gap-3 mb-3">
-        <h1 className="font-mono text-white text-3xl md:text-4xl font-semibold">
+        <h1 className="font-mono text-white text-40 md:text-44 lg:text-54 font-semibold">
           {name}
         </h1>
         <span className="text-sm font-semibold text-darkmode bg-primary rounded px-2.5 py-1">

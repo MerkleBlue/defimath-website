@@ -13,7 +13,7 @@ uint256 binPut  = DeFiMathBinary.binaryPutPrice (spot, strike, timeToExp, vol, r
 export const BinaryOptions = () => {
   return (
     <div className="pb-10">
-      <h1 id="binary" className="text-3xl md:text-4xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Binary options</h1>
+      <h1 id="binary" className="text-40 md:text-44 lg:text-54 font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Binary options</h1>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Cash-or-nothing binary options. The call pays 1 if spot {">"} strike at
         expiry, otherwise 0; the put is symmetric. Greek functions return

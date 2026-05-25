@@ -20,7 +20,7 @@ int256 sharpe = DeFiMathStats.sharpeRatio(prices, 1 days, 0.02e18);`;
 export const Statistics = () => {
   return (
     <div className="pb-10">
-      <h1 id="statistics" className="text-3xl md:text-4xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Statistics</h1>
+      <h1 id="statistics" className="text-40 md:text-44 lg:text-54 font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Statistics</h1>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Portfolio and performance analytics on-chain — mean, std dev, historical
         volatility, Sharpe, max drawdown, VaR, CVaR. Array-based functions

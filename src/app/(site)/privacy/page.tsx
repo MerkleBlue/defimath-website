@@ -11,7 +11,7 @@ export default function Page() {
             <section className="relative md:pt-40 md:pb-28 pt-32 pb-20 overflow-hidden z-1" id="main-banner">
                 <div className="container mx-auto lg:max-w-screen-md px-4">
 
-                    <h1 className="font-medium lg:text-56 md:text-50 text-54 lg:text-start text-center text-white mb-10">
+                    <h1 className="font-medium lg:text-54 md:text-44 text-40 lg:text-start text-center text-white mb-10">
                         Privacy Policy
                     </h1>
 

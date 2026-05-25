@@ -61,7 +61,7 @@ export default async function Page({ params }: Params) {
                         )}
                     </div>
 
-                    <h1 className="font-medium lg:text-44 md:text-40 text-30 text-white mb-8">
+                    <h1 className="font-medium lg:text-54 md:text-44 text-40 text-white mb-8">
                         {item.title}
                     </h1>
 
