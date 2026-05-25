@@ -9,7 +9,7 @@ uint256 fwd = DeFiMathFutures.futurePrice(spot, timeToExp, rate);`;
 export const Futures = () => {
   return (
     <div className="pb-10">
-      <h2 id="futures" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Futures</h2>
+      <h1 id="futures" className="text-3xl md:text-4xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Futures</h1>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Forward-price calculation under continuous compounding. A single
         building block —{" "}

@@ -2,7 +2,7 @@ export const Overview = () => {
   return (
     <div>
       <div className="flex flex-wrap items-center gap-3 mt-10 mb-3">
-        <h2 id="overview" className="text-2xl font-semibold text-white scroll-mt-28 md:scroll-mt-[180px]">Overview</h2>
+        <h1 id="overview" className="text-3xl md:text-4xl font-semibold text-white scroll-mt-28 md:scroll-mt-[180px]">Overview</h1>
         <span className="text-sm font-semibold text-darkmode bg-primary rounded px-2.5 py-1">
           v3.0.0
         </span>

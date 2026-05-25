@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { headerData } from "../Header/Navigation/menuData";
 import Logo from "./Logo";
@@ -7,8 +8,13 @@ import HeaderLink from "../Header/Navigation/HeaderLink";
 import MobileHeaderLink from "../Header/Navigation/MobileHeaderLink";
 
 const Header: React.FC = () => {
+  const pathname = usePathname();
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [sticky, setSticky] = useState(false);
+
+  useEffect(() => {
+    setNavbarOpen(false);
+  }, [pathname]);
 
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 

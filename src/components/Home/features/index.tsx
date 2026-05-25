@@ -17,7 +17,7 @@ const Features = () => {
               DeFiMath is a high-performance, open-source Solidity library implementing DeFi
               primitives. Built for Ethereum developers looking to create secure, and gas-efficient advanced financial applications.
             </p>
-            <div className="grid sm:grid-cols-1 lg:w-70% text-nowrap sm:gap-10 gap-5">
+            <div className="grid sm:grid-cols-1 lg:w-70% sm:gap-10 gap-5">
               {featuresData.map((item, index) => (
                 <div key={index} className="flex gap-5 ">
                   <div>
@@ -40,11 +40,12 @@ const Features = () => {
           <div>
             <div className="">
               <Image
-                src= {`${getImagePrefix()}images/upgrade/img-upgrade.png`}
-                alt="image"
+                src={`${getImagePrefix()}images/upgrade/img-upgrade.png`}
+                alt="DeFiMath features"
                 width={625}
                 height={580}
-                className="-mr-5"
+                className="lg:-mr-5"
+                style={{ width: "auto", height: "auto", maxWidth: "100%" }}
               />
             </div>
           </div>

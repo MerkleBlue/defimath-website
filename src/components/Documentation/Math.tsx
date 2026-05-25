@@ -11,7 +11,7 @@ uint256 ePow = DeFiMath.exp(int256(x));`;
 export const Math = () => {
   return (
     <div className="pb-10">
-      <h2 id="math" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Math</h2>
+      <h1 id="math" className="text-3xl md:text-4xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Math</h1>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Low-level fixed-point primitives in 18-decimal format (
         <code className="text-primary">1e18 = 1.0</code>). All pure,

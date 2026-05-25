@@ -16,7 +16,7 @@ uint256 g = DeFiMathOptions.gamma(spot, strike, timeToExp, vol, rate);`;
 export const Options = () => {
   return (
     <div className="pb-10">
-      <h2 id="options" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Options</h2>
+      <h1 id="options" className="text-3xl md:text-4xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Options</h1>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Black-Scholes pricing for European options, the full Greek set, and
         an iterative implied-volatility solver.

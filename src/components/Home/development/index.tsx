@@ -7,12 +7,13 @@ const Development = () => {
     <section className="md:pt-10 sm:pt-8 pt-5" id="development">
       <div className="container mx-auto lg:max-w-screen-xl px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 items-center gap-20">
-          <div className="lg:-ml-32">
+          <div className="lg:-ml-32 hidden lg:block">
             <Image
               src={`${getImagePrefix()}images/portfolio/img-portfolio.png`}
               alt="Solidity development"
               width={780}
               height={700}
+              style={{ width: "auto", height: "auto", maxWidth: "100%" }}
             />
           </div>
 

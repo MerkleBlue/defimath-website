@@ -38,7 +38,7 @@ export default async function Page({ params }: Params) {
 
     return (
         <main>
-            <section className="relative md:pt-40 md:pb-28 py-20 overflow-hidden z-1" id="main-banner">
+            <section className="relative md:pt-40 md:pb-28 pt-32 pb-20 overflow-hidden z-1" id="main-banner">
                 <div className="container mx-auto lg:max-w-screen-md px-4">
 
                     <Link
@@ -61,7 +61,7 @@ export default async function Page({ params }: Params) {
                         )}
                     </div>
 
-                    <h1 className="font-medium lg:text-48 md:text-40 text-32 text-white mb-8">
+                    <h1 className="font-medium lg:text-44 md:text-40 text-30 text-white mb-8">
                         {item.title}
                     </h1>
 

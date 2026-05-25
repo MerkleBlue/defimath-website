@@ -5,14 +5,14 @@ import { getImagePrefix } from "@/utils/utils";
 const Hero = () => {
   return (
     <section
-      className="relative md:pt-40 md:pb-0 py-20 overflow-hidden z-1"
+      className="relative md:pt-40 md:pb-0 pt-32 pb-20 overflow-hidden z-1"
       id="main-banner"
     >
       <div className="container mx-auto lg:max-w-screen-xl px-4">
         <div className="grid grid-cols-12 items-center">
           <div className="lg:col-span-5 col-span-12">
             <h1 className="font-medium lg:text-76 md:text-70 text-54 lg:text-start text-center text-white mb-10">
-              Optimized <span className="text-primary">DeFi</span> & <span className="text-primary">Math</span> Primitives
+              Optimized<br className="md:hidden" /> <span className="text-primary">DeFi</span> & <span className="text-primary">Math</span><br className="md:hidden" /> Primitives
             </h1>
             <div className="flex items-center md:justify-start justify-center gap-8">
               <Link
@@ -31,8 +31,8 @@ const Hero = () => {
               </a>
             </div>
           </div>
-          <div className="col-span-7 lg:block hidden">
-            <div className="ml-20 flex justify-center">
+          <div className="col-span-12 lg:col-span-7 mt-10 lg:mt-0">
+            <div className="flex justify-center lg:ml-20">
               <Image
                 src={`${getImagePrefix()}images/hero/banner-image.png`}
                 alt="Banner"
