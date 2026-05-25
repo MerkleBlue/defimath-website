@@ -38,7 +38,7 @@ const Features = () => {
                     {item.description}
                     {item.link && (
                       <>
-                        {" "}
+                        {". "}
                         <Link
                           href={item.link.href}
                           className="text-primary hover:underline whitespace-nowrap"
