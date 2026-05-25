@@ -11,13 +11,17 @@ export default function Page() {
             <section className="relative md:pt-40 md:pb-28 pt-32 pb-20 overflow-hidden z-1" id="main-banner">
                 <div className="container mx-auto lg:max-w-screen-md px-4">
 
-                    <h1 className="font-medium lg:text-54 md:text-44 text-40 lg:text-start text-center text-white mb-10">
+                    <h1 className="font-medium lg:text-54 md:text-44 text-40 lg:text-start text-center text-white mb-4">
                         Privacy Policy
                     </h1>
+                    <p className="text-sm font-medium text-muted text-opacity-60 lg:text-start text-center mb-10">
+                        Last updated: May 25, 2026
+                    </p>
 
                     <h2 className="font-medium lg:text-36 md:text-30 text-24 text-white mb-10 mt-10">1. Summary</h2>
                     <p className="text-base font-medium text-muted text-opacity-95">
-                        We keep things minimal. We use privacy-respecting defaults, collect only
+                        DeFiMath is operated by <strong>MerkleBlue</strong> (&quot;we&quot;, &quot;us&quot;).
+                        We keep things minimal: we use privacy-respecting defaults, collect only
                         what we need to operate the website (basic analytics) and, if you opt in,
                         your email for our mailing list.
                     </p>
@@ -81,6 +85,14 @@ export default function Page() {
                         delete, or restrict processing of your personal data, and to withdraw
                         consent for the mailing list at any time (without affecting prior lawful
                         processing).
+                    </p>
+                    <p className="text-base font-medium text-muted text-opacity-95 mt-4">
+                        <strong>California residents (CCPA/CPRA):</strong> in addition to the
+                        rights above, you have the right to opt out of the &quot;sale&quot; or
+                        &quot;sharing&quot; of personal information. We do not sell personal
+                        information; analytics data shared with Google may qualify as
+                        &quot;sharing&quot; for advertising purposes under CPRA - to
+                        opt out, use the Google Analytics opt-out add-on or contact us.
                     </p>
 
                     <h2 className="font-medium lg:text-36 md:text-30 text-34 text-white mb-10 mt-10">9. Children</h2>
