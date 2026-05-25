@@ -7,7 +7,7 @@ import { getAllBlogPosts, getBlogPost } from "@/utils/blog";
 import markdownToHtml from "@/utils/markdownToHtml";
 import { MarkdownContent } from "@/components/MarkdownContent";
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
     const posts = getAllBlogPosts();
@@ -15,8 +15,9 @@ export function generateStaticParams() {
     return posts.map((post) => ({ slug: post.slug }));
 }
 
-export function generateMetadata({ params }: Params): Metadata {
-    const post = getBlogPost(params.slug);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+    const { slug } = await params;
+    const post = getBlogPost(slug);
     if (!post) return { title: "Blog | DefiMath" };
     return {
         title: `${post.title} | DefiMath`,
@@ -31,7 +32,8 @@ function dateLabel(iso: string): string {
 }
 
 export default async function Page({ params }: Params) {
-    const post = getBlogPost(params.slug);
+    const { slug } = await params;
+    const post = getBlogPost(slug);
     if (!post) notFound();
 
     const html = await markdownToHtml(post.content);

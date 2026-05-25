@@ -16,7 +16,6 @@ const NotFound = () => {
                 width={0}
                 height={0}
                 layout="responsive"
-                quality={100}
                 className="mx-auto max-w-full"
               />
             </div>

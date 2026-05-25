@@ -4,6 +4,7 @@ import { headerData } from "../Header/Navigation/menuData";
 import { footerlabels } from "@/app/api/data";
 import { Icon } from "@iconify/react";
 import Logo from "../Header/Logo";
+import { version as siteVersion } from "../../../../package.json";
 
 const Footer: FC = () => {
   return (
@@ -43,7 +44,7 @@ const Footer: FC = () => {
               Connect with us, we are here to help!
             </h3>
             <h3 className="text-white text-20 font-medium sm:mt-20 mt-12">
-              {new Date().getFullYear()} &copy; <a href="https://merkleblue.com" target="_blank">MerkleBlue v1.0.0</a>. Theme by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+              {new Date().getFullYear()} &copy; <a href="https://merkleblue.com" target="_blank">MerkleBlue</a> v{siteVersion}. Theme by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
             </h3>
 
           </div>

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getBlogPage, getBlogTotalPages } from "@/utils/blog";
 import { BlogListing } from "@/components/Blog/BlogListing";
 
-type Params = { params: { page: string } };
+type Params = { params: Promise<{ page: string }> };
 
 export function generateStaticParams() {
     // Page 1 lives at /blog, so only generate pages 2..N here.
@@ -15,15 +15,17 @@ export function generateStaticParams() {
     }));
 }
 
-export function generateMetadata({ params }: Params): Metadata {
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+    const { page } = await params;
     return {
-        title: `Blog — Page ${params.page} | DefiMath`,
+        title: `Blog — Page ${page} | DefiMath`,
         description: "Older posts from the DefiMath blog",
     };
 }
 
-export default function Page({ params }: Params) {
-    const pageNum = Number(params.page);
+export default async function Page({ params }: Params) {
+    const { page } = await params;
+    const pageNum = Number(page);
     const totalPages = getBlogTotalPages();
     if (!Number.isInteger(pageNum) || pageNum < 2 || pageNum > totalPages) {
         notFound();

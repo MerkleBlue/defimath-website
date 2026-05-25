@@ -6,14 +6,15 @@ import { getAdjacentNews, getAllNews, getNewsItem } from "@/utils/news";
 import markdownToHtml from "@/utils/markdownToHtml";
 import { MarkdownContent } from "@/components/MarkdownContent";
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
     return getAllNews().map((item) => ({ slug: item.slug }));
 }
 
-export function generateMetadata({ params }: Params): Metadata {
-    const item = getNewsItem(params.slug);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+    const { slug } = await params;
+    const item = getNewsItem(slug);
     if (!item) return { title: "News | DefiMath" };
     return {
         title: `${item.title} | DefiMath`,
@@ -28,11 +29,12 @@ function dateLabel(iso: string): string {
 }
 
 export default async function Page({ params }: Params) {
-    const item = getNewsItem(params.slug);
+    const { slug } = await params;
+    const item = getNewsItem(slug);
     if (!item) notFound();
 
     const html = await markdownToHtml(item.content);
-    const { older, newer } = getAdjacentNews(params.slug);
+    const { older, newer } = getAdjacentNews(slug);
 
     return (
         <main>

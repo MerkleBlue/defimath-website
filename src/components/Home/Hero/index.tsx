@@ -66,7 +66,8 @@ const Hero = () => {
                 alt="Banner"
                 width={500}
                 height={500}
-                style={{ width: 500, height: 'auto', maxWidth: '100%' }}
+                priority
+                style={{ width: "auto", height: "auto", maxWidth: '100%' }}
               />
             </div>
           </motion.div>
