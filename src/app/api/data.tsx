@@ -1,8 +1,6 @@
 import { title } from "process";
 
 export const footerlabels: { label: string; herf: string }[] = [
-  { label: "Blog", herf: "/blog/" },
-  { label: "Latest News", herf: "/news/" },
   { label: "Terms", herf: "/terms/" },
   { label: "Privacy Policy", herf: "/privacy/" },
 ];
