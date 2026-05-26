@@ -10,7 +10,7 @@ const Features = () => {
       <div className="container mx-auto lg:max-w-screen-xl px-4">
         <div className="grid lg:grid-cols-2 sm:gap-0 gap-10 items-center">
           <div>
-            <p className="text-primary sm:text-28 text-18 mb-3">Why DeFiMath</p>
+            <p className="text-primary sm:text-28 text-18 mb-3">Introducing DeFiMath</p>
             <h2 className="text-white sm:text-40 text-30 font-medium mb-5">
               The math layer for on-chain finance
             </h2>
