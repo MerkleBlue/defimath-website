@@ -18,10 +18,11 @@ const Connect = () => {
               >
                 <div className="bg-primary bg-opacity-25 backdrop-blur-sm p-4 rounded-full w-fit">
                   <Image
-                    src= {`${getImagePrefix()}${item.icon}`}
+                    src={`${getImagePrefix()}${item.icon}`}
                     alt={item.title}
                     width={44}
                     height={44}
+                    style={{ width: "44px", height: "44px" }}
                   />
                 </div>
                 <h4 className={`text-white text-28 mb-4 ${item.space}`}>
