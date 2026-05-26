@@ -1,8 +1,4 @@
-const getImagePrefix = () => {
-  return process.env.NODE_ENV === "production"
-    ? ""
-    : "";
-};
+const getImagePrefix = () => "/";
 
 export { getImagePrefix };
  
