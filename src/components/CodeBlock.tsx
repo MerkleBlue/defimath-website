@@ -20,7 +20,7 @@ export const CodeBlock = async ({
 }: Props) => {
   const html = await codeToHtml(code, {
     lang: language,
-    theme: "dark-plus",
+    theme: "github-dark",
   });
 
   const wrapperClass =
