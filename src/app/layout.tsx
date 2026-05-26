@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Layout/Header";
@@ -7,6 +8,20 @@ import { AnalyticsPageviews } from "@/components/AnalyticsPageviews";
 import Aoscompo from "@/utils/aos";
 import Script from "next/script";
 const font = DM_Sans({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://defimath.com"),
+  openGraph: {
+    type: "website",
+    siteName: "DeFiMath",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@defi_math",
+    creator: "@defi_math",
+  },
+};
 
 export default function RootLayout({
   children,
