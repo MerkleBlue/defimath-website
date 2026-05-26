@@ -20,7 +20,11 @@ export const InstallCommand = ({
       className={`py-5 px-5 rounded-md bg-dark_grey relative ${className ?? ""}`}
     >
       <p className="text-base font-mono text-gray-400 pe-20">{command}</p>
-      <CopyButton value={command} orange />
+      <CopyButton
+        value={command}
+        orange
+        trackEvent={{ name: "install_copy", value: 1, currency: "USD" }}
+      />
     </div>
   );
 };

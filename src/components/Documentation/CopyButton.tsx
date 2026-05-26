@@ -5,9 +5,11 @@ type Props = {
   value: string;
   /** When true, the button renders in the coral/orange palette used for prominent code blocks. */
   orange?: boolean;
+  /** Optional Google Analytics event fired on click. */
+  trackEvent?: { name: string; value?: number; currency?: string };
 };
 
-export const CopyButton = ({ value, orange = false }: Props) => {
+export const CopyButton = ({ value, orange = false, trackEvent }: Props) => {
   const [copied, setCopied] = useState(false);
 
   const palette = orange
@@ -18,6 +20,12 @@ export const CopyButton = ({ value, orange = false }: Props) => {
     <button
       type="button"
       onClick={async () => {
+        if (trackEvent && typeof window.gtag === "function") {
+          window.gtag("event", trackEvent.name, {
+            value: trackEvent.value,
+            currency: trackEvent.currency ?? "USD",
+          });
+        }
         try {
           await navigator.clipboard.writeText(value);
           setCopied(true);
