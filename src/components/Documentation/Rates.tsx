@@ -1,4 +1,4 @@
-import { CopyButton } from "./CopyButton";
+import { CodeBlock } from "../CodeBlock";
 import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
 
@@ -13,7 +13,7 @@ uint256 pv = DeFiMathRates.presentValue(fv, 0.05e18, 365 days);
 // Convert continuous APR (5%) to effective APY.
 int256 apy = DeFiMathRates.continuousToDiscrete(int256(0.05e18));`;
 
-export const Rates = () => {
+export const Rates = async () => {
   return (
     <div className="pb-10">
       <h1 id="rates" className="text-40 md:text-44 lg:text-54 font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Rates</h1>
@@ -61,10 +61,7 @@ export const Rates = () => {
       </ul>
 
       <h3 id="quick-example" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Quick example</h3>
-      <pre className="py-4 px-4 rounded-md bg-dark_grey relative overflow-x-auto">
-        <code className="text-sm text-gray-400 font-mono whitespace-pre pe-16 block">{RATES_EXAMPLE}</code>
-        <CopyButton value={RATES_EXAMPLE} />
-      </pre>
+      <CodeBlock code={RATES_EXAMPLE} />
 
       <h3 id="important-notes" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Important notes</h3>
       <ul className="list-disc list-inside space-y-3 text-base font-medium text-muted text-opacity-95">

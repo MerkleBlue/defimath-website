@@ -1,4 +1,4 @@
-import { CopyButton } from "./CopyButton";
+import { CodeBlock } from "../CodeBlock";
 import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
 
@@ -6,7 +6,7 @@ const FUTURES_EXAMPLE = `import "defimath-lib/contracts/derivatives/Futures.sol"
 
 uint256 fwd = DeFiMathFutures.futurePrice(spot, timeToExp, rate);`;
 
-export const Futures = () => {
+export const Futures = async () => {
   return (
     <div className="pb-10">
       <h1 id="futures" className="text-40 md:text-44 lg:text-54 font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Futures</h1>
@@ -47,10 +47,7 @@ export const Futures = () => {
       </ul>
 
       <h3 id="quick-example" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Quick example</h3>
-      <pre className="py-4 px-4 rounded-md bg-dark_grey relative overflow-x-auto">
-        <code className="text-sm text-gray-400 font-mono whitespace-pre pe-16 block">{FUTURES_EXAMPLE}</code>
-        <CopyButton value={FUTURES_EXAMPLE} />
-      </pre>
+      <CodeBlock code={FUTURES_EXAMPLE} />
 
       <h3 id="important-notes" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Important notes</h3>
       <ul className="list-disc list-inside space-y-3 text-base font-medium text-muted text-opacity-95">

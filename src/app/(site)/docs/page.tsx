@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { Breadcrumb } from "@/components/Documentation/Breadcrumb";
-import { CopyButton } from "@/components/Documentation/CopyButton";
+import { CodeBlock } from "@/components/CodeBlock";
 import { Overview } from "@/components/Documentation/Overview";
 import { InstallCommand } from "@/components/InstallCommand";
 
@@ -34,7 +34,7 @@ const MODULES = [
     { href: "/docs/statistics", title: "Statistics", blurb: "Mean, std dev, historical volatility, Sharpe, max drawdown, VaR, CVaR." },
 ];
 
-export default function Page() {
+export default async function Page() {
     return (
         <>
             <Breadcrumb items={[{ label: "Docs" }]} />
@@ -68,10 +68,7 @@ export default function Page() {
                 </p>
             </div>
             <h2 id="import-and-use" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Import and use</h2>
-            <pre className="py-4 px-4 rounded-md bg-dark_grey relative overflow-x-auto">
-                <code className="text-sm text-gray-400 font-mono whitespace-pre pe-16 block">{IMPORT_USE}</code>
-                <CopyButton value={IMPORT_USE} />
-            </pre>
+            <CodeBlock code={IMPORT_USE} />
             <p className="text-base font-medium text-muted text-opacity-95 mt-3">
                 All values use 18-decimal fixed-point (<code className="text-primary">1e18 = 1.0</code>).
                 Time is in seconds. See module docs for full parameter conventions.

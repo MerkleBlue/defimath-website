@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@iconify/react": "^5.0.1",
+    "@shikijs/rehype": "^4.1.0",
     "aos": "^2.3.4",
     "date-fns": "^3.4.0",
     "eslint-config-next": "^16.2.6",
@@ -17,8 +18,11 @@
     "next": "^16.2.6",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "remark": "^15.0.1",
-    "remark-html": "^16.0.1"
+    "rehype-stringify": "^10.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "shiki": "^4.1.0",
+    "unified": "^11.0.5"
   },
   "devDependencies": {
     "@types/aos": "^3.0.7",

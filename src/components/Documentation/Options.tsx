@@ -1,4 +1,4 @@
-import { CopyButton } from "./CopyButton";
+import { CodeBlock } from "../CodeBlock";
 import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
 
@@ -13,7 +13,7 @@ uint256 putPx  = DeFiMathOptions.putOptionPrice (spot, strike, timeToExp, vol, r
 // gamma and vega return a single value (equal for call and put under put-call parity).
 uint256 g = DeFiMathOptions.gamma(spot, strike, timeToExp, vol, rate);`;
 
-export const Options = () => {
+export const Options = async () => {
   return (
     <div className="pb-10">
       <h1 id="options" className="text-40 md:text-44 lg:text-54 font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Options</h1>
@@ -57,10 +57,7 @@ export const Options = () => {
       </ul>
 
       <h3 id="quick-example" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Quick example</h3>
-      <pre className="py-4 px-4 rounded-md bg-dark_grey relative overflow-x-auto">
-        <code className="text-sm text-gray-400 font-mono whitespace-pre pe-16 block">{OPTIONS_EXAMPLE}</code>
-        <CopyButton value={OPTIONS_EXAMPLE} />
-      </pre>
+      <CodeBlock code={OPTIONS_EXAMPLE} />
 
       <h3 id="important-notes" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Important notes</h3>
       <ul className="list-disc list-inside space-y-3 text-base font-medium text-muted text-opacity-95">

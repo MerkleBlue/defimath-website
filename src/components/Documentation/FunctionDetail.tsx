@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 import { Breadcrumb, BreadcrumbItem } from "./Breadcrumb";
-import { CopyButton } from "./CopyButton";
+import { CodeBlock } from "../CodeBlock";
 
 type ParamRow = { name: string; type: string; description: ReactNode };
 
@@ -64,7 +64,7 @@ const Stat = ({ label, value }: { label: string; value: string }) => (
   </div>
 );
 
-export const FunctionDetail = ({
+export const FunctionDetail = async ({
   breadcrumb,
   module,
   name,
@@ -104,10 +104,7 @@ export const FunctionDetail = ({
       )}
 
       <h2 id="signature" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Signature</h2>
-      <pre className="py-4 px-4 rounded-md bg-darkmode border-l-4 border-[#FF7A66] overflow-x-auto relative">
-        <code className="text-base text-[#FF7A66] font-mono whitespace-pre pe-16 block">{signature}</code>
-        <CopyButton value={signature} />
-      </pre>
+      <CodeBlock code={signature} variant="accent" />
 
       {parameters && parameters.length > 0 && (
         <>
@@ -137,10 +134,7 @@ export const FunctionDetail = ({
       {example && (
         <>
           <h2 id="example" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Example</h2>
-          <pre className="py-4 px-4 rounded-md bg-darkmode border-l-4 border-[#FF7A66] overflow-x-auto relative">
-            <code className="text-base text-[#FF7A66] font-mono whitespace-pre pe-16 block">{example}</code>
-            <CopyButton value={example} />
-          </pre>
+          <CodeBlock code={example} variant="accent" />
         </>
       )}
 

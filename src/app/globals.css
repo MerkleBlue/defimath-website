@@ -88,7 +88,7 @@ section{
 }
 
 .markdown-content pre code {
-  @apply bg-transparent px-0 py-0 text-base text-[#FF7A66];
+  @apply bg-transparent px-0 py-0 text-base;
 }
 
 .markdown-content img {

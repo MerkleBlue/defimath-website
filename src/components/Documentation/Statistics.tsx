@@ -1,4 +1,4 @@
-import { CopyButton } from "./CopyButton";
+import { CodeBlock } from "../CodeBlock";
 import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
 
@@ -17,7 +17,7 @@ uint256 vol = DeFiMathStats.historicalVolatility(prices, 1 days);
 // Sharpe ratio at a 2% risk-free rate.
 int256 sharpe = DeFiMathStats.sharpeRatio(prices, 1 days, 0.02e18);`;
 
-export const Statistics = () => {
+export const Statistics = async () => {
   return (
     <div className="pb-10">
       <h1 id="statistics" className="text-40 md:text-44 lg:text-54 font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Statistics</h1>
@@ -67,10 +67,7 @@ export const Statistics = () => {
       </ul>
 
       <h3 id="quick-example" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Quick example</h3>
-      <pre className="py-4 px-4 rounded-md bg-dark_grey relative overflow-x-auto">
-        <code className="text-sm text-gray-400 font-mono whitespace-pre pe-16 block">{STATS_EXAMPLE}</code>
-        <CopyButton value={STATS_EXAMPLE} />
-      </pre>
+      <CodeBlock code={STATS_EXAMPLE} />
 
       <h3 id="important-notes" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Important notes</h3>
       <ul className="list-disc list-inside space-y-3 text-base font-medium text-muted text-opacity-95">
