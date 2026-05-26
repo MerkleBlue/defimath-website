@@ -80,7 +80,7 @@ export const FunctionDetail = async ({
   parentSectionLabel,
 }: Props) => {
   return (
-    <article className="pt-4 pb-10">
+    <article className="pb-10">
       <Breadcrumb items={[{ label: "Docs", href: "/docs" }, ...breadcrumb]} />
 
       <div className="flex flex-wrap items-center gap-3 mb-3">
