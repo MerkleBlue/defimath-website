@@ -4,7 +4,7 @@ import { Statistics } from "@/components/Documentation/Statistics";
 
 export const metadata: Metadata = {
     title: "Statistics — DeFiMath docs",
-    description: "Portfolio and performance analytics — mean, std dev, historical volatility, Sharpe ratio, max drawdown, VaR, CVaR.",
+    description: "Solidity portfolio and performance analytics — mean, std dev, historical volatility, Sharpe ratio, max drawdown, VaR, CVaR.",
 };
 
 export default function Page() {

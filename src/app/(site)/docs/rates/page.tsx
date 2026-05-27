@@ -4,7 +4,7 @@ import { Rates } from "@/components/Documentation/Rates";
 
 export const metadata: Metadata = {
     title: "Rates — DeFiMath docs",
-    description: "Interest rate primitives — compounding, present value, log returns, APR↔APY conversions, yield to maturity, IRR.",
+    description: "Solidity interest rate primitives — compounding, present value, log returns, APR↔APY conversions, yield to maturity, IRR.",
 };
 
 export default function Page() {
