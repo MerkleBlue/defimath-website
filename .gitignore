@@ -6,6 +6,9 @@
 # build folder out should be ignored
 /out
 
+# Next.js auto-generates this on every dev/build; not meant to be tracked
+next-env.d.ts
+
 # misc
 /coverage
 /artifacts
