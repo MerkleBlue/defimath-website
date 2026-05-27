@@ -4,9 +4,10 @@ import { InstallCommand } from "../InstallCommand";
 
 const MATH_EXAMPLE = `import "defimath-lib/contracts/math/Math.sol";
 
-uint256 root = DeFiMath.sqrt(x);
-int256  lnX  = DeFiMath.ln(x);
-uint256 ePow = DeFiMath.exp(int256(x));`;
+uint256 x    = 2e18;                     // x = 2.0
+uint256 root = DeFiMath.sqrt(x);         // root ≈ 1.41421e18
+int256  lnX  = DeFiMath.ln(x);           // lnX  ≈ 0.69315e18
+uint256 ePow = DeFiMath.exp(int256(x));  // ePow ≈ 7.389e18`;
 
 export const Math = async () => {
   return (
