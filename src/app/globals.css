@@ -52,7 +52,7 @@ section{
 }
 
 .markdown-content a {
-  @apply text-primary hover:underline;
+  @apply text-primary underline;
 }
 
 .markdown-content strong {
