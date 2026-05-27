@@ -140,7 +140,7 @@ export const FunctionDetail = async ({
 
       {parentSectionHref && parentSectionLabel && (
         <div className="mt-12 pt-6 border-t border-dark_border border-opacity-60">
-          <Link href={parentSectionHref} className="text-primary text-base font-medium hover:underline">
+          <Link href={parentSectionHref} className="text-primary text-base font-medium underline">
             ← {parentSectionLabel}
           </Link>
         </div>

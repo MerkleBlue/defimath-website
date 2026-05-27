@@ -47,7 +47,7 @@ export default async function Page() {
                     href="https://www.npmjs.com/package/defimath-lib"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline"
+                    className="text-primary underline"
                 >
                     published on npm
                 </a>{" "}

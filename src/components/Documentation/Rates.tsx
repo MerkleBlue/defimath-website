@@ -30,7 +30,7 @@ export const Rates = async () => {
           href="https://github.com/MerkleBlue/defimath/blob/master/contracts/finance/Rates.sol"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary hover:underline"
+          className="text-primary underline"
         >
           Rates.sol
         </a>

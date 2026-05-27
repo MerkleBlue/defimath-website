@@ -23,7 +23,7 @@ export const Futures = async () => {
           href="https://github.com/MerkleBlue/defimath/blob/master/contracts/derivatives/Futures.sol"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary hover:underline"
+          className="text-primary underline"
         >
           Futures.sol
         </a>
@@ -57,7 +57,7 @@ export const Futures = async () => {
         </li>
         <li>
           <span className="text-white font-semibold">No strike — this is a forward, not an option.</span>{" "}
-          For option pricing, use the <a href="/docs/options" className="text-primary hover:underline">Options module</a>; for cash-or-nothing digitals, use <a href="/docs/binary" className="text-primary hover:underline">Binary options</a>.
+          For option pricing, use the <a href="/docs/options" className="text-primary underline">Options module</a>; for cash-or-nothing digitals, use <a href="/docs/binary" className="text-primary underline">Binary options</a>.
         </li>
         <li>
           <span className="text-white font-semibold">Lowest gas in the library.</span>{" "}

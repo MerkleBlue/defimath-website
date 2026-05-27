@@ -25,7 +25,7 @@ export const BinaryOptions = async () => {
           href="https://github.com/MerkleBlue/defimath/blob/master/contracts/derivatives/Binary.sol"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary hover:underline"
+          className="text-primary underline"
         >
           Binary.sol
         </a>
@@ -77,7 +77,7 @@ export const BinaryOptions = async () => {
         </li>
         <li>
           <span className="text-white font-semibold">When to use binary vs. vanilla.</span>{" "}
-          Use binaries when the payout is discrete (prediction markets, depeg coverage, threshold hedges). For continuous payoff structures, reach for the <a href="/docs/options" className="text-primary hover:underline">Options module</a>.
+          Use binaries when the payout is discrete (prediction markets, depeg coverage, threshold hedges). For continuous payoff structures, reach for the <a href="/docs/options" className="text-primary underline">Options module</a>.
         </li>
       </ul>
 

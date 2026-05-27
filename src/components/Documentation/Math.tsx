@@ -24,7 +24,7 @@ export const Math = async () => {
           href="https://github.com/MerkleBlue/defimath/blob/master/contracts/math/Math.sol"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary hover:underline"
+          className="text-primary underline"
         >
           Math.sol
         </a>

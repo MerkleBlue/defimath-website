@@ -45,7 +45,7 @@ export default async function Page({ params }: Params) {
 
                     <Link
                         href="/blog"
-                        className="text-primary text-base font-medium hover:underline"
+                        className="text-primary text-base font-medium underline"
                     >
                         ← Back to blog
                     </Link>

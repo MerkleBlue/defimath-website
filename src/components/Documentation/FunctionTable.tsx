@@ -31,7 +31,7 @@ export const FunctionTable = ({ rows }: { rows: Row[] }) => {
             >
               <td className="py-2 px-3 font-mono text-primary whitespace-nowrap">
                 {r.href ? (
-                  <Link href={r.href} className="hover:underline">
+                  <Link href={r.href} className="underline font-semibold">
                     {r.name}
                   </Link>
                 ) : (

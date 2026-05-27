@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const Overview = () => {
   return (
     <div>
@@ -45,12 +47,12 @@ export const Overview = () => {
       </div>
       <h2 id="whats-inside" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">What&apos;s inside</h2>
       <ul className="list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95">
-        <li><span className="text-primary">Math</span> — <code className="text-primary">exp</code>, <code className="text-primary">ln</code>, <code className="text-primary">sqrt</code>, <code className="text-primary">pow</code>, <code className="text-primary">stdNormCDF</code>, <code className="text-primary">erf</code> and more.</li>
-        <li><span className="text-primary">Options</span> — Black-Scholes pricing, full Greeks (delta, gamma, theta, vega), and an iterative implied-volatility solver.</li>
-        <li><span className="text-primary">Binary options</span> — cash-or-nothing call and put pricing with full Greeks.</li>
-        <li><span className="text-primary">Futures</span> — continuous-compounding futures price.</li>
-        <li><span className="text-primary">Rates</span> — compound interest, present value, log returns, APR↔APY, yield to maturity, IRR.</li>
-        <li><span className="text-primary">Statistics</span> — mean, std dev, historical volatility, Sharpe ratio, max drawdown, VaR, CVaR.</li>
+        <li><Link href="/docs/math" className="text-primary underline font-semibold">Math</Link> — <code className="text-primary">exp</code>, <code className="text-primary">ln</code>, <code className="text-primary">sqrt</code>, <code className="text-primary">pow</code>, <code className="text-primary">stdNormCDF</code>, <code className="text-primary">erf</code> and more.</li>
+        <li><Link href="/docs/options" className="text-primary underline font-semibold">Options</Link> — Black-Scholes pricing, full Greeks (delta, gamma, theta, vega), and an iterative implied-volatility solver.</li>
+        <li><Link href="/docs/binary" className="text-primary underline font-semibold">Binary options</Link> — cash-or-nothing call and put pricing with full Greeks.</li>
+        <li><Link href="/docs/futures" className="text-primary underline font-semibold">Futures</Link> — continuous-compounding futures price.</li>
+        <li><Link href="/docs/rates" className="text-primary underline font-semibold">Rates</Link> — compound interest, present value, log returns, APR↔APY, yield to maturity, IRR.</li>
+        <li><Link href="/docs/statistics" className="text-primary underline font-semibold">Statistics</Link> — mean, std dev, historical volatility, Sharpe ratio, max drawdown, VaR, CVaR.</li>
       </ul>
     </div>
   );
