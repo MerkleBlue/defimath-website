@@ -1,0 +1,49 @@
+---
+title: DeFiMath v3.1.0 released - cbrt function
+date: 2026-05-27
+version: "3.1.0"
+excerpt: Adds a CLZ + Newton-Raphson cube root that beats Solady's cbrtWad by ~33% on gas at identical precision.
+metaDescription: DeFiMath v3.1.0 ships cbrt — a fixed-point cube root that costs 368 gas vs 550 for Solady's cbrtWad, with bit-exact precision at the ulp limit.
+metaKeywords:
+  - defimath v3.1.0
+  - cube root solidity
+  - cbrt
+  - clz newton-raphson
+  - solady cbrtWad
+  - gas optimization
+---
+
+A focused minor release adding `cbrt` — the missing primitive for cube
+roots in 18-decimal fixed-point — implemented with the same CLZ +
+Newton-Raphson recipe that powers `sqrt`.
+
+## New: `cbrt`
+
+- **368 gas average** on a 1e-4 → 1e4 sweep
+- **~33% cheaper** than Solady's `cbrtWad` (550 gas) at identical
+  precision (both bit-exact at the ulp limit, max rel error 2.2e-14%)
+- **6 Newton iterations** from a CLZ-derived initial guess
+  (`y₀ = 2^⌈bits/3⌉`), within factor ∛2 of the true root
+- **Domain**: `0 ≤ x < 2⁷⁶ ≈ 7.6e22` in 18-decimal fixed-point;
+  reverts with `CbrtUpperBoundError` above that
+- **Single-branch** implementation: `result = integer_cbrt(x · 1e36)`
+  works symmetrically across the full domain, no inversion trick needed
+
+```solidity
+import "defimath-lib/contracts/math/Math.sol";
+
+uint256 root = DeFiMath.cbrt(8e18); // 2e18
+```
+
+Like the rest of DeFiMath, `cbrt` is `internal pure`, no storage access,
+no external calls.
+
+## Why it matters
+
+Cube roots show up in higher-order risk math (skew, kurtosis adjustments),
+Cardano's formula for cubic equations, and a handful of volatility models.
+Until now the only on-chain option was Solady's `cbrtWad`; DeFiMath gives
+the same primitive at a third less gas with no precision trade-off.
+
+DeFiMath at v3.1.0 continues the pattern: every primitive measured
+against existing on-chain implementations, every branch covered by tests.
