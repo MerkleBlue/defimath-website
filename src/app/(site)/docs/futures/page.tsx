@@ -4,7 +4,7 @@ import { Futures } from "@/components/Documentation/Futures";
 
 export const metadata: Metadata = {
     title: "Futures — DeFiMath docs",
-    description: "Futures pricing using continuous compounding.",
+    description: "Solidity futures pricing using continuous compounding.",
 };
 
 export default function Page() {

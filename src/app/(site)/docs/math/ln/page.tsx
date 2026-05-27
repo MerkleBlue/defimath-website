@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "ln — Math | DeFiMath docs",
-    description: "Natural logarithm in 18-decimal fixed-point. Gas-optimized at 375 gas, max abs. error 1.5e-14.",
+    description: "Solidity natural logarithm in 18-decimal fixed-point. Gas-optimized at 375 gas, max abs. error 1.5e-14.",
 };
 
 export default function Page() {

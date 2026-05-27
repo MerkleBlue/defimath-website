@@ -30,8 +30,13 @@ export const CodeBlock = async ({
 
   return (
     <div className={wrapperClass}>
+      {language && (
+        <span className="absolute top-2 left-4 text-[10px] font-mono uppercase tracking-wider text-muted text-opacity-60 select-none pointer-events-none">
+          {language}
+        </span>
+      )}
       <div
-        className="text-sm font-mono [&>pre]:!bg-transparent [&>pre]:py-4 [&>pre]:px-4 [&>pre]:pe-16"
+        className="text-sm font-mono [&>pre]:!bg-transparent [&>pre]:pt-10 [&>pre]:pb-4 [&>pre]:px-4 [&>pre]:pe-16"
         dangerouslySetInnerHTML={{ __html: html }}
       />
       <CopyButton value={code} />
