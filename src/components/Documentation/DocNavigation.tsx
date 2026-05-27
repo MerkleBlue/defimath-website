@@ -33,6 +33,7 @@ const DocsNav: NavSection[] = [
       { name: "log10", href: null },
       { name: "pow", href: null },
       { name: "sqrt", href: null },
+      { name: "cbrt", href: null },
       { name: "stdNormCDF", href: null },
       { name: "erf", href: null },
     ],

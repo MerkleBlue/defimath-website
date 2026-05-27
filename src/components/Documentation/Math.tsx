@@ -41,6 +41,7 @@ export const Math = async () => {
           { name: "log10", gas: "391", description: "Base-10 logarithm" },
           { name: "pow", gas: "750", description: "Power function x^a" },
           { name: "sqrt", gas: "245", description: "Square root" },
+          { name: "cbrt", gas: "368", description: "Cube root" },
           { name: "stdNormCDF", gas: "731", description: "Standard normal CDF Φ(x)" },
           { name: "erf", gas: "685", description: "Error function" },
         ]}
@@ -74,7 +75,7 @@ export const Math = async () => {
         </li>
         <li>
           <span className="text-white font-semibold">CLZ requires Solidity 0.8.31 + EVM &quot;osaka&quot;.</span>{" "}
-          <code className="text-primary">ln</code>, <code className="text-primary">sqrt</code>, and <code className="text-primary">sqrtTime</code> emit the new <code className="text-primary">CLZ</code> opcode introduced in Osaka.
+          <code className="text-primary">ln</code>, <code className="text-primary">sqrt</code>, <code className="text-primary">cbrt</code>, and <code className="text-primary">sqrtTime</code> emit the new <code className="text-primary">CLZ</code> opcode introduced in Osaka.
         </li>
       </ul>
 
@@ -100,9 +101,13 @@ export const Math = async () => {
               <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">Log1pLowerBoundError</td>
               <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">log1p(x)</code> when <code className="text-primary">x ≤ −1e18</code></td>
             </tr>
-            <tr>
+            <tr className="border-b border-dark_border border-opacity-20">
               <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">SqrtUpperBoundError</td>
               <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">sqrt(x)</code> when <code className="text-primary">x ≥ 2<sup>80</sup></code> (~1.2e24)</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">CbrtUpperBoundError</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">cbrt(x)</code> when <code className="text-primary">x ≥ 2<sup>76</sup></code> (~7.6e22)</td>
             </tr>
           </tbody>
         </table>
