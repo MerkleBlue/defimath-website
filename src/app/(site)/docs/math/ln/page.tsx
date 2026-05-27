@@ -31,6 +31,23 @@ export default function Page() {
                 <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) for fast integer-part extraction; see <a className="text-primary underline" href="https://eips.ethereum.org/EIPS/eip-7939" target="_blank" rel="noopener noreferrer">EIP-7939</a>.</>,
                 <>Pure assembly hot path; no external calls or storage.</>,
             ]}
+            howItWorks={(
+                <>
+                    <p>
+                        Computing a natural logarithm in fixed-point requires both fast range reduction and a series that converges quickly on the reduced range. DeFiMath exploits the <code className="text-primary">CLZ</code> opcode (introduced in EVM Osaka) to do the reduction in one instruction: <code className="text-primary">floor(log2(x))</code> is just <code className="text-primary">255 − clz(integer_part)</code>. Dividing <code className="text-primary">x</code> by <code className="text-primary">2^k</code> lands the input in <code className="text-primary">[1, 2)</code>.
+                    </p>
+                    <p>
+                        The Mercator series for <code className="text-primary">ln</code> converges slowly near <code className="text-primary">x = 2</code>, so we apply a second reduction: if the reduced <code className="text-primary">x &gt; √2</code>, divide by <code className="text-primary">√2</code>, narrowing the range to <code className="text-primary">[1, √2)</code>. We track the cumulative scale as <code className="text-primary">multiplier = 2k</code> or <code className="text-primary">2k + 1</code> and add <code className="text-primary">multiplier · ln(√2) ≈ multiplier · 0.34657…</code> to the series result at the end.
+                    </p>
+                    <p>
+                        On <code className="text-primary">[1, √2)</code> we use the symmetric substitution <code className="text-primary">t = (x − 1) / (x + 1)</code> (which maps to <code className="text-primary">|t| &lt; 0.172</code>) and evaluate
+                    </p>
+                    <pre>{`ln(x) = 2 · (t + t³/3 + t⁵/5 + t⁷/7 + … + t¹⁹/19)`}</pre>
+                    <p>
+                        via Horner's method on <code className="text-primary">t²</code> — ten terms is enough for full 18-decimal precision on this interval. For <code className="text-primary">x &lt; 1</code> the function computes <code className="text-primary">−ln(1/x)</code> instead. Reverts on <code className="text-primary">x = 0</code> (mathematically undefined); ~375 gas including the CLZ opcode.
+                    </p>
+                </>
+            )}
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 uint256 x = 2e18;            // x = 2.0

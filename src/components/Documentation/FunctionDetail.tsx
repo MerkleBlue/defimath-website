@@ -24,6 +24,8 @@ type Props = {
   returns?: ParamRow[];
   /** Free-form behavior notes (rendered as a <ul> of items you pass) */
   behaviorItems?: ReactNode[];
+  /** Optional algorithm/implementation explainer, rendered as paragraphs */
+  howItWorks?: ReactNode;
   /** Solidity usage example, shown verbatim in a code block */
   example?: string;
   /** Optional related-section link shown at the bottom */
@@ -75,6 +77,7 @@ export const FunctionDetail = async ({
   parameters,
   returns,
   behaviorItems,
+  howItWorks,
   example,
   parentSectionHref,
   parentSectionLabel,
@@ -128,6 +131,15 @@ export const FunctionDetail = async ({
               <li key={i}>{item}</li>
             ))}
           </ul>
+        </>
+      )}
+
+      {howItWorks && (
+        <>
+          <h2 id="how-it-works" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">How it works</h2>
+          <div className="space-y-4 text-base font-medium text-muted text-opacity-95 [&>pre]:rounded-md [&>pre]:bg-dark_grey [&>pre]:px-4 [&>pre]:py-3 [&>pre]:text-sm [&>pre]:font-mono [&>pre]:overflow-x-auto">
+            {howItWorks}
+          </div>
         </>
       )}
 
