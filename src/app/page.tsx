@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "DeFiMath - Optimized DeFi & Math Solidity Primitives",
   description:
     "DeFiMath is an open-source Solidity library offering optimized math and DeFi primitives, designed for precision and efficiency in financial calculations.",
+  alternates: { canonical: "/" },
 };
 
 export default function Home() {

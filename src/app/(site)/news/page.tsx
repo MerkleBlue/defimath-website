@@ -5,6 +5,7 @@ import { NewsListing } from "@/components/News/NewsListing";
 export const metadata: Metadata = {
     title: "Latest News | DefiMath",
     description: "Latest news and release notes from DefiMath",
+    alternates: { canonical: "/news/" },
 };
 
 export default function Page() {

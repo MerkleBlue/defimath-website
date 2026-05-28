@@ -5,6 +5,7 @@ import { Options } from "@/components/Documentation/Options";
 export const metadata: Metadata = {
     title: "Options — DeFiMath docs",
     description: "Solidity Black-Scholes pricing, full Greeks (delta, gamma, theta, vega) and an iterative implied-volatility solver for European options.",
+    alternates: { canonical: "/docs/options/" },
 };
 
 export default function Page() {

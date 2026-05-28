@@ -3,6 +3,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
     title: "Terms of use | DefiMath",
     description: "Terms of use for DefiMath",
+    alternates: { canonical: "/terms/" },
 };
 
 export default function Page() {

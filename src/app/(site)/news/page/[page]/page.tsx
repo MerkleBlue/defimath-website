@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     return {
         title: `News — Page ${page} | DefiMath`,
         description: "Older news and release notes from DefiMath",
+        alternates: { canonical: `/news/page/${page}/` },
     };
 }
 

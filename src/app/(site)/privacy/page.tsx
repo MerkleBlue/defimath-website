@@ -3,6 +3,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
     title: "Privacy Policy | DefiMath",
     description: "Privacy Policy for DefiMath",
+    alternates: { canonical: "/privacy/" },
 };
 
 export default function Page() {

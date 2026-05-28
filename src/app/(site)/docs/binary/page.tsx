@@ -5,6 +5,7 @@ import { BinaryOptions } from "@/components/Documentation/BinaryOptions";
 export const metadata: Metadata = {
     title: "Binary options — DeFiMath docs",
     description: "Solidity cash-or-nothing binary call and put pricing with full Greeks. Unit-payout convention; scale externally for any payout.",
+    alternates: { canonical: "/docs/binary/" },
 };
 
 export default function Page() {

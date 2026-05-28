@@ -5,6 +5,7 @@ import { BlogListing } from "@/components/Blog/BlogListing";
 export const metadata: Metadata = {
     title: "Blog | DefiMath",
     description: "Articles and insights from the DefiMath team",
+    alternates: { canonical: "/blog/" },
 };
 
 export default function Page() {

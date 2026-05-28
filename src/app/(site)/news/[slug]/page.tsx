@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
         title: `${item.title} | DefiMath`,
         description: item.metaDescription ?? item.excerpt ?? `DefiMath news — ${item.title}`,
         keywords: item.metaKeywords,
+        alternates: { canonical: `/news/${slug}/` },
     };
 }
 

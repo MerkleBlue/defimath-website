@@ -8,6 +8,7 @@ import { InstallCommand } from "@/components/InstallCommand";
 export const metadata: Metadata = {
     title: "Docs | DefiMath",
     description: "Documentation for DefiMath — a gas-optimized Solidity library of DeFi math, derivatives, rates and statistics primitives.",
+    alternates: { canonical: "/docs/" },
 };
 
 const IMPORT_USE = `// SPDX-License-Identifier: MIT

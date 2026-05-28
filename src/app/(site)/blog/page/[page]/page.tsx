@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     return {
         title: `Blog — Page ${page} | DefiMath`,
         description: "Older posts from the DefiMath blog",
+        alternates: { canonical: `/blog/page/${page}/` },
     };
 }
 

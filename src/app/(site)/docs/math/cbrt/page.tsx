@@ -4,6 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 export const metadata: Metadata = {
     title: "cbrt — Math | DeFiMath docs",
     description: "Solidity cube root in 18-decimal fixed-point. Gas-optimized at 368 gas, max abs. error 2.2e-16.",
+    alternates: { canonical: "/docs/math/cbrt/" },
 };
 
 export default function Page() {
