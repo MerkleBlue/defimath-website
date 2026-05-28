@@ -14,6 +14,7 @@ export type BlogPost = {
   coverImage?: string;
   author?: string;
   authorImage?: string;
+  authorUrl?: string; // when set, the byline links to this URL (e.g. X profile)
   content: string; // raw markdown body
 };
 
@@ -63,6 +64,8 @@ export function getAllBlogPosts(): BlogPost[] {
         author: typeof data.author === "string" ? data.author : undefined,
         authorImage:
           typeof data.authorImage === "string" ? data.authorImage : undefined,
+        authorUrl:
+          typeof data.authorUrl === "string" ? data.authorUrl : undefined,
         content,
       };
     })

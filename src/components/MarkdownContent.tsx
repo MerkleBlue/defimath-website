@@ -24,6 +24,51 @@ export const MarkdownContent = ({ html, className }: Props) => {
       if (pre.querySelector("[data-copy-btn]")) return;
 
       const text = pre.textContent ?? "";
+
+      // Promote the canonical install command to the InstallCommand styling
+      // (coral-orange copy button + GA event), matching the docs pages.
+      if (text.trim() === "npm install defimath-lib") {
+        const cmd = text.trim();
+        const wrapper = document.createElement("div");
+        wrapper.className = "my-6 py-5 px-5 rounded-md bg-dark_grey relative";
+
+        const line = document.createElement("div");
+        line.className = "text-base font-mono text-gray-400 pe-20";
+        line.textContent = cmd;
+        wrapper.appendChild(line);
+
+        const installBtn = document.createElement("button");
+        installBtn.type = "button";
+        installBtn.setAttribute("data-copy-btn", "");
+        installBtn.setAttribute("aria-label", "Copy to clipboard");
+        installBtn.className =
+          "absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 text-sm rounded bg-[#FF7A66] text-darkmode font-semibold hover:bg-[#FF6B57]";
+        installBtn.textContent = "Copy";
+
+        const handleInstallClick = async () => {
+          if (typeof window.gtag === "function") {
+            window.gtag("event", "install_copy", { value: 1, currency: "USD" });
+          }
+          try {
+            await navigator.clipboard.writeText(cmd);
+            installBtn.textContent = "Copied";
+            setTimeout(() => { installBtn.textContent = "Copy"; }, 1500);
+          } catch {
+            // Clipboard API unavailable — silently ignore.
+          }
+        };
+
+        installBtn.addEventListener("click", handleInstallClick);
+        wrapper.appendChild(installBtn);
+        pre.parentNode?.replaceChild(wrapper, pre);
+
+        cleanups.push(() => {
+          installBtn.removeEventListener("click", handleInstallClick);
+          wrapper.remove();
+        });
+        return;
+      }
+
       (pre as HTMLElement).style.position = "relative";
 
       const btn = document.createElement("button");

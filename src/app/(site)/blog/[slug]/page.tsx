@@ -58,7 +58,19 @@ export default async function Page({ params }: Params) {
                         )}
                         {post.author && (
                             <span className="text-sm font-medium text-muted text-opacity-60">
-                                · {post.author}
+                                ·{" "}
+                                {post.authorUrl ? (
+                                    <a
+                                        href={post.authorUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-primary underline"
+                                    >
+                                        {post.author}
+                                    </a>
+                                ) : (
+                                    post.author
+                                )}
                             </span>
                         )}
                     </div>

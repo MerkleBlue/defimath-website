@@ -1,0 +1,177 @@
+---
+title: "Counting leading zeros in Solidity using CLZ opcode"
+date: 2026-05-28
+excerpt: How DeFiMath uses the new CLZ opcode (EIP-7939) to power sqrt, cbrt, and ln — initial guesses and range reduction in a single instruction.
+metaDescription: How DeFiMath uses the CLZ opcode from EIP-7939 to accelerate sqrt, cbrt, and ln. Newton-Raphson initial guesses and log-base-2 range reduction in one Solidity instruction.
+metaKeywords:
+  - clz opcode
+  - count leading zeros solidity
+  - eip-7939
+  - newton-raphson solidity
+  - fixed-point math solidity
+  - log2 solidity
+  - sqrt solidity
+  - osaka evm
+author: DeFiMath
+authorUrl: https://x.com/defi_math
+---
+
+The CLZ opcode landed in EVM Osaka via [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939), exposed in Solidity 0.8.31 as the Yul builtin `clz`. It costs 3 gas, returns the number of leading zero bits in a 256-bit value, and replaces the loops and lookup tables every previous on-chain library used to compute the same thing. DeFiMath sits on top of it. This post walks through what CLZ actually does, the one-line idiom it enables, and the three places in the library where it's the hot path.
+
+## What CLZ does
+
+The opcode pops one value off the stack and pushes a single number: how many of that value's 256 bits are zero before its first set bit. A few examples:
+
+```
+clz(0)                 = 256
+clz(1)                 = 255
+clz(2 ** 80)           = 175
+clz(type(uint256).max) = 0
+```
+
+Two things to note. First, `clz(0) = 256` — the convention chosen by the EIP. You don't have to special-case zero before calling it, only after. Second, the result is exactly `255 − floor(log₂(x))` for nonzero `x`. That equivalence is the entire point: bit length and base-2 logarithm are the same primitive, and now we can read them in 3 gas.
+
+## How to use it in Solidity
+
+Solidity 0.8.31 exposes `clz` as a Yul builtin:
+
+```solidity
+function bitLength(uint256 x) internal pure returns (uint256 bits) {
+    assembly { bits := sub(256, clz(x)) }
+}
+```
+
+The opcode requires the Osaka EVM target — add this to your `hardhat.config.js`:
+
+```js
+solidity: {
+    version: "0.8.31",   // or newer
+    settings: { evmVersion: "osaka" }
+}
+```
+
+Targeting an older EVM and calling `clz` is a *compile-time* error, not a runtime surprise. Bad config fails fast.
+
+## The bit-length trick
+
+Every CLZ-based optimization in DeFiMath grows from one identity:
+
+```
+bits = 256 − clz(x)             // bit length of x
+floor(log₂(x)) = bits − 1       // for x ≥ 1
+```
+
+`bits` lets you do two useful things almost for free:
+
+1. **Find the largest power of two ≤ x** — `2^(bits − 1)`. Useful for range reduction.
+2. **Find a power of two near the k-th root of x** — `2^⌈bits/k⌉`. Useful as a Newton-Raphson initial guess.
+
+Both compile to one instruction. The rest of the post is what we do with that.
+
+## Use #1: sqrt initial guess
+
+Newton-Raphson for square root iterates `y ← (y + x/y) / 2` and roughly doubles the number of correct bits per step. The catch is that you have to *start somewhere*. A constant initial guess (say, `y₀ = 1`) needs ~30 iterations to converge to 18 decimals — a non-starter on-chain.
+
+CLZ collapses the initial-guess problem: `y₀ = 2^⌈bits/2⌉` is within a factor of `√2` (~1.41) of the true root. From one bit of error, six Newton iterations land bit-exact at the 1e18 fixed-point scale. The [DeFiMath sqrt](/docs/math/sqrt) hot path:
+
+```solidity
+assembly {
+    x := mul(x, 1e18) // scale to 1e36
+
+    // y₀ ≈ 2^⌈bits/2⌉, within factor √2 of sqrt(x)
+    y := shl(shr(1, sub(256, clz(x))), 1)
+
+    y := shr(1, add(y, div(x, y)))  // Newton, ×6
+    y := shr(1, add(y, div(x, y)))
+    y := shr(1, add(y, div(x, y)))
+    y := shr(1, add(y, div(x, y)))
+    y := shr(1, add(y, div(x, y)))
+    y := shr(1, add(y, div(x, y)))
+}
+```
+
+That's the whole function. 245 gas average.
+
+## Use #2: cbrt initial guess
+
+Same trick at a different exponent. For cube root, `y₀ = 2^⌈bits/3⌉` lands within a factor of `∛2` (~1.26) of the true cube root. Six iterations of the cube-root Newton update `y ← (2y + x/y²) / 3` get to bit-exact precision. The [cbrt page](/docs/math/cbrt) has the full breakdown — most notably why this lets cbrt be single-branch where sqrt needs an inversion branch for `x < 1`. 368 gas average.
+
+## Use #3: ln range reduction
+
+The Mercator series for `ln` converges slowly when `x` is far from 1. The classic remedy is to reduce `x` into `[1, 2)`: find the integer `k = floor(log₂(x))`, then `x / 2^k` lives in `[1, 2)`. The final result is `ln(reduced) + k · ln(2)`.
+
+Pre-Osaka, computing `k` required a binary-search-by-shift or a de Bruijn lookup — ~150 gas, dozens of opcodes, the kind of careful thing Solady's `log2` does. With CLZ it's two instructions:
+
+```solidity
+assembly {
+    let bits := sub(256, clz(integerPart))  // floor(log₂(integerPart)) + 1
+    x := shr(bits, x)                       // reduces x to [1, 2)
+}
+```
+
+[DeFiMath's ln](/docs/math/ln) does exactly this, then narrows further to `[1, √2)` with one more conditional divide so the Mercator series converges in ~10 terms. Total: 375 gas.
+
+## What this looks like across the libraries
+
+<div class="my-6 rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
+  <table class="w-full text-base">
+    <thead>
+      <tr class="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Function</th>
+        <th class="py-3 px-4 font-medium whitespace-nowrap">DeFiMath</th>
+        <th class="py-3 px-4 font-medium whitespace-nowrap">PRBMath</th>
+        <th class="py-3 px-4 font-medium whitespace-nowrap">ABDK</th>
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Solady</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b border-dark_border border-opacity-20">
+        <td class="py-2 px-4 font-mono text-primary whitespace-nowrap">sqrt</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">245</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">959</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">808</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">341</td>
+      </tr>
+      <tr class="border-b border-dark_border border-opacity-20">
+        <td class="py-2 px-4 font-mono text-primary whitespace-nowrap">cbrt</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">368</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">—</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">—</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">550</td>
+      </tr>
+      <tr>
+        <td class="py-2 px-4 font-mono text-primary whitespace-nowrap">ln</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">375</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">6,901</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">12,695</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">518</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+Solady is the closest competitor and the only one within 2× on `sqrt` — they bridge the initial-guess gap with a hand-tuned binary search. The widening gap on `cbrt` and `ln` is mostly the savings CLZ gives at the front of each function. PRBMath and ABDK predate the opcode entirely; they pay for log₂ in software at every call.
+
+The two functions where Solady stays competitive are exactly the ones with the cheapest pre-CLZ workarounds. The ones where DeFiMath pulls ahead are the ones that need *both* a fast initial guess and a fast range reduction — and CLZ delivers both for the price of two opcodes.
+
+## Compounding effects
+
+The savings don't stop at the primitives. `sqrt` and `ln` are the building blocks of Black-Scholes option pricing: both `callOptionPrice` and `putOptionPrice` call `ln(spot / strike)` once and a sqrt-based time-adjusted volatility once per evaluation. Swapping in the CLZ-powered versions of those two primitives drops [`callOptionPrice`](/docs/options) from ~3,100 gas to **2,876 gas** — roughly 10% cheaper, with zero change to the option-pricing math itself.
+
+The pattern repeats across the library. Every function that touches a root or a logarithm — IV solving, futures, log returns, historical volatility, Sharpe ratio — gets a free discount the moment its inner primitives switch to CLZ-based versions. The opcode doesn't just save ~150 gas on one `log2` call; it saves that ~150 gas everywhere `log2` lives.
+
+## Caveats
+
+- **Osaka EVM target required.** CLZ is only available on Osaka and later. Targeting Cancun, Shanghai, or earlier won't compile if your code references `clz`.
+- **Solidity 0.8.31+.** Earlier versions don't expose the Yul builtin. (You can still emit the opcode by hand with `verbatim`, but at that point you're writing assembly assembly.)
+- **`clz(0) = 256`.** Don't try to guard against zero before the call — the opcode handles it. Guard after, if your algorithm assumes a nonzero input.
+
+## Try it
+
+```bash
+npm install defimath-lib
+```
+
+CLZ-powered primitives: [sqrt](/docs/math/sqrt), [cbrt](/docs/math/cbrt), [ln](/docs/math/ln). The library is MIT-licensed, pure Solidity, zero runtime dependencies. Source on [GitHub](https://github.com/MerkleBlue/defimath), reference benchmarks against PRBMath, ABDK, Solady and SolStat in [defimath-compare](https://github.com/MerkleBlue/defimath-compare).
+
+The CLZ opcode itself is specified in [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939).

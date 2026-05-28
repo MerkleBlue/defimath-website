@@ -95,6 +95,9 @@ section{
   @apply my-6 rounded-md;
 }
 
+/* Tables in markdown are written as inline HTML with the same Tailwind
+   classes used by the docs FunctionDetail tables — no auto-styling needed. */
+
 .markdown-content hr {
   @apply my-6 border-dark_border;
 }
