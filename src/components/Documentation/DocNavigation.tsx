@@ -31,7 +31,7 @@ const DocsNav: NavSection[] = [
       { name: "log1p", href: null },
       { name: "log2", href: null },
       { name: "log10", href: null },
-      { name: "pow", href: null },
+      { name: "pow", href: "/docs/math/pow" },
       { name: "sqrt", href: "/docs/math/sqrt" },
       { name: "cbrt", href: "/docs/math/cbrt" },
       { name: "stdNormCDF", href: "/docs/math/stdnormcdf" },

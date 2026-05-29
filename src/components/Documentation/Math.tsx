@@ -40,7 +40,7 @@ export const Math = async () => {
           { name: "log1p", gas: "500", description: "ln(1 + x) (precision-preserving for small x)" },
           { name: "log2", gas: "391", description: "Base-2 logarithm" },
           { name: "log10", gas: "391", description: "Base-10 logarithm" },
-          { name: "pow", gas: "750", description: "Power function x^a" },
+          { name: "pow", gas: "750", description: "Power function x^a", href: "/docs/math/pow" },
           { name: "sqrt", gas: "245", description: "Square root", href: "/docs/math/sqrt" },
           { name: "cbrt", gas: "368", description: "Cube root", href: "/docs/math/cbrt" },
           { name: "stdNormCDF", gas: "731", description: "Standard normal CDF Φ(x)", href: "/docs/math/stdnormcdf" },
