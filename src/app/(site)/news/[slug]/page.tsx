@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { getAdjacentNews, getAllNews, getNewsItem } from "@/utils/news";
 import markdownToHtml from "@/utils/markdownToHtml";
 import { MarkdownContent } from "@/components/MarkdownContent";
+import { JsonLd } from "@/components/JsonLd";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -37,8 +38,36 @@ export default async function Page({ params }: Params) {
     const html = await markdownToHtml(item.content);
     const { older, newer } = getAdjacentNews(slug);
 
+    const url = `https://defimath.com/news/${item.slug}/`;
+    const newsSchema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: item.title,
+        description: item.metaDescription ?? item.excerpt ?? `DefiMath news — ${item.title}`,
+        url,
+        datePublished: item.date,
+        dateModified: item.date,
+        author: {
+            "@type": "Organization",
+            name: "DeFiMath",
+            url: "https://defimath.com",
+        },
+        publisher: {
+            "@type": "Organization",
+            name: "DeFiMath",
+            url: "https://defimath.com",
+            logo: {
+                "@type": "ImageObject",
+                url: "https://defimath.com/apple-touch-icon.png",
+            },
+        },
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        keywords: item.metaKeywords?.join(", "),
+    };
+
     return (
         <main>
+            <JsonLd data={newsSchema} />
             <section className="relative md:pt-40 md:pb-28 pt-32 pb-20 overflow-hidden z-1" id="main-banner">
                 <div className="container mx-auto lg:max-w-screen-md px-4">
 

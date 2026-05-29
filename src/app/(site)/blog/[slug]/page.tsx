@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { getAllBlogPosts, getBlogPost } from "@/utils/blog";
 import markdownToHtml from "@/utils/markdownToHtml";
 import { MarkdownContent } from "@/components/MarkdownContent";
+import { JsonLd } from "@/components/JsonLd";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -39,8 +40,34 @@ export default async function Page({ params }: Params) {
 
     const html = await markdownToHtml(post.content);
 
+    const url = `https://defimath.com/blog/${post.slug}/`;
+    const blogPostingSchema = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.metaDescription ?? post.excerpt ?? `DefiMath blog — ${post.title}`,
+        url,
+        datePublished: post.date,
+        dateModified: post.date,
+        author: post.authorUrl
+            ? { "@type": "Person", name: post.author ?? "DeFiMath", url: post.authorUrl }
+            : { "@type": "Organization", name: post.author ?? "DeFiMath", url: "https://defimath.com" },
+        publisher: {
+            "@type": "Organization",
+            name: "DeFiMath",
+            url: "https://defimath.com",
+            logo: {
+                "@type": "ImageObject",
+                url: "https://defimath.com/apple-touch-icon.png",
+            },
+        },
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        keywords: post.metaKeywords?.join(", "),
+    };
+
     return (
         <main>
+            <JsonLd data={blogPostingSchema} />
             <section className="relative md:pt-40 md:pb-28 pt-32 pb-20 overflow-hidden z-1" id="main-banner">
                 <div className="container mx-auto lg:max-w-screen-md px-4">
 
