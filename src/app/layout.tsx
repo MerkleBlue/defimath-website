@@ -44,6 +44,14 @@ export default function RootLayout({
             gtag('config', 'G-NK671MJFPG');
           `}
         </Script>
+
+        {/* Umami */}
+        <Script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="f5364deb-2e8a-4fd6-8978-9e24033f7c7e"
+          strategy="afterInteractive"
+        />
       </head>
 
       <body className={`${font.className}`}>
