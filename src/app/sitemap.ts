@@ -2,6 +2,10 @@ import type { MetadataRoute } from "next";
 import { getAllBlogPosts, getBlogTotalPages } from "@/utils/blog";
 import { getAllNews, getNewsTotalPages } from "@/utils/news";
 
+// Required by Next.js 16 with `output: "export"` — generates sitemap.xml at
+// build time rather than treating this route as dynamic.
+export const dynamic = "force-static";
+
 /**
  * Generates sitemap.xml at build time. Next.js writes it to the export root,
  * so it's served at https://defimath.com/sitemap.xml.
