@@ -17,7 +17,7 @@ const Hero = () => {
             <div className="flex items-center md:justify-start justify-center gap-8">
               <Link
                 href="/docs"
-                className="bg-primary border border-primary rounded-lg text-21 font-medium hover:bg-transparent hover:text-primary text-darkmode py-2 px-7 z-50"
+                className="whitespace-nowrap bg-primary border border-primary rounded-lg text-21 font-medium hover:bg-transparent hover:text-primary text-darkmode py-2 px-7 z-50"
               >
                 Get started
               </Link>
@@ -25,7 +25,7 @@ const Hero = () => {
                 href="https://github.com/MerkleBlue/defimath"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-transparent border border-primary rounded-lg text-21 font-medium hover:bg-primary hover:text-darkmode text-primary py-2 px-7"
+                className="whitespace-nowrap bg-transparent border border-primary rounded-lg text-21 font-medium hover:bg-primary hover:text-darkmode text-primary py-2 px-7"
               >
                 Github
               </a>
