@@ -2,6 +2,7 @@ import React from "react";
 import Hero from "@/components/Home/Hero";
 import Features from "@/components/Home/features";
 import Development from "@/components/Home/development";
+import FAQ from "@/components/Home/FAQ";
 import Connect from "@/components/Home/connect";
 import { JsonLd } from "@/components/JsonLd";
 import { Metadata } from "next";
@@ -48,6 +49,7 @@ export default function Home() {
       <JsonLd data={[organizationSchema, softwareSchema]} />
       <Hero />
       <Features />
+      <FAQ />
       <Development />
       <Connect />
     </main>

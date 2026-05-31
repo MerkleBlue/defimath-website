@@ -49,7 +49,8 @@ const STATIC_PAGES: Entry[] = [
   { path: "/blog/", changeFrequency: "weekly", priority: 0.7 },
   { path: "/news/", changeFrequency: "weekly", priority: 0.7 },
 
-  // Legal
+  // Reference / Legal
+  { path: "/supported-chains/", changeFrequency: "monthly", priority: 0.5 },
   { path: "/privacy/", changeFrequency: "yearly", priority: 0.3 },
   { path: "/terms/", changeFrequency: "yearly", priority: 0.3 },
 ];

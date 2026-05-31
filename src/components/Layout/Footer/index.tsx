@@ -11,7 +11,7 @@ const Footer: FC = () => {
     <footer className="pt-16 bg-darkmode" id="footer">
       <div className="container mx-auto lg:max-w-screen-xl md:max-w-screen-md px-4">
         <div className="grid grid-cols-1 sm:grid-cols-12 lg:gap-20 md:gap-6 sm:gap-12 gap-6  pb-16">
-          <div className="lg:col-span-4 md:col-span-6 col-span-6">
+          <div className="lg:col-span-4 md:col-span-5 col-span-6">
             <Logo />
             <div className="flex gap-6 items-center mt-8">
               <Link href="https://x.com/defi_math" target="_blank" rel="noopener noreferrer" className="group">
@@ -63,7 +63,7 @@ const Footer: FC = () => {
               ))}
             </ul>
           </div>
-          <div className="lg:col-span-2 md:col-span-3 col-span-6">
+          <div className="lg:col-span-3 md:col-span-4 col-span-6">
             <h4 className="text-white mb-4 font-medium text-24">Information</h4>
             <ul>
               {footerlabels.map((item, index) => (

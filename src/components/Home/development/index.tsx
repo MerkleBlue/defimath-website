@@ -26,8 +26,7 @@ const Development = () => {
               <span className="text-primary">Solidity Project</span>
             </h2>
             <p className="text-muted text-opacity-60 text-18">
-              Contact us today to discuss your project and find out how
-              <br className="md:block hidden" /> we can help you bring your vision to life.
+              Contact us today to discuss your project and find out how we can help you bring your vision to life.
             </p>
 
             <table className="w-full sm:w-[80%]">
