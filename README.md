@@ -1,6 +1,8 @@
 # defimath-website
 Website for DefiMath project
 
+This is the source for [DeFiMath](https://defimath.com/) — a gas-optimized, pure-Solidity library for on-chain DeFi math. See the [full documentation](https://defimath.com/docs/) or jump straight to a module: [math primitives](https://defimath.com/docs/math/) (`exp`, `ln`, `sqrt`, standard normal CDF), [Black-Scholes options pricing and Greeks](https://defimath.com/docs/options/), [binary options](https://defimath.com/docs/binary/), [futures pricing](https://defimath.com/docs/futures/), [interest rates and yield math](https://defimath.com/docs/rates/), and [statistics and risk metrics](https://defimath.com/docs/statistics/) (volatility, Sharpe, VaR, CVaR, max drawdown).
+
  
 ## Getting Started
 
