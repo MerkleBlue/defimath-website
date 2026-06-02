@@ -1,0 +1,61 @@
+---
+title: DeFiMath v3.2.0 released — 7 new utility math primitives
+date: 2026-06-02
+version: "3.2.0"
+excerpt: Adds mulDiv, mul, abs, min, max, clamp and avg to the Math module — the small primitives every DeFi protocol ends up reimplementing.
+metaDescription: DeFiMath v3.2.0 adds seven utility math functions to the Solidity Math module — full-precision mulDiv, fixed-point mul, branchless abs/min/max/clamp, and overflow-safe avg.
+metaKeywords:
+  - defimath v3.2.0
+  - muldiv solidity
+  - fixed-point multiply solidity
+  - solidity math primitives
+  - branchless min max
+  - gas optimization
+---
+
+Seven small utility math functions land in [the Math module](/docs/math) — `mulDiv`,
+`mul`, `abs`, `min`, `max`, `clamp`, `avg`. The kind every DeFi protocol ends up
+reimplementing, often without enough care. Each one is branchless where the math
+allows, gas-tight, and validated against BigInt references over 500+ random inputs
+per function. They sit alongside the existing exponential/log, root, and probability
+primitives in the same `DeFiMath` library — `internal pure`, inlined into your
+contract by the Solidity compiler, no external `CALL` overhead.
+
+## `mulDiv` and `mul`
+
+`mulDiv(a, b, d)` computes `a · b / d` with full 512-bit
+intermediate precision — the Remco Bloemen / Uniswap V3 algorithm that splits the
+512-bit product into two 256-bit words via the `mulmod` trick, then does 512-by-256
+division using Newton-Raphson modular inverse. Reverts with named errors on
+`d == 0` (`MulDivByZeroError`) or quotient overflow (`MulDivOverflowError`).
+
+`mul(a, b)` is a specialization for the `1e18` denominator case —
+the most common fixed-point multiply in DeFi. All denominator-dependent constants
+are precomputed: the `2^18` factor in `1e18 = 2^18 · 5^18` becomes a shift, the
+reduced odd denominator `5^18` is a literal, and the modular inverse mod `2^256`
+is baked into the bytecode as `0xaccb…0669`.
+
+Realistic-input measurements (500 random pairs across 1e6..1e30):
+
+- `mulDiv(a, b, 1e18)`: **155 gas**
+- `mul(a, b)`: **130 gas** — ~16% cheaper, same precision
+
+## Bit-tight utilities
+
+The remaining five round out the basics:
+
+- `abs(int256)` — **17 gas**, branchless via `SAR + XOR + SUB`. Handles `type(int256).min` cleanly via two's-complement wrap.
+- `min(a, b)` / `max(a, b)` — **23 gas each**, three-opcode branchless: `x XOR ((x XOR y) · LT/GT)`.
+- `clamp(x, lo, hi)` — **78 gas**, composed `max(x, lo)` then `min(_, hi)`.
+- `avg(a, b)` — **21 gas**, overflow-safe `(a & b) + ((a ^ b) >> 1)`. Never wraps even at the `uint256` ceiling where naive `(a + b) / 2` would.
+
+All seven are documented on the [Math module page](/docs/math).
+
+## Get it
+
+```
+npm install defimath-lib@3.2.0
+```
+
+- Release notes: [github.com/MerkleBlue/defimath/releases/tag/v3.2.0](https://github.com/MerkleBlue/defimath/releases/tag/v3.2.0)
+- Package: [npmjs.com/package/defimath-lib](https://www.npmjs.com/package/defimath-lib)
