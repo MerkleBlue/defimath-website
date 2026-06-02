@@ -6,7 +6,7 @@ export const Overview = () => {
       <div className="flex flex-wrap items-center gap-3 mt-10 mb-3">
         <h1 id="overview" className="text-40 md:text-44 lg:text-54 font-semibold text-white scroll-mt-28 md:scroll-mt-[180px]">Overview</h1>
         <span className="text-sm font-semibold text-darkmode bg-primary rounded px-2.5 py-1">
-          v3.1.0
+          v3.2.0
         </span>
       </div>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
@@ -17,7 +17,7 @@ export const Overview = () => {
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Latest version of DeFiMath is{" "}
-        <span className="text-white font-semibold">3.1.0</span>.
+        <span className="text-white font-semibold">3.2.0</span>.
       </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
         <div className="p-5 rounded-md border border-dark_border border-opacity-60">

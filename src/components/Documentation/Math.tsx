@@ -45,6 +45,13 @@ export const Math = async () => {
           { name: "cbrt", gas: "368", description: "Cube root", href: "/docs/math/cbrt" },
           { name: "stdNormCDF", gas: "731", description: "Standard normal CDF Φ(x)", href: "/docs/math/stdnormcdf" },
           { name: "erf", gas: "685", description: "Error function", href: "/docs/math/erf" },
+          { name: "mulDiv", gas: "155", description: "(a · b) / d with full 512-bit intermediate precision" },
+          { name: "mul", gas: "130", description: "(a · b) / 1e18 — fixed-point multiply with denominator baked in" },
+          { name: "abs", gas: "17", description: "Branchless |int256| (handles int256.min cleanly)" },
+          { name: "min", gas: "23", description: "Branchless minimum of two uint256" },
+          { name: "max", gas: "23", description: "Branchless maximum of two uint256" },
+          { name: "clamp", gas: "78", description: "Clamp x into [lo, hi] (composed max then min)" },
+          { name: "avg", gas: "21", description: "Overflow-safe (a + b) / 2 via (a & b) + ((a ^ b) >> 1)" },
         ]}
       />
       <InstallCommand className="mt-6" />
@@ -106,9 +113,21 @@ export const Math = async () => {
               <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">SqrtUpperBoundError</td>
               <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">sqrt(x)</code> when <code className="text-primary">x ≥ 2<sup>80</sup></code> (~1.2e24)</td>
             </tr>
-            <tr>
+            <tr className="border-b border-dark_border border-opacity-20">
               <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">CbrtUpperBoundError</td>
               <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">cbrt(x)</code> when <code className="text-primary">x ≥ 2<sup>76</sup></code> (~7.6e22)</td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MulDivByZeroError</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">mulDiv(a, b, d)</code> when <code className="text-primary">d == 0</code></td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MulDivOverflowError</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">mulDiv(a, b, d)</code> when <code className="text-primary">a · b / d ≥ 2<sup>256</sup></code></td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MulOverflowError</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">mul(a, b)</code> when <code className="text-primary">a · b / 1e18 ≥ 2<sup>256</sup></code></td>
             </tr>
           </tbody>
         </table>
