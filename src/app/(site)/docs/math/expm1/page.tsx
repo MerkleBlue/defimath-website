@@ -54,6 +54,14 @@ export default function Page() {
                     </p>
                 </>
             )}
+            limits={{
+                constants: [
+                    { name: "Input |x|", value: <><code className="text-primary">&lt; 135.305999…e18</code> (inherited from <code className="text-primary">exp</code> on the fallback branch for <code className="text-primary">|x| ≥ 0.01</code>)</> },
+                ],
+                errors: [
+                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">|x| ≥ 135.305999…e18</code> (via fallback to <code className="text-primary">exp</code>)</> },
+                ],
+            }}
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 int256 x      = 1e15;                  // x = 0.001  (small input — Taylor branch)

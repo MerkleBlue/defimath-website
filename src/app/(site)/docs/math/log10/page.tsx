@@ -52,6 +52,14 @@ export default function Page() {
                     </p>
                 </>
             )}
+            limits={{
+                constants: [
+                    { name: "Input x", value: <><code className="text-primary">&gt; 0</code> (inherited from <code className="text-primary">ln</code>)</> },
+                ],
+                errors: [
+                    { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code> (inherited from <code className="text-primary">ln</code>)</> },
+                ],
+            }}
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 uint256 x   = 1000e18;               // x = 1000

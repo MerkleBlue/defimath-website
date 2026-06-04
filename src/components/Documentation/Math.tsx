@@ -103,26 +103,6 @@ export const Math = async () => {
           </thead>
           <tbody>
             <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">ExpUpperBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">exp(x)</code> when <code className="text-primary">x ≥ 135.305999e18</code></td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">LnLowerBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">ln(0)</code></td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">Log1pLowerBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">log1p(x)</code> when <code className="text-primary">x ≤ −1e18</code></td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">SqrtUpperBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">sqrt(x)</code> when <code className="text-primary">x ≥ 2<sup>80</sup></code> (~1.2e24)</td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">CbrtUpperBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">cbrt(x)</code> when <code className="text-primary">x ≥ 2<sup>76</sup></code> (~7.6e22)</td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
               <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MulDivByZeroError</td>
               <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">mulDiv(a, b, d)</code> when <code className="text-primary">d == 0</code></td>
             </tr>

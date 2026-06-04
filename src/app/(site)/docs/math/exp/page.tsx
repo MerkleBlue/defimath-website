@@ -49,6 +49,14 @@ export default function Page() {
                     </p>
                 </>
             )}
+            limits={{
+                constants: [
+                    { name: "Input |x|", value: <><code className="text-primary">&lt; 135.305999…e18</code> (reverts above this magnitude; for very negative <code className="text-primary">x &lt; −41.45e18</code> underflows silently to 0)</> },
+                ],
+                errors: [
+                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">|x| ≥ 135.305999…e18</code></> },
+                ],
+            }}
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 int256  x = 1e18;             // x = 1.0

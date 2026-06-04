@@ -54,6 +54,14 @@ export default function Page() {
                     </p>
                 </>
             )}
+            limits={{
+                constants: [
+                    { name: "Input x", value: <><code className="text-primary">&gt; −1e18</code> (equivalently <code className="text-primary">1 + x &gt; 0</code>; reverts at or below)</> },
+                ],
+                errors: [
+                    { name: "Log1pLowerBoundError", trigger: <><code className="text-primary">x ≤ −1e18</code></> },
+                ],
+            }}
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 int256 x      = 1e15;                   // x = 0.001  (small input — Taylor branch)

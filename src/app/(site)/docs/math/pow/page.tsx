@@ -51,6 +51,16 @@ export default function Page() {
                     </p>
                 </>
             )}
+            limits={{
+                constants: [
+                    { name: "Base x", value: <><code className="text-primary">&gt; 0</code> when <code className="text-primary">a ≠ 0</code> (fast path: <code className="text-primary">x⁰ = 1</code> for any x, including 0)</> },
+                    { name: "a · ln(x)", value: <><code className="text-primary">&lt; 135.305999…e18</code> (composition with <code className="text-primary">exp</code>; underflows to 0 below <code className="text-primary">−41.45e18</code>)</> },
+                ],
+                errors: [
+                    { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code> and <code className="text-primary">a ≠ 0</code> (via <code className="text-primary">ln(x)</code>)</> },
+                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">a · ln(x) ≥ 135.305999…e18</code> (via <code className="text-primary">exp(a · ln(x))</code>)</> },
+                ],
+            }}
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 uint256 x = 2e18;                // x = 2.0

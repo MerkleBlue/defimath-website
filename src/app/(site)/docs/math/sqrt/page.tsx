@@ -49,6 +49,14 @@ export default function Page() {
                     </p>
                 </>
             )}
+            limits={{
+                constants: [
+                    { name: "Input x", value: <><code className="text-primary">&lt; 1.2089…e42</code> (true value &lt; <code className="text-primary">2⁸⁰</code> ≈ 1.2e24); <code className="text-primary">x == 0</code> returns 0 without revert</> },
+                ],
+                errors: [
+                    { name: "SqrtUpperBoundError", trigger: <><code className="text-primary">x ≥ 1.2089…e42</code> (true value ≥ <code className="text-primary">2⁸⁰</code>)</> },
+                ],
+            }}
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 uint256 x = 2e18;             // x = 2.0

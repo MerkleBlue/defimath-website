@@ -141,7 +141,7 @@ export const FunctionDetail = async ({
             <table className="w-full text-base">
               <thead>
                 <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
-                  <th className="py-3 px-4 font-medium whitespace-nowrap">Constant</th>
+                  <th className="py-3 px-4 font-medium whitespace-nowrap">Bound</th>
                   <th className="py-3 px-4 font-medium">Value</th>
                 </tr>
               </thead>
