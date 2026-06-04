@@ -43,6 +43,7 @@ export const Math = async () => {
           { name: "pow", gas: "750", description: "Power function x^a", href: "/docs/math/pow" },
           { name: "sqrt", gas: "245", description: "Square root", href: "/docs/math/sqrt" },
           { name: "cbrt", gas: "368", description: "Cube root", href: "/docs/math/cbrt" },
+          { name: "sqrtTime", gas: "184", description: "Specialized sqrt of time in years for Black-Scholes — no input validation" },
           { name: "stdNormCDF", gas: "731", description: "Standard normal CDF Φ(x)", href: "/docs/math/stdnormcdf" },
           { name: "erf", gas: "685", description: "Error function", href: "/docs/math/erf" },
           { name: "mulDiv", gas: "155", description: "(a · b) / d with full 512-bit intermediate precision" },
@@ -84,6 +85,10 @@ export const Math = async () => {
         <li>
           <span className="text-white font-semibold">CLZ requires Solidity 0.8.31 + EVM &quot;osaka&quot;.</span>{" "}
           <code className="text-primary">ln</code>, <code className="text-primary">sqrt</code>, <code className="text-primary">cbrt</code>, and <code className="text-primary">sqrtTime</code> emit the new <code className="text-primary">CLZ</code> opcode introduced in Osaka.
+        </li>
+        <li>
+          <span className="text-white font-semibold"><code className="text-primary">sqrtTime</code> is specialized, not general-purpose.</span>{" "}
+          It expects <code className="text-primary">x</code> as time in years (<code className="text-primary">1e18 = 1 year</code>) and performs <span className="text-white font-semibold">no input validation</span>. It is built for Black-Scholes option pricing — where the caller has already bounded <code className="text-primary">x</code> — and is precision-tuned for <code className="text-primary">[1s, 8y]</code>. For a general fixed-point square root use <code className="text-primary">sqrt</code> instead.
         </li>
       </ul>
 
