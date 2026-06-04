@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "sqrt — Math | DeFiMath docs",
-    description: "Solidity square root in 18-decimal fixed-point. Gas-optimized at 245 gas, max abs. error 2.8e-16.",
+    description: "Solidity square root in 18-decimal fixed-point. Gas-optimized at 245 gas, max rel. error 2.8e-16.",
     alternates: { canonical: "/docs/math/sqrt/" },
 };
 

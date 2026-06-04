@@ -18,6 +18,10 @@ type Props = {
   gas?: string;
   /** Precision (e.g. "5.1e-14") */
   precision?: string;
+  /** Label for the precision stat. Defaults to "Max rel. error" (math/rates/stats).
+   *  Pass "Max abs. error" for derivatives (options/binary/futures) where the
+   *  benchmark is absolute error in price/Greek units. */
+  precisionLabel?: string;
   /** Full Solidity signature, shown verbatim in a code block */
   signature: string;
   parameters?: ParamRow[];
@@ -73,6 +77,7 @@ export const FunctionDetail = async ({
   summary,
   gas,
   precision,
+  precisionLabel = "Max rel. error",
   signature,
   parameters,
   returns,
@@ -102,7 +107,7 @@ export const FunctionDetail = async ({
       {(gas || precision) && (
         <div className="grid grid-cols-2 gap-4 mt-6 max-w-md">
           {gas && <Stat label="Gas" value={gas} />}
-          {precision && <Stat label="Max abs. error" value={precision} />}
+          {precision && <Stat label={precisionLabel} value={precision} />}
         </div>
       )}
 

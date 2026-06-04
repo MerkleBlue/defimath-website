@@ -16,7 +16,7 @@ export const Math = async () => {
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Low-level fixed-point primitives in 18-decimal format (
         <code className="text-primary">1e18 = 1.0</code>). All pure,
-        gas-efficient, and validated to sub-1e-12 absolute error against
+        gas-efficient, and validated to sub-1e-12 relative error against
         reference libraries.
       </p>
       <p className="text-sm font-medium text-muted text-opacity-60 mt-3">
@@ -37,9 +37,9 @@ export const Math = async () => {
           { name: "exp", gas: "333", description: "Exponential function e^x", href: "/docs/math/exp" },
           { name: "expm1", gas: "439", description: "e^x − 1 (precision-preserving for small x)", href: "/docs/math/expm1" },
           { name: "ln", gas: "375", description: "Natural logarithm", href: "/docs/math/ln" },
-          { name: "log1p", gas: "500", description: "ln(1 + x) (precision-preserving for small x)" },
-          { name: "log2", gas: "391", description: "Base-2 logarithm" },
-          { name: "log10", gas: "391", description: "Base-10 logarithm" },
+          { name: "log1p", gas: "500", description: "ln(1 + x) (precision-preserving for small x)", href: "/docs/math/log1p" },
+          { name: "log2", gas: "391", description: "Base-2 logarithm", href: "/docs/math/log2" },
+          { name: "log10", gas: "391", description: "Base-10 logarithm", href: "/docs/math/log10" },
           { name: "pow", gas: "750", description: "Power function x^a", href: "/docs/math/pow" },
           { name: "sqrt", gas: "245", description: "Square root", href: "/docs/math/sqrt" },
           { name: "cbrt", gas: "368", description: "Cube root", href: "/docs/math/cbrt" },

@@ -19,6 +19,7 @@ export default function Page() {
             summary="Computes the standard normal cumulative distribution function Φ(x) — the probability that a standard normal random variable is ≤ x."
             gas="731"
             precision="4.7e-15"
+            precisionLabel="Max abs. error"
             signature={`function stdNormCDF(int256 x) internal pure returns (uint256 y)`}
             parameters={[
                 { name: "x", type: "int256", description: "Signed input in 18-decimal fixed-point format (1e18 = 1.0)." },
