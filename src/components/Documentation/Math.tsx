@@ -35,7 +35,7 @@ export const Math = async () => {
       <FunctionTable
         rows={[
           { name: "exp", gas: "333", description: "Exponential function e^x", href: "/docs/math/exp" },
-          { name: "expm1", gas: "439", description: "e^x − 1 (precision-preserving for small x)" },
+          { name: "expm1", gas: "439", description: "e^x − 1 (precision-preserving for small x)", href: "/docs/math/expm1" },
           { name: "ln", gas: "375", description: "Natural logarithm", href: "/docs/math/ln" },
           { name: "log1p", gas: "500", description: "ln(1 + x) (precision-preserving for small x)" },
           { name: "log2", gas: "391", description: "Base-2 logarithm" },
