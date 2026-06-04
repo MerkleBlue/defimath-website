@@ -26,7 +26,7 @@ const DocsNav: NavSection[] = [
     basePath: "/docs/math",
     functions: [
       { name: "exp", href: "/docs/math/exp" },
-      { name: "expm1", href: null },
+      { name: "expm1", href: "/docs/math/expm1" },
       { name: "ln", href: "/docs/math/ln" },
       { name: "log1p", href: null },
       { name: "log2", href: null },
