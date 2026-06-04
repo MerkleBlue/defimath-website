@@ -36,8 +36,8 @@ export const Options = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "callOptionPrice", gas: "2,876", description: "European call price (Black-Scholes)" },
-          { name: "putOptionPrice", gas: "2,887", description: "European put price (Black-Scholes)" },
+          { name: "callOptionPrice", gas: "2,876", description: "European call price (Black-Scholes)", href: "/docs/options/calloptionprice" },
+          { name: "putOptionPrice", gas: "2,887", description: "European put price (Black-Scholes)", href: "/docs/options/putoptionprice" },
           { name: "delta", gas: "1,797", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
           { name: "gamma", gas: "1,499", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)" },
           { name: "theta", gas: "3,441", description: "Time decay, per day — returns (Θcall, Θput)" },
