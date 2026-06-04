@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
+import { MathBlock } from "@/components/Documentation/Formula";
 
 export const metadata: Metadata = {
     title: "callOptionPrice — Options | DeFiMath docs",
@@ -17,7 +18,7 @@ export default function Page() {
             ]}
             module="Options"
             name="callOptionPrice"
-            summary="Computes the Black-Scholes price of a European call option in 18-decimal fixed-point, at ~2,876 gas — the lowest on-chain implementation we've measured."
+            summary="Computes the Black-Scholes price of a European call option in 18-decimal fixed-point, at ~2,876 gas."
             gas="2,876"
             precision="5.6e-12"
             precisionLabel="Max abs. error"
@@ -36,10 +37,11 @@ export default function Page() {
                 { name: "rate", type: "uint64", description: "Annualized risk-free rate, 18-decimal fixed-point. Must satisfy rate < MAX_RATE (4e18 = 400%)." },
             ]}
             returns={[
-                { name: "price", type: "uint256", description: "Call option price in 18-decimal fixed-point. Always ≥ 0 (clamped at zero when Black-Scholes rounding produces a negative)." },
+                { name: "price", type: "uint256", description: "Call option price in 18-decimal fixed-point. Always ≥ 0." },
             ]}
             behaviorItems={[
-                <>Validates all five inputs against module-wide constants (<code className="text-primary">MIN_SPOT</code>, <code className="text-primary">MAX_SPOT</code>, <code className="text-primary">MAX_STSP_RATIO</code>, <code className="text-primary">MAX_EXPIRATION</code>, <code className="text-primary">MAX_RATE</code>) and reverts with a typed error on any violation — see the <Link href="/docs/options#limits-and-errors" className="text-primary underline">limits &amp; errors table</Link>.</>,
+                <>Validates all five inputs against module-wide constants and reverts with a typed error on any violation.</>,
+                <>Volatility has no explicit revert — it&apos;s bounded only by its <code className="text-primary">uint64</code> type (max ≈ <code className="text-primary">1.84e19</code>, i.e. ~1840% annualized). Practical inputs stay well below that ceiling; the <code className="text-primary">MIN_VOL_IV</code> / <code className="text-primary">MAX_VOL_IV</code> constants in the source apply only to the <Link href="/docs/options" className="text-primary underline">impliedVolatility</Link> solver, not the pricer.</>,
                 <>Fast-path on expiration: when <code className="text-primary">timeToExp == 0</code>, returns intrinsic value <code className="text-primary">max(spot − strike, 0)</code> without running the pricer.</>,
                 <>Composes four DeFiMath primitives — <Link href="/docs/math/ln" className="text-primary underline">ln</Link>, <code className="text-primary">sqrtTime</code> (specialized <Link href="/docs/math/sqrt" className="text-primary underline">sqrt</Link> for years), <code className="text-primary">expPositive</code> (rate is non-negative by validation), and <Link href="/docs/math/stdnormcdf" className="text-primary underline">stdNormCDF</Link> — each independently gas-tuned and validated.</>,
                 <>Pure <code className="text-primary">internal</code> function; no external calls, no storage. Inlined into the caller&apos;s bytecode at compile time.</>,
@@ -50,10 +52,8 @@ export default function Page() {
                     <p>
                         <code className="text-primary">callOptionPrice</code> implements the closed-form Black-Scholes formula for a European call:
                     </p>
-                    <pre>{`call = spot · Φ(d₁) − strike · e^(−rT) · Φ(d₂)
-
-where d₁ = [ ln(spot/strike) + (r + σ²/2)·T ] / (σ·√T)
-      d₂ = d₁ − σ·√T`}</pre>
+                    <MathBlock>{String.raw`C = S \cdot \Phi(d_1) - K \, e^{-rT} \cdot \Phi(d_2)`}</MathBlock>
+                    <MathBlock>{String.raw`d_1 = \frac{\ln(S/K) + \left(r + \tfrac{\sigma^2}{2}\right) T}{\sigma \sqrt{T}}, \qquad d_2 = d_1 - \sigma \sqrt{T}`}</MathBlock>
                     <p>
                         Every transcendental in the formula maps to a DeFiMath primitive: <code className="text-primary">σ·√T</code> uses <code className="text-primary">DeFiMath.sqrtTime</code> (a specialized square root tuned for time-in-years inputs), <code className="text-primary">ln(spot/strike)</code> uses <Link href="/docs/math/ln" className="text-primary underline">DeFiMath.ln</Link>, the discount factor <code className="text-primary">e^(−rT)</code> is computed as <code className="text-primary">1 / DeFiMath.expPositive(rT)</code> (since the input bounds guarantee <code className="text-primary">rT ≥ 0</code>, we skip the negative-input reciprocal branch), and the two normal CDFs use <Link href="/docs/math/stdnormcdf" className="text-primary underline">DeFiMath.stdNormCDF</Link>.
                     </p>
@@ -65,12 +65,29 @@ where d₁ = [ ln(spot/strike) + (r + σ²/2)·T ] / (σ·√T)
                     </p>
                 </>
             )}
+            limits={{
+                constants: [
+                    { name: "MIN_SPOT", value: <>1e-6 smallest allowed spot price (<code className="text-primary">1e12</code>)</> },
+                    { name: "MAX_SPOT", value: <>1e15 largest allowed spot price (<code className="text-primary">1e33</code>)</> },
+                    { name: "MAX_STSP_RATIO", value: <>5× (strike must lie within [spot/5, spot·5])</> },
+                    { name: "MAX_EXPIRATION", value: <>2 years (63,072,000 seconds)</> },
+                    { name: "MAX_RATE", value: <>400% annual (<code className="text-primary">4e18</code>)</> },
+                ],
+                errors: [
+                    { name: "SpotLowerBoundError", trigger: <><code className="text-primary">spot ≤ MIN_SPOT</code></> },
+                    { name: "SpotUpperBoundError", trigger: <><code className="text-primary">spot ≥ MAX_SPOT</code></> },
+                    { name: "StrikeLowerBoundError", trigger: <><code className="text-primary">strike · 5 &lt; spot</code></> },
+                    { name: "StrikeUpperBoundError", trigger: <><code className="text-primary">spot · 5 &lt; strike</code></> },
+                    { name: "TimeToExpiryUpperBoundError", trigger: <><code className="text-primary">timeToExp ≥ MAX_EXPIRATION</code></> },
+                    { name: "RateUpperBoundError", trigger: <><code className="text-primary">rate ≥ MAX_RATE</code></> },
+                ],
+            }}
             example={`import "defimath-lib/contracts/derivatives/Options.sol";
 
 uint256 price = DeFiMathOptions.callOptionPrice(
     1000e18,         // spot = $1,000
     980e18,          // strike = $980
-    60 * 1 days,     // 60 days to expiry
+    60 days,         // 60 days to expiry
     0.60e18,         // 60% annualized vol
     0.05e18          // 5% risk-free rate
 );

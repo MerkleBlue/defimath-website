@@ -30,6 +30,11 @@ type Props = {
   behaviorItems?: ReactNode[];
   /** Optional algorithm/implementation explainer, rendered as paragraphs */
   howItWorks?: ReactNode;
+  /** Optional limits section — constants and/or errors specific to this function. */
+  limits?: {
+    constants?: { name: string; value: ReactNode }[];
+    errors?: { name: string; trigger: ReactNode }[];
+  };
   /** Solidity usage example, shown verbatim in a code block */
   example?: string;
   /** Optional related-section link shown at the bottom */
@@ -83,6 +88,7 @@ export const FunctionDetail = async ({
   returns,
   behaviorItems,
   howItWorks,
+  limits,
   example,
   parentSectionHref,
   parentSectionLabel,
@@ -128,6 +134,33 @@ export const FunctionDetail = async ({
         </>
       )}
 
+      {limits?.constants && limits.constants.length > 0 && (
+        <>
+          <h2 id="limits" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Limits</h2>
+          <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
+            <table className="w-full text-base">
+              <thead>
+                <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+                  <th className="py-3 px-4 font-medium whitespace-nowrap">Constant</th>
+                  <th className="py-3 px-4 font-medium">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {limits.constants.map((c, i) => (
+                  <tr
+                    key={c.name}
+                    className={i < limits.constants!.length - 1 ? "border-b border-dark_border border-opacity-20" : ""}
+                  >
+                    <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">{c.name}</td>
+                    <td className="py-2 px-4 text-muted text-opacity-95">{c.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+
       {behaviorItems && behaviorItems.length > 0 && (
         <>
           <h2 id="behavior" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Behavior</h2>
@@ -144,6 +177,33 @@ export const FunctionDetail = async ({
           <h2 id="how-it-works" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">How it works</h2>
           <div className="space-y-4 text-base font-medium text-muted text-opacity-95 [&>pre]:rounded-md [&>pre]:bg-dark_grey [&>pre]:px-4 [&>pre]:py-3 [&>pre]:text-sm [&>pre]:font-mono [&>pre]:overflow-x-auto">
             {howItWorks}
+          </div>
+        </>
+      )}
+
+      {limits?.errors && limits.errors.length > 0 && (
+        <>
+          <h2 id="errors" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Errors</h2>
+          <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
+            <table className="w-full text-base">
+              <thead>
+                <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+                  <th className="py-3 px-4 font-medium whitespace-nowrap">Error</th>
+                  <th className="py-3 px-4 font-medium">Trigger</th>
+                </tr>
+              </thead>
+              <tbody>
+                {limits.errors.map((e, i) => (
+                  <tr
+                    key={e.name}
+                    className={i < limits.errors!.length - 1 ? "border-b border-dark_border border-opacity-20" : ""}
+                  >
+                    <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">{e.name}</td>
+                    <td className="py-2 px-4 text-muted text-opacity-95">{e.trigger}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </>
       )}
