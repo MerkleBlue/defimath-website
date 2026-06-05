@@ -56,8 +56,8 @@ const Features = () => {
             <Image
               src={`${getImagePrefix()}images/upgrade/img-upgrade.jpg`}
               alt="DeFiMath features"
-              width={625}
-              height={580}
+              width={784}
+              height={1168}
               className="lg:-mr-5"
               style={{ width: "auto", height: "auto", maxWidth: "100%" }}
             />

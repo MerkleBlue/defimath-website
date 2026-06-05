@@ -11,8 +11,8 @@ const Development = () => {
             <Image
               src={`${getImagePrefix()}images/portfolio/img-portfolio.jpg`}
               alt="Solidity development"
-              width={780}
-              height={700}
+              width={784}
+              height={1168}
               style={{ width: "auto", height: "auto", maxWidth: "100%" }}
             />
           </div>
