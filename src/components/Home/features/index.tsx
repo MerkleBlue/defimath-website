@@ -54,7 +54,7 @@ const Features = () => {
           </div>
           <div>
             <Image
-              src={`${getImagePrefix()}images/upgrade/img-upgrade.png`}
+              src={`${getImagePrefix()}images/upgrade/img-upgrade.jpg`}
               alt="DeFiMath features"
               width={625}
               height={580}

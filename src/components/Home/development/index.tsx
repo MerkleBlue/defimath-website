@@ -9,7 +9,7 @@ const Development = () => {
         <div className="grid lg:grid-cols-2 items-center gap-20">
           <div className="lg:-ml-32 hidden lg:block">
             <Image
-              src={`${getImagePrefix()}images/portfolio/img-portfolio.png`}
+              src={`${getImagePrefix()}images/portfolio/img-portfolio.jpg`}
               alt="Solidity development"
               width={780}
               height={700}
