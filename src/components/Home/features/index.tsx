@@ -41,7 +41,7 @@ const Features = () => {
                         {". "}
                         <Link
                           href={item.link.href}
-                          className="text-primary hover:underline whitespace-nowrap"
+                          className="text-primary underline whitespace-nowrap"
                         >
                           {item.link.label} →
                         </Link>

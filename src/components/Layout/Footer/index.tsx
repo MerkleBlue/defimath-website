@@ -14,7 +14,7 @@ const Footer: FC = () => {
           <div className="lg:col-span-4 md:col-span-5 col-span-6">
             <Logo />
             <div className="flex gap-6 items-center mt-8">
-              <Link href="https://x.com/defi_math" target="_blank" rel="noopener noreferrer" className="group">
+              <Link href="https://x.com/defi_math" target="_blank" rel="noopener noreferrer" aria-label="DeFiMath on X (Twitter)" className="group">
                 <Icon
                   icon="fa6-brands:x-twitter"
                   width="24"
@@ -22,7 +22,7 @@ const Footer: FC = () => {
                   className="text-white group-hover:text-primary"
                 />
               </Link>
-              <Link href="https://www.linkedin.com/company/defi-math" target="_blank" rel="noopener noreferrer" className="group">
+              <Link href="https://www.linkedin.com/company/defi-math" target="_blank" rel="noopener noreferrer" aria-label="DeFiMath on LinkedIn" className="group">
                 <Icon
                   icon="fa6-brands:linkedin-in"
                   width="24"
@@ -44,7 +44,7 @@ const Footer: FC = () => {
               Connect with us, we are here to help!
             </h3>
             <h3 className="text-white text-20 font-medium sm:mt-20 mt-12">
-              {new Date().getFullYear()} &copy; <a href="https://merkleblue.com" target="_blank">MerkleBlue</a> v{siteVersion}. Theme by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+              {new Date().getFullYear()} &copy; <a href="https://merkleblue.com" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-white">MerkleBlue</a> v{siteVersion}. Theme by <a href="https://themewagon.com" target="_blank" rel="noopener noreferrer" className="text-primary underline hover:text-white">ThemeWagon</a>
             </h3>
 
           </div>

@@ -25,9 +25,9 @@ const Connect = () => {
                     style={{ width: "44px", height: "44px" }}
                   />
                 </div>
-                <h4 className={`text-white text-28 mb-4 ${item.space}`}>
+                <h3 className={`text-white text-28 mb-4 ${item.space}`}>
                   {item.title}
-                </h4>
+                </h3>
                 <div
                   className="text-muted text-opacity-60"
                   dangerouslySetInnerHTML={{ __html: item.text }}

@@ -48,9 +48,9 @@ const Development = () => {
                       </div>
                     </td>
                     <td className="py-5">
-                      <h4 className="text-muted sm:text-28 text-22 ml-5">
+                      <h3 className="text-muted sm:text-28 text-22 ml-5">
                         {item.title}
-                      </h4>
+                      </h3>
                     </td>
                   </tr>
                 ))}
