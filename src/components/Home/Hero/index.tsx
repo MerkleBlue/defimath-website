@@ -36,8 +36,8 @@ const Hero = () => {
               <Image
                 src={`${getImagePrefix()}images/hero/banner-image.png`}
                 alt="Banner"
-                width={500}
-                height={500}
+                width={784}
+                height={916}
                 priority
                 style={{ width: "auto", height: "auto", maxWidth: "100%" }}
               />
