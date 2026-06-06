@@ -1,5 +1,4 @@
 import { featuresData } from "@/app/api/data";
-import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { getImagePrefix } from "@/utils/utils";
@@ -53,14 +52,22 @@ const Features = () => {
             </div>
           </div>
           <div>
-            <Image
-              src={`${getImagePrefix()}images/upgrade/img-upgrade.jpg`}
-              alt="DeFiMath features"
-              width={784}
-              height={1168}
-              className="lg:-mr-5"
-              style={{ width: "auto", height: "auto", maxWidth: "100%" }}
-            />
+            <picture>
+              <source
+                media="(max-width: 1023px)"
+                srcSet={`${getImagePrefix()}images/upgrade/img-upgrade-mobile.jpg`}
+              />
+              <img
+                src={`${getImagePrefix()}images/upgrade/img-upgrade.jpg`}
+                alt="DeFiMath features"
+                width={784}
+                height={1168}
+                loading="lazy"
+                decoding="async"
+                className="lg:-mr-5"
+                style={{ width: "auto", height: "auto", maxWidth: "100%" }}
+              />
+            </picture>
           </div>
         </div>
       </div>

@@ -49,7 +49,15 @@ export default function Home() {
       <link
         rel="preload"
         as="image"
+        href="/images/hero/banner-image-mobile.webp"
+        media="(max-width: 1023px)"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        as="image"
         href="/images/hero/banner-image.webp"
+        media="(min-width: 1024px)"
         fetchPriority="high"
       />
       <JsonLd data={[organizationSchema, softwareSchema]} />
