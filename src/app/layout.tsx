@@ -44,6 +44,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Umami sends beacons to gateway.umami.is — preconnect saves ~300ms on LCP path. */}
+        <link rel="preconnect" href="https://gateway.umami.is" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cloud.umami.is" crossOrigin="anonymous" />
+
         {/* GA4 — tiny stub runs immediately so window.gtag exists for click handlers.
             The 155 KiB library is deferred and processes queued events when it arrives. */}
         <Script id="gtag-stub" strategy="beforeInteractive">
