@@ -178,7 +178,7 @@ const FAQ = async () => {
           {FAQS.map((faq, i) => (
             <div
               key={i}
-              className="p-6 rounded-md border border-dark_border border-opacity-60"
+              className="p-6 rounded-md border border-dark_border border-opacity-60 min-w-0"
             >
               <h3 className="text-primary text-xl font-semibold mb-3">
                 {faq.question}
