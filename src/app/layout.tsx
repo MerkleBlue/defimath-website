@@ -8,7 +8,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { AnalyticsPageviews } from "@/components/AnalyticsPageviews";
 import Aoscompo from "@/utils/aos";
 import Script from "next/script";
-const font = DM_Sans({ subsets: ["latin"] });
+const font = DM_Sans({ subsets: ["latin"], display: "optional" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://defimath.com"),
