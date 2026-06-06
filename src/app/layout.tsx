@@ -44,12 +44,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-NK671MJFPG"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
+        {/* GA4 — tiny stub runs immediately so window.gtag exists for click handlers.
+            The 155 KiB library is deferred and processes queued events when it arrives. */}
+        <Script id="gtag-stub" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             window.gtag = function gtag(){window.dataLayer.push(arguments);};
@@ -57,6 +54,10 @@ export default function RootLayout({
             gtag('config', 'G-NK671MJFPG');
           `}
         </Script>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-NK671MJFPG"
+          strategy="lazyOnload"
+        />
 
         {/* Umami */}
         <Script
