@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getImagePrefix } from "@/utils/utils";
 
 const Hero = () => {
@@ -33,14 +32,21 @@ const Hero = () => {
           </div>
           <div className="col-span-12 lg:col-span-7 mt-10 lg:mt-0">
             <div className="flex justify-center lg:ml-20">
-              <Image
-                src={`${getImagePrefix()}images/hero/banner-image.png`}
-                alt="Banner"
-                width={784}
-                height={916}
-                priority
-                style={{ width: "auto", height: "auto", maxWidth: "100%" }}
-              />
+              <picture>
+                <source
+                  media="(max-width: 1023px)"
+                  srcSet={`${getImagePrefix()}images/hero/banner-image-mobile.webp`}
+                />
+                <img
+                  src={`${getImagePrefix()}images/hero/banner-image.webp`}
+                  alt="Banner"
+                  width={784}
+                  height={916}
+                  fetchPriority="high"
+                  decoding="async"
+                  style={{ width: "auto", height: "auto", maxWidth: "100%" }}
+                />
+              </picture>
             </div>
           </div>
         </div>
