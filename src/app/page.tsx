@@ -46,6 +46,12 @@ const softwareSchema = {
 export default function Home() {
   return (
     <main>
+      <link
+        rel="preload"
+        as="image"
+        href="/images/hero/banner-image.webp"
+        fetchPriority="high"
+      />
       <JsonLd data={[organizationSchema, softwareSchema]} />
       <Hero />
       <Features />
