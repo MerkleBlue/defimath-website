@@ -46,11 +46,11 @@ export const Statistics = async () => {
           { name: "mean", gas: "6,980 @ 30", description: "Arithmetic mean" },
           { name: "stdDev", gas: "15,298 @ 30", description: "Sample standard deviation (Bessel-corrected)" },
           { name: "weightedAverage", gas: "15,687 @ 30", description: "Σ(v · w) / Σ(w)" },
-          { name: "historicalVolatility", gas: "26,135 @ 30", description: "Annualized volatility from log returns" },
-          { name: "sharpeRatio", gas: "26,273 @ 30", description: "Risk-adjusted return" },
-          { name: "maxDrawdown", gas: "15,191 @ 30", description: "Peak-to-trough decline" },
-          { name: "valueAtRisk", gas: "36,752 @ 30", description: "Historical VaR (NumPy-compatible)" },
-          { name: "conditionalValueAtRisk", gas: "32,917 @ 30", description: "Expected shortfall (left-tail mean)" },
+          { name: "historicalVolatility", gas: "25,915 @ 30", description: "Annualized volatility from log returns" },
+          { name: "sharpeRatio", gas: "26,053 @ 30", description: "Risk-adjusted return" },
+          { name: "maxDrawdown", gas: "15,470 @ 30", description: "Peak-to-trough decline" },
+          { name: "valueAtRisk", gas: "34,531 @ 30", description: "Historical VaR (NumPy-compatible)" },
+          { name: "conditionalValueAtRisk", gas: "31,889 @ 30", description: "Expected shortfall (left-tail mean)" },
         ]}
       />
       <InstallCommand className="mt-6" />
