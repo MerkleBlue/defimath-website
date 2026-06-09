@@ -43,7 +43,7 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 
 - [GitHub: defimath](https://github.com/MerkleBlue/defimath): Library source, tests, full docs
 - [GitHub: defimath-compare](https://github.com/MerkleBlue/defimath-compare): Reproducible gas + precision benchmarks against PRBMath, ABDK, Solady, SolStat, Derivexyz, Premia, Party1983, Dopex, Haptic
-- [npm: defimath-lib](https://www.npmjs.com/package/defimath-lib): Latest published package (currently v3.2.0)
+- [npm: defimath-lib](https://www.npmjs.com/package/defimath-lib): Latest published package (currently v3.3.0)
 
 ## Optional
 

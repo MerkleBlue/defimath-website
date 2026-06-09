@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "stdNormCDF — Math | DeFiMath docs",
-    description: "Solidity standard normal cumulative distribution function Φ(x) in 18-decimal fixed-point. Gas-optimized at 731 gas, max abs. error 4.7e-15.",
+    description: "Solidity standard normal cumulative distribution function Φ(x) in 18-decimal fixed-point. Gas-optimized at 660 gas, max abs. error 4.7e-15.",
     alternates: { canonical: "/docs/math/stdnormcdf/" },
 };
 
@@ -17,7 +17,7 @@ export default function Page() {
             module="Math"
             name="stdNormCDF"
             summary="Computes the standard normal cumulative distribution function Φ(x) — the probability that a standard normal random variable is ≤ x."
-            gas="731"
+            gas="660"
             precision="4.7e-15"
             precisionLabel="Max abs. error"
             signature={`function stdNormCDF(int256 x) internal pure returns (uint256 y)`}
@@ -36,17 +36,17 @@ export default function Page() {
             howItWorks={(
                 <>
                     <p>
-                        The standard normal CDF and the error function are the same beast in different coordinates. The textbook identity
+                        The standard normal CDF and the error function are the same beast in different coordinates, linked by the textbook identity
                     </p>
                     <pre>{`Φ(x) = (1 + erf(x / √2)) / 2`}</pre>
                     <p>
-                        is how DeFiMath computes Φ — substitute <code className="text-primary">u = x · (1/√2)</code> (the constant <code className="text-primary">0.7071067811865475…</code>) and pass it through the same <a href="https://s2.smu.edu/~aleskovs/emis/sqc2/accuratecumnorm.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">West's rational approximation</a> that powers <a href="/docs/math/erf" className="text-primary underline">erf</a>. So <code className="text-primary">stdNormCDF</code> and <code className="text-primary">erf</code> share the rational kernel — there's no second numerical method to maintain.
+                        DeFiMath uses <a href="https://s2.smu.edu/~aleskovs/emis/sqc2/accuratecumnorm.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">West's rational approximation</a>, the same kernel that powers <a href="/docs/math/erf" className="text-primary underline">erf</a>. West parameterizes the approximation by <code className="text-primary">t = z · √2</code>, where <code className="text-primary">z</code> is the erf argument. Combining the two equations, the standard normal input <code className="text-primary">x</code> maps to <code className="text-primary">t = (x · 1/√2) · √2 = x</code> — the <code className="text-primary">1/√2</code> conversion and West's <code className="text-primary">·√2</code> cancel exactly. So <code className="text-primary">|x|</code> goes directly into the polynomial, no pre-scaling.
                     </p>
                     <p>
-                        Internally we call <code className="text-primary">erfPositiveHalf(|u|)</code>, which returns <code className="text-primary">erf(|u|) / 2</code> directly. That saves one shift and one add per call. For <code className="text-primary">x ≥ 0</code> the result is <code className="text-primary">0.5 + erfPositiveHalf(u)</code>; for <code className="text-primary">x &lt; 0</code> we exploit <code className="text-primary">Φ(−x) = 1 − Φ(x)</code> and return <code className="text-primary">0.5 − erfPositiveHalf(|u|)</code>. Either branch costs the same.
+                        Each branch writes the result straight to <code className="text-primary">y</code> in assembly. For <code className="text-primary">x ≥ 0</code> the kernel returns <code className="text-primary">res = 1 − Φ(x)</code>, so we emit <code className="text-primary">y = 1e18 − res</code>. For <code className="text-primary">x &lt; 0</code> we exploit <code className="text-primary">Φ(−x) = 1 − Φ(x)</code> — the same <code className="text-primary">res</code> computed at <code className="text-primary">|x|</code> is already <code className="text-primary">Φ(x)</code>, so we emit it directly. No flag variable, no post-processing.
                     </p>
                     <p>
-                        Saturation handles the tails: at <code className="text-primary">x = ±16.447</code> the true Φ is within <code className="text-primary">1e-60</code> of <code className="text-primary">0</code> or <code className="text-primary">1</code>, well below 1e-18 representational precision, so the function short-circuits to the boundary and skips the kernel. Net cost on the hot path: ~731 gas including the divide-by-√2 substitution and the West kernel — the cheapest on-chain Φ we've measured by a wide margin.
+                        Saturation handles the tails: at <code className="text-primary">x = ±16.447</code> the true Φ is within <code className="text-primary">1e-60</code> of <code className="text-primary">0</code> or <code className="text-primary">1</code>, well below 1e-18 representational precision, so the function short-circuits to the boundary and skips the kernel. Net cost on the hot path: ~660 gas — the cheapest on-chain Φ we've measured by a wide margin.
                     </p>
                 </>
             )}

@@ -44,7 +44,7 @@ export const Math = async () => {
           { name: "sqrt", gas: "245", description: "Square root", href: "/docs/math/sqrt" },
           { name: "cbrt", gas: "368", description: "Cube root", href: "/docs/math/cbrt" },
           { name: "sqrtTime", gas: "184", description: "Specialized sqrt of time in years for Black-Scholes — no input validation" },
-          { name: "stdNormCDF", gas: "731", description: "Standard normal CDF Φ(x)", href: "/docs/math/stdnormcdf" },
+          { name: "stdNormCDF", gas: "660", description: "Standard normal CDF Φ(x)", href: "/docs/math/stdnormcdf" },
           { name: "erf", gas: "685", description: "Error function", href: "/docs/math/erf" },
           { name: "mulDiv", gas: "155", description: "(a · b) / d with full 512-bit intermediate precision" },
           { name: "mul", gas: "130", description: "(a · b) / 1e18 — fixed-point multiply with denominator baked in" },

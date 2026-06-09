@@ -1,0 +1,82 @@
+---
+title: DeFiMath v3.3.0 — stdNormCDF rewrite, call/put 5% cheaper
+date: 2026-06-09
+version: "3.3.0"
+excerpt: Pure optimization release. Black-Scholes call and put each drop ~5% in gas; every option pricer and greek that touches the standard normal CDF gets faster.
+metaDescription: DeFiMath v3.3.0 is a gas-optimization release. callOptionPrice and putOptionPrice drop ~5% (2,876 → 2,729; 2,887 → 2,739). All functions built on stdNormCDF — delta, theta, binary call/put/theta, implied volatility — get cheaper.
+metaKeywords:
+  - defimath v3.3.0
+  - black-scholes gas optimization
+  - solidity option pricing
+  - stdNormCDF
+  - gas optimization
+---
+
+This is a pure optimization release. No new features, no API changes — same precision,
+same behaviour, just fewer opcodes in [`stdNormCDF`](/docs/math/stdnormcdf). Every option pricer
+and greek built on it gets the savings automatically.
+
+## Where the savings come from
+
+The previous `stdNormCDF` scaled its argument by `1/√2` and then called an
+internal `erfPositiveHalf` helper that multiplied right back by `√2` — two unnecessary
+MUL+DIV pairs in every call. Inlining the body into `stdNormCDF` and dropping the
+helper (which had no other callers) eliminated the round-trip and lets each branch
+write straight to the result. Net: **74 gas per `stdNormCDF` call**.
+
+That single change propagates everywhere `stdNormCDF` is used inside the library.
+
+## The numbers
+
+Biggest absolute wins are on the option pricers themselves — `callOptionPrice` and
+`putOptionPrice` each call `stdNormCDF` twice (one for `Φ(d₁)`, one for `Φ(d₂)`):
+
+<div class="rounded-md border border-dark_border border-opacity-60 overflow-x-auto my-4">
+  <table class="w-full text-base">
+    <thead>
+      <tr class="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Function</th>
+        <th class="py-3 px-4 font-medium text-right">v3.2.0 gas</th>
+        <th class="py-3 px-4 font-medium text-right">v3.3.0 gas</th>
+        <th class="py-3 px-4 font-medium text-right">Saved</th>
+        <th class="py-3 px-4 font-medium text-right">%</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">callOptionPrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">2,876</td><td class="py-2 px-4 text-right font-semibold text-white">2,729</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−147</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−5.1%</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">putOptionPrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">2,887</td><td class="py-2 px-4 text-right font-semibold text-white">2,739</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−148</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−5.1%</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">delta</td><td class="py-2 px-4 text-right text-muted text-opacity-95">1,797</td><td class="py-2 px-4 text-right font-semibold text-white">1,724</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−73</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−4.1%</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">theta</td><td class="py-2 px-4 text-right text-muted text-opacity-95">3,441</td><td class="py-2 px-4 text-right font-semibold text-white">3,293</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−148</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−4.3%</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">binaryCallPrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">2,092</td><td class="py-2 px-4 text-right font-semibold text-white">2,018</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−74</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−3.5%</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">binaryPutPrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">2,097</td><td class="py-2 px-4 text-right font-semibold text-white">2,023</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−74</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−3.5%</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">binaryTheta</td><td class="py-2 px-4 text-right text-muted text-opacity-95">3,501</td><td class="py-2 px-4 text-right font-semibold text-white">3,353</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−148</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−4.2%</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">impliedVolatility (call)</td><td class="py-2 px-4 text-right text-muted text-opacity-95">13,100</td><td class="py-2 px-4 text-right font-semibold text-white">12,370</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−730</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−5.6%</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">impliedVolatility (put)</td><td class="py-2 px-4 text-right text-muted text-opacity-95">13,184</td><td class="py-2 px-4 text-right font-semibold text-white">12,446</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−738</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−5.6%</td></tr>
+      <tr><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">stdNormCDF</td><td class="py-2 px-4 text-right text-muted text-opacity-95">734</td><td class="py-2 px-4 text-right font-semibold text-white">660</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−74</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−10.1%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+`gamma`, `vega`, `binaryDelta`, `binaryGamma`, `binaryVega` are unchanged — they're
+built on the standard normal *PDF*, not the CDF, so this optimization doesn't reach
+them.
+
+`impliedVolatility` shows the largest absolute drop because it calls `stdNormCDF`
+inside every Newton-Raphson iteration — roughly 10 iterations to converge, each
+saving ~74 gas.
+
+## No behavioural change
+
+Same input domain, same return values to the last wei. The 396 tests across `Math`,
+`Options`, and `Binary` all pass at the same precision thresholds. The strict
+equality assertions in the perf suite caught the change automatically and forced
+the threshold updates — that's exactly what they're for.
+
+## Get it
+
+```
+npm install defimath-lib@3.3.0
+```
+
+- Release notes: [github.com/MerkleBlue/defimath/releases/tag/v3.3.0](https://github.com/MerkleBlue/defimath/releases/tag/v3.3.0)
+- Package: [npmjs.com/package/defimath-lib](https://www.npmjs.com/package/defimath-lib)
