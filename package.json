@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "rm -rf .next && next dev",
-    "build": "next build",
-    "start": "NOT IN USE next start"
+    "build": "next build"
   },
   "dependencies": {
     "@iconify/react": "^5.0.1",
