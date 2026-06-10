@@ -35,6 +35,19 @@ const MODULES = [
     { href: "/docs/statistics", title: "Statistics", blurb: "Mean, std dev, historical volatility, Sharpe, max drawdown, VaR, CVaR." },
 ];
 
+type BenchmarkRow = { fn: string; defimath: string; nextBest: string; nextLib: string; multiple: string; highlight: boolean };
+const BENCHMARKS: BenchmarkRow[] = [
+    { fn: "callOptionPrice", defimath: "2,729", nextBest: "13,360", nextLib: "Derivexyz", multiple: "4.9×", highlight: true },
+    { fn: "putOptionPrice",  defimath: "2,739", nextBest: "13,363", nextLib: "Derivexyz", multiple: "4.9×", highlight: true },
+    { fn: "binaryCallPrice", defimath: "2,018", nextBest: "16,218", nextLib: "Haptic",    multiple: "8.0×", highlight: true },
+    { fn: "delta",           defimath: "1,724", nextBest: "8,621",  nextLib: "Derivexyz", multiple: "5.0×", highlight: true },
+    { fn: "vega",            defimath: "1,439", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
+    { fn: "ln",              defimath: "375",   nextBest: "518",    nextLib: "Solady",    multiple: "1.4×", highlight: false },
+    { fn: "sqrt",            defimath: "245",   nextBest: "341",    nextLib: "Solady",    multiple: "1.4×", highlight: false },
+    { fn: "cbrt",            defimath: "368",   nextBest: "550",    nextLib: "Solady",    multiple: "1.5×", highlight: false },
+    { fn: "stdNormCDF",      defimath: "660",   nextBest: "2,794",  nextLib: "SolStat",   multiple: "4.2×", highlight: true },
+];
+
 export default async function Page() {
     return (
         <>
@@ -73,6 +86,55 @@ export default async function Page() {
             <p className="text-base font-medium text-muted text-opacity-95 mt-3">
                 All values use 18-decimal fixed-point (<code className="text-primary">1e18 = 1.0</code>).
                 Time is in seconds. See module docs for full parameter conventions.
+            </p>
+
+            <h2 id="benchmarks" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Benchmarks</h2>
+            <p className="text-base font-medium text-muted text-opacity-95">
+                Every function is benchmarked against existing on-chain implementations. A representative comparison:
+            </p>
+            <div className="mt-6 p-2 md:p-4 rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
+                <table className="w-full text-base">
+                    <thead>
+                        <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+                            <th className="py-3 px-3 font-medium">Function</th>
+                            <th className="py-3 px-3 font-medium text-right whitespace-nowrap">DeFiMath</th>
+                            <th className="py-3 px-3 font-medium text-right whitespace-nowrap">Next best</th>
+                            <th className="py-3 px-3 font-medium text-right whitespace-nowrap">Multiple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {BENCHMARKS.map((r, i) => (
+                            <tr
+                                key={r.fn}
+                                className={
+                                    i < BENCHMARKS.length - 1
+                                        ? "border-b border-dark_border border-opacity-20"
+                                        : ""
+                                }
+                            >
+                                <td className="py-2 px-3 font-mono text-primary whitespace-nowrap">{r.fn}</td>
+                                <td className="py-2 px-3 text-right whitespace-nowrap font-semibold text-white">{r.defimath}</td>
+                                <td className="py-2 px-3 text-right whitespace-nowrap text-muted text-opacity-95">
+                                    {r.nextBest} <span className="text-muted text-opacity-60">({r.nextLib})</span>
+                                </td>
+                                <td className={`py-2 px-3 text-right whitespace-nowrap ${r.highlight ? "font-semibold text-primary" : "text-muted text-opacity-95"}`}>
+                                    {r.multiple}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <p className="text-sm text-muted text-opacity-60 mt-3">
+                Full per-function tables in the{" "}
+                <a
+                    href="https://github.com/MerkleBlue/defimath-compare#readme"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary underline"
+                >
+                    defimath-compare README
+                </a>.
             </p>
 
             <h2 id="modules" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Modules</h2>
