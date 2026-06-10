@@ -27,7 +27,7 @@ contract OptionsExchange {
 }`;
 
 const MODULES = [
-    { href: "/docs/math", title: "Math", blurb: "Low-level fixed-point primitives — exp, ln, sqrt, pow, stdNormCDF, erf." },
+    { href: "/docs/math", title: "Math", blurb: "Low-level fixed-point primitives — exponential, logarithm, square root, power, standard normal CDF, error function, and more." },
     { href: "/docs/options", title: "Options", blurb: "Black-Scholes pricing, full Greeks, and an iterative implied-volatility solver." },
     { href: "/docs/binary", title: "Binary options", blurb: "Cash-or-nothing call and put pricing with full Greeks." },
     { href: "/docs/futures", title: "Futures", blurb: "Continuous-compounding futures price." },

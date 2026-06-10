@@ -47,7 +47,7 @@ export const Overview = () => {
       </div>
       <h2 id="whats-inside" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">What&apos;s inside</h2>
       <ul className="list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95">
-        <li><Link href="/docs/math" className="text-primary underline font-semibold">Math</Link> — <code className="text-primary">exp</code>, <code className="text-primary">ln</code>, <code className="text-primary">sqrt</code>, <code className="text-primary">pow</code>, <code className="text-primary">stdNormCDF</code>, <code className="text-primary">erf</code> and more.</li>
+        <li><Link href="/docs/math" className="text-primary underline font-semibold">Math</Link> — exponential, logarithm, square root, power, standard normal CDF, error function, and more.</li>
         <li><Link href="/docs/options" className="text-primary underline font-semibold">Options</Link> — Black-Scholes pricing, full Greeks (delta, gamma, theta, vega), and an iterative implied-volatility solver.</li>
         <li><Link href="/docs/binary" className="text-primary underline font-semibold">Binary options</Link> — cash-or-nothing call and put pricing with full Greeks.</li>
         <li><Link href="/docs/futures" className="text-primary underline font-semibold">Futures</Link> — continuous-compounding futures price.</li>
