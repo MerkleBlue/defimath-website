@@ -105,17 +105,34 @@ export default async function Page() {
 
             <h2 id="testing" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h2>
             <p className="text-base font-medium text-muted text-opacity-95 mt-3">
-                DeFiMath ships with two independent test layers — a correctness layer and a property-fuzz layer:
+                DeFiMath ships with two independent test layers. Each library function is the unit — its own <code className="text-primary">describe</code> block with a fixed taxonomy of sub-tests, so anyone auditing the suite can find the exact coverage for any function in seconds.
             </p>
-            <ol className="list-decimal list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
-                <li>
-                    <span className="text-white font-semibold">Hardhat</span> — 565 tests validating against external JavaScript references (JS <code className="text-primary">Math</code>, <code className="text-primary">math-erf</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain, plus strict-equality gas-regression assertions on every performance test.
-                </li>
-                <li>
-                    <span className="text-white font-semibold">Foundry</span> — 43 property-based fuzz tests × 10,000 random runs each = <span className="text-white font-semibold">430,000 random executions per CI run</span>. Validates the algebraic structure: round-trips, monotonicity, identities, output bounds, symmetries. Foundry automatically shrinks counterexamples on failure.
-                </li>
-            </ol>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+
+            <h3 id="testing-hardhat" className="text-xl font-semibold text-white mt-8 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Hardhat correctness layer</h3>
+            <p className="text-base font-medium text-muted text-opacity-95">
+                565 tests validating against external JavaScript references (JS <code className="text-primary">Math</code>, <code className="text-primary">math-erf</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain. Every function in every module follows the same five-category taxonomy:
+            </p>
+            <ul className="list-disc list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
+                <li><span className="text-white font-semibold">behaviour</span> — normal-case sweeps (~200 samples per test) validated against the JS reference</li>
+                <li><span className="text-white font-semibold">limits</span> — minimum and maximum valid inputs, branch-transition boundaries, and near-revert edges</li>
+                <li><span className="text-white font-semibold">random</span> — non-seeded fuzz coverage with <code className="text-primary">Math.random()</code></li>
+                <li><span className="text-white font-semibold">failure</span> — one test per named revert error in the contract</li>
+                <li><span className="text-white font-semibold">performance</span> — one deterministic test per function asserting <span className="text-white font-semibold">exact gas with <code className="text-primary">assert.equal</code></span> (fails on both regression AND improvement). Gas threshold is in the test name, so any change shows up in the PR diff.</li>
+            </ul>
+
+            <h3 id="testing-foundry" className="text-xl font-semibold text-white mt-8 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Foundry property-fuzz layer</h3>
+            <p className="text-base font-medium text-muted text-opacity-95">
+                43 mathematical properties × 10,000 random runs each = <span className="text-white font-semibold">430,000 random executions per CI run</span>. Validates the algebraic structure of the library, not just concrete points. Foundry automatically shrinks counterexamples on failure. Properties are organized into five categories:
+            </p>
+            <ul className="list-disc list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
+                <li><span className="text-white font-semibold">Round-trips</span> — composing a function with its inverse recovers the input within tolerance</li>
+                <li><span className="text-white font-semibold">Monotonicity</span> — output ordering matches input ordering for functions that are mathematically monotone</li>
+                <li><span className="text-white font-semibold">Identities</span> — algebraic equalities that must hold across the full input domain</li>
+                <li><span className="text-white font-semibold">Output bounds</span> — every output lies within its mathematically valid range</li>
+                <li><span className="text-white font-semibold">Symmetries</span> — sign or reflection symmetries hold under input negation</li>
+            </ul>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
                 <div className="p-5 rounded-md border border-dark_border border-opacity-60">
                     <p className="text-primary text-2xl font-semibold">608</p>
                     <p className="text-sm text-muted text-opacity-60 mt-1">Total tests (Hardhat + Foundry)</p>
@@ -130,8 +147,8 @@ export default async function Page() {
                 </div>
             </div>
             <p className="text-base font-medium text-muted text-opacity-95 mt-4">
-                Each module page has a <span className="text-white font-semibold">Testing</span> section detailing what&apos;s specifically covered. All code lives in <code className="text-primary">test/</code> on{" "}
-                <a href="https://github.com/MerkleBlue/defimath/tree/master/test" target="_blank" rel="noopener noreferrer" className="text-primary underline">GitHub</a>.
+                Each module page has its own <span className="text-white font-semibold">Testing</span> section detailing per-function coverage. All code lives at{" "}
+                <a href="https://github.com/MerkleBlue/defimath/tree/master/test" target="_blank" rel="noopener noreferrer" className="text-primary underline"><code className="text-primary">test/</code></a> on GitHub — <code className="text-primary">test/hardhat/</code> for the correctness layer, <code className="text-primary">test/foundry/</code> for the properties.
             </p>
 
             <h2 id="getting-started" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Getting started</h2>
