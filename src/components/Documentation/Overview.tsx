@@ -10,14 +10,12 @@ export const Overview = () => {
         </span>
       </div>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
-        DeFiMath is a pure-Solidity library of gas-optimized DeFi math
-        primitives — 40+ functions spanning six modules: math, options,
-        binary options, futures, rates, and statistics. MIT-licensed, no
-        runtime dependencies.
+        DeFiMath is a pure-Solidity library of gas-optimized 18-decimal
+        fixed-point math primitives — 40+ functions spanning six modules:
+        math, options, binary options, futures, rates, and statistics.
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
-        Latest version of DeFiMath is{" "}
-        <span className="text-white font-semibold">3.3.0</span>.
+        Full test coverage across Hardhat and Foundry property-based fuzz suites. MIT-licensed, no runtime dependencies.
       </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
         <div className="p-5 rounded-md border border-dark_border border-opacity-60">
