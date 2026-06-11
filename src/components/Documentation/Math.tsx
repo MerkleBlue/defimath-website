@@ -166,7 +166,7 @@ export const Math = async () => {
         </table>
       </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/Math.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Math.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Math.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Math.t.sol</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Math.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Math.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Math.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Math.t.sol</a>
       </p>
     </div>
   );

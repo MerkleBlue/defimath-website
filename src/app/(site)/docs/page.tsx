@@ -109,7 +109,7 @@ export default async function Page() {
             </p>
             <ol className="list-decimal list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
                 <li>
-                    <span className="text-white font-semibold">Hardhat</span> — 565 tests validating against external JavaScript references (<code className="text-primary">Math.exp</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain, plus strict-equality gas-regression assertions on every performance test.
+                    <span className="text-white font-semibold">Hardhat</span> — 565 tests validating against external JavaScript references (JS <code className="text-primary">Math</code>, <code className="text-primary">math-erf</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain, plus strict-equality gas-regression assertions on every performance test.
                 </li>
                 <li>
                     <span className="text-white font-semibold">Foundry</span> — 43 property-based fuzz tests × 10,000 random runs each = <span className="text-white font-semibold">430,000 random executions per CI run</span>. Validates the algebraic structure: round-trips, monotonicity, identities, output bounds, symmetries. Foundry automatically shrinks counterexamples on failure.

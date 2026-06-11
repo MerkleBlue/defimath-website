@@ -191,7 +191,7 @@ export const Rates = async () => {
         Coming soon — same five-category structure used for <a href="/docs/math#testing" className="text-primary underline">Math</a> and <a href="/docs/options#testing" className="text-primary underline">Options</a>.
       </p>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/Rates.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Rates.test.mjs</a>
+        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Rates.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Rates.test.mjs</a>
       </p>
     </div>
   );

@@ -161,7 +161,7 @@ export const BinaryOptions = async () => {
         Coming soon — same five-category structure (round-trips, monotonicity, identities, output bounds, symmetries) used for <a href="/docs/math#testing" className="text-primary underline">Math</a> and <a href="/docs/options#testing" className="text-primary underline">Options</a>.
       </p>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/Binary.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Binary.test.mjs</a>
+        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Binary.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Binary.test.mjs</a>
       </p>
     </div>
   );
