@@ -174,6 +174,19 @@ export const Statistics = async () => {
           </tbody>
         </table>
       </div>
+
+      <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
+      <p className="text-base font-medium text-muted text-opacity-95">
+        <span className="text-white font-semibold">Hardhat correctness layer.</span>{" "}
+        114 tests across 9 function groups. <code className="text-primary">valueAtRisk</code> / <code className="text-primary">conditionalValueAtRisk</code> validated against <code className="text-primary">simple-statistics.quantile</code> (NumPy-compatible linear interpolation); volatility, Sharpe ratio, and max drawdown validated against inline JS references over series of 30–100 prices. Limits coverage at boundary inputs (single-element arrays, max array length, MAX_VALUE per element, confidence approaching 0 and 1).
+      </p>
+      <p className="text-base font-medium text-muted text-opacity-95 mt-4">
+        <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
+        Coming soon — same five-category structure used for <a href="/docs/math#testing" className="text-primary underline">Math</a> and <a href="/docs/options#testing" className="text-primary underline">Options</a>.
+      </p>
+      <p className="text-sm text-muted text-opacity-60 mt-3">
+        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/Stats.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Stats.test.mjs</a>
+      </p>
     </div>
   );
 };

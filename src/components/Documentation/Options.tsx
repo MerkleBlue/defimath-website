@@ -79,6 +79,52 @@ export const Options = async () => {
         </li>
       </ul>
 
+      <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
+      <p className="text-base font-medium text-muted text-opacity-95">
+        <span className="text-white font-semibold">Hardhat correctness layer.</span>{" "}
+        100 tests across 7 function groups (call, put, delta, gamma, theta, vega, impliedVolatility). Validated against the <code className="text-primary">black-scholes</code> and <code className="text-primary">greeks</code> npm packages over 5×5×3×3 strike/time/vol/rate matrices. &quot;Limits and near limit values&quot; sweeps at all four parameter boundaries (low/high strike, short/long expiry, near-zero/near-max vol and rate).
+      </p>
+      <p className="text-base font-medium text-muted text-opacity-95 mt-4">
+        <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
+        15 mathematical properties × 10,000 random runs each = <span className="text-white font-semibold">150,000 random executions per CI run</span>.
+      </p>
+      <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto mt-4">
+        <table className="w-full text-base">
+          <thead>
+            <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+              <th className="py-3 px-4 font-medium whitespace-nowrap">Category</th>
+              <th className="py-3 px-4 font-medium text-right">Count</th>
+              <th className="py-3 px-4 font-medium">What they check</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Round-trips</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">2</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">IV(callPrice(σ)) ≈ σ</code>, <code className="text-primary">IV(putPrice(σ)) ≈ σ</code> — Newton-Raphson solver round-trips</td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Monotonicity</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">4</td>
+              <td className="py-2 px-4 text-muted text-opacity-95">call ↑ in spot, put ↓ in spot, call ↑ in vol, put ↑ in vol</td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Identities</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">3</td>
+              <td className="py-2 px-4 text-muted text-opacity-95">put-call parity (<code className="text-primary">C − P = S − K·e<sup>−rT</sup></code>), <code className="text-primary">δ<sub>call</sub> − δ<sub>put</sub> = 1</code>, <code className="text-primary">θ<sub>call</sub> − θ<sub>put</sub> = −r·K·e<sup>−rT</sup>/365</code></td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Output bounds</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">6</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">C ≤ S</code>, <code className="text-primary">P ≤ K·e<sup>−rT</sup></code>, <code className="text-primary">δ<sub>call</sub> ∈ [0, 1]</code>, <code className="text-primary">δ<sub>put</sub> ∈ [-1, 0]</code>, <code className="text-primary">γ ≥ 0</code>, <code className="text-primary">vega ≥ 0</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="text-sm text-muted text-opacity-60 mt-3">
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/Options.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Options.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Options.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Options.t.sol</a>
+      </p>
+
     </div>
   );
 };

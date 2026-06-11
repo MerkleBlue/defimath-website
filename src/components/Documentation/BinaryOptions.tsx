@@ -150,6 +150,19 @@ export const BinaryOptions = async () => {
           </tbody>
         </table>
       </div>
+
+      <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
+      <p className="text-base font-medium text-muted text-opacity-95">
+        <span className="text-white font-semibold">Hardhat correctness layer.</span>{" "}
+        109 tests across 6 function groups (binary call, put, delta, gamma, theta, vega). Validated against a JavaScript reference derived from the closed-form cash-or-nothing pricing equations over 5×5×3×3 strike/time/vol/rate matrices. Limits-and-near-limits sweeps probe all four parameter boundaries; failure tests cover every documented revert path.
+      </p>
+      <p className="text-base font-medium text-muted text-opacity-95 mt-4">
+        <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
+        Coming soon — same five-category structure (round-trips, monotonicity, identities, output bounds, symmetries) used for <a href="/docs/math#testing" className="text-primary underline">Math</a> and <a href="/docs/options#testing" className="text-primary underline">Options</a>.
+      </p>
+      <p className="text-sm text-muted text-opacity-60 mt-3">
+        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/Binary.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Binary.test.mjs</a>
+      </p>
     </div>
   );
 };

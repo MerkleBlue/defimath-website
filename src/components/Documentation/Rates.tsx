@@ -180,6 +180,19 @@ export const Rates = async () => {
           </tbody>
         </table>
       </div>
+
+      <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
+      <p className="text-base font-medium text-muted text-opacity-95">
+        <span className="text-white font-semibold">Hardhat correctness layer.</span>{" "}
+        66 tests across 7 function groups (compound interest, present value, log return, continuous↔discrete rate conversions, yield to maturity, internal rate of return). Each scalar function is sweep-validated against an inline JavaScript reference; <code className="text-primary">internalRateOfReturn</code> is validated against a JS Newton-Raphson IRR for 4- and 12-cashflow series with strict-equality gas regression gates.
+      </p>
+      <p className="text-base font-medium text-muted text-opacity-95 mt-4">
+        <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
+        Coming soon — same five-category structure used for <a href="/docs/math#testing" className="text-primary underline">Math</a> and <a href="/docs/options#testing" className="text-primary underline">Options</a>.
+      </p>
+      <p className="text-sm text-muted text-opacity-60 mt-3">
+        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/Rates.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Rates.test.mjs</a>
+      </p>
     </div>
   );
 };

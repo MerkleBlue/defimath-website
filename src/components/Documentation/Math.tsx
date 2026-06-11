@@ -117,6 +117,57 @@ export const Math = async () => {
           </tbody>
         </table>
       </div>
+
+      <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
+      <p className="text-base font-medium text-muted text-opacity-95">
+        <span className="text-white font-semibold">Hardhat correctness layer.</span>{" "}
+        187 tests across 20 function groups. Each function is validated against the corresponding JavaScript reference (<code className="text-primary">Math.exp</code>, <code className="text-primary">Math.log</code>, <code className="text-primary">Math.sqrt</code>, <code className="text-primary">math-erf</code>) over ~200-sample sweeps that cover the full operational domain. Per-function precision thresholds match the table above. Limit tests pin behavior at min and max valid inputs; failure tests cover every documented revert path.
+      </p>
+      <p className="text-base font-medium text-muted text-opacity-95 mt-4">
+        <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
+        28 mathematical properties, each fuzzed with 10,000 random inputs per CI run (= <span className="text-white font-semibold">280,000 random executions</span>). Counterexamples are automatically shrunk on failure.
+      </p>
+      <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto mt-4">
+        <table className="w-full text-base">
+          <thead>
+            <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+              <th className="py-3 px-4 font-medium whitespace-nowrap">Category</th>
+              <th className="py-3 px-4 font-medium text-right">Count</th>
+              <th className="py-3 px-4 font-medium">What they check</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Round-trips</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">5</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">ln(exp(x)) ≈ x</code>, <code className="text-primary">exp(ln(x)) ≈ x</code>, <code className="text-primary">sqrt²(x) ≈ x</code>, <code className="text-primary">cbrt³(x) ≈ x</code>, <code className="text-primary">exp(x)·exp(-x) ≈ 1</code></td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Monotonicity</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">5</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">exp</code>, <code className="text-primary">ln</code>, <code className="text-primary">sqrt</code>, <code className="text-primary">Φ</code>, <code className="text-primary">erf</code> all preserve input ordering</td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Identities</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">8</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">expm1 = exp − 1</code>, <code className="text-primary">log1p = ln(1 + x)</code>, pow at exponents 0/1/2, <code className="text-primary">mul = mulDiv(_, _, 1e18)</code>, <code className="text-primary">mulDiv = a·b/d</code>, <code className="text-primary">min + max = a + b</code>, <code className="text-primary">avg = (a + b)/2</code></td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Output bounds</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">6</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">Φ ∈ [0, 1]</code>, <code className="text-primary">erf ∈ [-1, 1]</code>, pow always non-negative, <code className="text-primary">min ≤ max</code>, <code className="text-primary">clamp ∈ [lo, hi]</code>, <code className="text-primary">avg ∈ [min, max]</code></td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Symmetries</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">3</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">Φ(x) + Φ(-x) = 1</code>, <code className="text-primary">erf(-x) = -erf(x)</code>, <code className="text-primary">abs(-x) = abs(x)</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="text-sm text-muted text-opacity-60 mt-3">
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/Math.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Math.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Math.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Math.t.sol</a>
+      </p>
     </div>
   );
 };

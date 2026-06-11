@@ -122,6 +122,19 @@ export const Futures = async () => {
           </tbody>
         </table>
       </div>
+
+      <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
+      <p className="text-base font-medium text-muted text-opacity-95">
+        <span className="text-white font-semibold">Hardhat correctness layer.</span>{" "}
+        13 tests on the single <code className="text-primary">futurePrice</code> function. Behaviour test sweeps 10 time × 20 rate = 200 samples covering <code className="text-primary">t ∈ [0, 1y)</code> and <code className="text-primary">rate ∈ [0, 4)</code> validated against <code className="text-primary">spot · Math.exp(rate · t)</code>. Random test runs 200 log-uniform (spot, t, rate) triples. Limits pin behavior at SPOT_MIN, SPOT_MAX, TIME_MAX, RATE_MAX, and the expired/zero-carry corners.
+      </p>
+      <p className="text-base font-medium text-muted text-opacity-95 mt-4">
+        <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
+        Coming soon — same five-category structure used for <a href="/docs/math#testing" className="text-primary underline">Math</a> and <a href="/docs/options#testing" className="text-primary underline">Options</a>.
+      </p>
+      <p className="text-sm text-muted text-opacity-60 mt-3">
+        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/Futures.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Futures.test.mjs</a>
+      </p>
     </div>
   );
 };
