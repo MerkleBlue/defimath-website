@@ -17,7 +17,7 @@ type NavSection = {
 };
 
 const DocsNav: NavSection[] = [
-  { id: 1, label: "Overview", hash: "overview", topHref: "/docs" },
+  { id: 1, label: "Introduction", hash: "introduction", topHref: "/docs" },
   {
     id: 3,
     label: "Math",
@@ -94,7 +94,7 @@ export const DocNavigation = () => {
   )?.name;
   const isOnModulePage = !!activeFromPath && !activeFunctionName;
 
-  const [scrollActive, setScrollActive] = useState("overview");
+  const [scrollActive, setScrollActive] = useState("introduction");
   const visibleRef = useRef<Set<string>>(new Set());
   // Top-level highlight: on index, scroll-spy section; on module page, that section.
   // On function pages, the function sub-link is highlighted instead.

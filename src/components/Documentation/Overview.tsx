@@ -4,7 +4,7 @@ export const Overview = () => {
   return (
     <div>
       <div className="flex flex-wrap items-center gap-3 mt-10 mb-3">
-        <h1 id="overview" className="text-40 md:text-44 lg:text-54 font-semibold text-white scroll-mt-28 md:scroll-mt-[180px]">Overview</h1>
+        <h1 id="introduction" className="text-40 md:text-44 lg:text-54 font-semibold text-white scroll-mt-28 md:scroll-mt-[180px]">Introduction</h1>
         <span className="text-sm font-semibold text-darkmode bg-primary rounded px-2.5 py-1">
           v3.3.0
         </span>
