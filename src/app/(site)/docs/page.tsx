@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { Breadcrumb } from "@/components/Documentation/Breadcrumb";
 import { CodeBlock } from "@/components/CodeBlock";
 import { Overview } from "@/components/Documentation/Overview";
@@ -16,24 +15,28 @@ pragma solidity ^0.8.31;
 
 import "defimath-lib/contracts/derivatives/Options.sol";
 
-contract OptionsExchange {
-    function quote(
+contract OptionsPricer {
+    function priceCall(
         uint128 spot, uint128 strike, uint32 timeToExp,
         uint64 vol, uint64 rate
-    ) external pure returns (uint256 callPx, uint256 putPx) {
-        callPx = DeFiMathOptions.callOptionPrice(spot, strike, timeToExp, vol, rate);
-        putPx  = DeFiMathOptions.putOptionPrice(spot, strike, timeToExp, vol, rate);
+    ) external pure returns (uint256) {
+        return DeFiMathOptions.callOptionPrice(spot, strike, timeToExp, vol, rate);
     }
 }`;
 
-const MODULES = [
-    { href: "/docs/math", title: "Math", blurb: "Exp, log, sqrt, pow, standard normal CDF, error function, and more." },
-    { href: "/docs/options", title: "Options", blurb: "Black-Scholes pricing, full Greeks, and an iterative implied-volatility solver." },
-    { href: "/docs/binary", title: "Binary options", blurb: "Cash-or-nothing call and put pricing with full Greeks." },
-    { href: "/docs/futures", title: "Futures", blurb: "Continuous-compounding futures price." },
-    { href: "/docs/rates", title: "Rates", blurb: "Compound interest, present value, log returns, YTM, IRR." },
-    { href: "/docs/statistics", title: "Statistics", blurb: "Mean, std dev, historical volatility, Sharpe, max drawdown, VaR, CVaR." },
-];
+const MATH_EXAMPLE = `// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.31;
+
+import "defimath-lib/contracts/math/Math.sol";
+
+contract Confidence {
+    // P(-k < Z < k) = 2·Φ(k) - 1 — probability that a normally-distributed
+    // value falls within k standard deviations of the mean (e.g., k=1 → ~68%,
+    // k=2 → ~95%, k=3 → ~99.7%). The 68-95-99.7 rule on-chain.
+    function withinKStdevs(int256 k) external pure returns (uint256) {
+        return 2 * DeFiMath.stdNormCDF(k) - 1e18;
+    }
+}`;
 
 type BenchmarkRow = { fn: string; defimath: string; nextBest: string; nextLib: string; multiple: string; highlight: boolean };
 const BENCHMARKS: BenchmarkRow[] = [
@@ -56,7 +59,7 @@ export default async function Page() {
 
             <h2 id="benchmarks" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Benchmarks</h2>
             <p className="text-base font-medium text-muted text-opacity-95">
-                Every function is benchmarked against existing on-chain implementations. A representative comparison:
+                Headline functions vs. the next-best on-chain implementation in each category:
             </p>
             <div className="mt-6 p-2 md:p-4 rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
                 <table className="w-full text-base">
@@ -171,33 +174,28 @@ export default async function Page() {
                     <li>Solidity <code className="text-primary">^0.8.31</code></li>
                     <li>EVM target <code className="text-primary">osaka</code> (Fusaka)</li>
                 </ul>
-                <p className="text-sm text-muted text-opacity-60 mt-3">
-                    The library uses the <code className="text-primary">clz</code> Yul
-                    builtin (Solidity 0.8.31+) which emits the{" "}
-                    <code className="text-primary">CLZ</code> opcode introduced in Osaka
-                    — both the compiler version and EVM target are hard requirements.
-                </p>
+                <details className="mt-3 group">
+                    <summary className="text-sm text-muted text-opacity-60 cursor-pointer hover:text-primary duration-200 list-none flex items-center gap-1">
+                        <span className="inline-block transition-transform duration-150 group-open:rotate-90">▸</span>
+                        Why these requirements?
+                    </summary>
+                    <p className="text-sm text-muted text-opacity-60 mt-2 ms-3">
+                        The library uses the <code className="text-primary">clz</code> Yul
+                        builtin (Solidity 0.8.31+) which emits the{" "}
+                        <code className="text-primary">CLZ</code> opcode introduced in Osaka
+                        — both the compiler version and EVM target are hard requirements.
+                    </p>
+                </details>
             </div>
             <h2 id="import-and-use" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Import and use</h2>
+            <p className="text-base font-medium text-muted text-opacity-95 mt-3 mb-4">
+                Pricing a European call option — every other module imports the same way.
+            </p>
             <CodeBlock code={IMPORT_USE} />
-
-            <h2 id="modules" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Modules</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {MODULES.map((m) => (
-                    <Link
-                        key={m.href}
-                        href={m.href}
-                        className="group p-5 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200"
-                    >
-                        <h5 className="text-lg font-semibold text-white group-hover:text-primary duration-200">
-                            {m.title}
-                        </h5>
-                        <p className="text-sm font-medium text-muted text-opacity-60 mt-1">
-                            {m.blurb}
-                        </p>
-                    </Link>
-                ))}
-            </div>
+            <p className="text-base font-medium text-muted text-opacity-95 mt-6 mb-4">
+                Or composing math primitives directly — the 68-95-99.7 rule, on-chain:
+            </p>
+            <CodeBlock code={MATH_EXAMPLE} />
         </>
     );
 }
