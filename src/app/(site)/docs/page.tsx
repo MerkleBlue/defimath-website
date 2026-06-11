@@ -54,40 +54,6 @@ export default async function Page() {
             <Breadcrumb items={[{ label: "Docs" }]} />
             <Overview />
 
-            <h2 id="getting-started" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Getting started</h2>
-            <p className="text-base font-medium text-muted text-opacity-95 mt-3">
-                DeFiMath is{" "}
-                <a
-                    href="https://www.npmjs.com/package/defimath-lib"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary underline"
-                >
-                    published on npm
-                </a>{" "}
-                as <code className="text-primary">defimath-lib</code>.
-            </p>
-            <InstallCommand className="mt-6" />
-            <div className="mt-6 p-6 rounded-md border border-dark_border border-opacity-60">
-                <p className="text-white font-medium mb-3">Compiler requirements</p>
-                <ul className="list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95">
-                    <li>Solidity <code className="text-primary">^0.8.31</code></li>
-                    <li>EVM target <code className="text-primary">osaka</code> (Fusaka)</li>
-                </ul>
-                <p className="text-sm text-muted text-opacity-60 mt-3">
-                    The library uses the <code className="text-primary">clz</code> Yul
-                    builtin (Solidity 0.8.31+) which emits the{" "}
-                    <code className="text-primary">CLZ</code> opcode introduced in Osaka
-                    — both the compiler version and EVM target are hard requirements.
-                </p>
-            </div>
-            <h2 id="import-and-use" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Import and use</h2>
-            <CodeBlock code={IMPORT_USE} />
-            <p className="text-base font-medium text-muted text-opacity-95 mt-3">
-                All values use 18-decimal fixed-point (<code className="text-primary">1e18 = 1.0</code>).
-                Time is in seconds. See module docs for full parameter conventions.
-            </p>
-
             <h2 id="benchmarks" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Benchmarks</h2>
             <p className="text-base font-medium text-muted text-opacity-95">
                 Every function is benchmarked against existing on-chain implementations. A representative comparison:
@@ -135,6 +101,71 @@ export default async function Page() {
                 >
                     defimath-compare README
                 </a>.
+            </p>
+
+            <h2 id="testing" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h2>
+            <p className="text-base font-medium text-muted text-opacity-95 mt-3">
+                DeFiMath ships with two independent test layers — a correctness layer and a property-fuzz layer:
+            </p>
+            <ol className="list-decimal list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
+                <li>
+                    <span className="text-white font-semibold">Hardhat</span> — 565 tests validating against external JavaScript references (<code className="text-primary">Math.exp</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain, plus strict-equality gas-regression assertions on every performance test.
+                </li>
+                <li>
+                    <span className="text-white font-semibold">Foundry</span> — 43 property-based fuzz tests × 10,000 random runs each = <span className="text-white font-semibold">430,000 random executions per CI run</span>. Validates the algebraic structure: round-trips, monotonicity, identities, output bounds, symmetries. Foundry automatically shrinks counterexamples on failure.
+                </li>
+            </ol>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+                <div className="p-5 rounded-md border border-dark_border border-opacity-60">
+                    <p className="text-primary text-2xl font-semibold">608</p>
+                    <p className="text-sm text-muted text-opacity-60 mt-1">Total tests (Hardhat + Foundry)</p>
+                </div>
+                <div className="p-5 rounded-md border border-dark_border border-opacity-60">
+                    <p className="text-primary text-2xl font-semibold">430,000</p>
+                    <p className="text-sm text-muted text-opacity-60 mt-1">Random executions per CI run</p>
+                </div>
+                <div className="p-5 rounded-md border border-dark_border border-opacity-60">
+                    <p className="text-primary text-2xl font-semibold">~30 s</p>
+                    <p className="text-sm text-muted text-opacity-60 mt-1">Full suite wall-time</p>
+                </div>
+            </div>
+            <p className="text-base font-medium text-muted text-opacity-95 mt-4">
+                Each module page has a <span className="text-white font-semibold">Testing</span> section detailing what&apos;s specifically covered. All code lives in <code className="text-primary">test/</code> on{" "}
+                <a href="https://github.com/MerkleBlue/defimath/tree/master/test" target="_blank" rel="noopener noreferrer" className="text-primary underline">GitHub</a>.
+            </p>
+
+            <h2 id="getting-started" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Getting started</h2>
+            <p className="text-base font-medium text-muted text-opacity-95 mt-3">
+                DeFiMath is{" "}
+                <a
+                    href="https://www.npmjs.com/package/defimath-lib"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary underline"
+                >
+                    published on npm
+                </a>{" "}
+                as <code className="text-primary">defimath-lib</code>.
+            </p>
+            <InstallCommand className="mt-6" />
+            <div className="mt-6 p-6 rounded-md border border-dark_border border-opacity-60">
+                <p className="text-white font-medium mb-3">Compiler requirements</p>
+                <ul className="list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95">
+                    <li>Solidity <code className="text-primary">^0.8.31</code></li>
+                    <li>EVM target <code className="text-primary">osaka</code> (Fusaka)</li>
+                </ul>
+                <p className="text-sm text-muted text-opacity-60 mt-3">
+                    The library uses the <code className="text-primary">clz</code> Yul
+                    builtin (Solidity 0.8.31+) which emits the{" "}
+                    <code className="text-primary">CLZ</code> opcode introduced in Osaka
+                    — both the compiler version and EVM target are hard requirements.
+                </p>
+            </div>
+            <h2 id="import-and-use" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Import and use</h2>
+            <CodeBlock code={IMPORT_USE} />
+            <p className="text-base font-medium text-muted text-opacity-95 mt-3">
+                All values use 18-decimal fixed-point (<code className="text-primary">1e18 = 1.0</code>).
+                Time is in seconds. See module docs for full parameter conventions.
             </p>
 
             <h2 id="modules" className="text-2xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Modules</h2>
