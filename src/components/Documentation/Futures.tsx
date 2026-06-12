@@ -76,7 +76,7 @@ export const Futures = async () => {
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-4">
         <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
-        9 mathematical properties × 10,000 random runs each = <span className="text-white font-semibold">90,000 random executions per CI run</span>.
+        9 mathematical properties × 32,000 random runs each = <span className="text-white font-semibold">288,000 random executions per CI run</span>.
       </p>
       <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto mt-4">
         <table className="w-full text-base">

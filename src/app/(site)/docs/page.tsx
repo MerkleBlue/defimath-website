@@ -125,7 +125,7 @@ export default async function Page() {
 
             <h3 id="testing-foundry" className="text-xl font-semibold text-white mt-8 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Foundry property-fuzz layer</h3>
             <p className="text-base font-medium text-muted text-opacity-95">
-                92 mathematical properties × 10,000 random runs each = <span className="text-white font-semibold">920,000 random executions per CI run</span>. Validates the algebraic structure of the library, not just concrete points. Foundry automatically shrinks counterexamples on failure. Properties are organized into five categories:
+                92 mathematical properties × 32,000 random runs each = <span className="text-white font-semibold">2,944,000 random executions per CI run</span>. Validates the algebraic structure of the library, not just concrete points. Foundry automatically shrinks counterexamples on failure. Properties are organized into five categories:
             </p>
             <ul className="list-disc list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
                 <li><span className="text-white font-semibold">Round-trips</span> — composing a function with its inverse recovers the input within tolerance</li>
@@ -141,11 +141,11 @@ export default async function Page() {
                     <p className="text-sm text-muted text-opacity-60 mt-1">Total tests (Hardhat + Foundry)</p>
                 </div>
                 <div className="p-5 rounded-md border border-dark_border border-opacity-60">
-                    <p className="text-primary text-2xl font-semibold">920,000</p>
+                    <p className="text-primary text-2xl font-semibold">2,944,000</p>
                     <p className="text-sm text-muted text-opacity-60 mt-1">Random executions per CI run</p>
                 </div>
                 <div className="p-5 rounded-md border border-dark_border border-opacity-60">
-                    <p className="text-primary text-2xl font-semibold">~30 s</p>
+                    <p className="text-primary text-2xl font-semibold">&lt; 1 min</p>
                     <p className="text-sm text-muted text-opacity-60 mt-1">Full suite wall-time</p>
                 </div>
             </div>
