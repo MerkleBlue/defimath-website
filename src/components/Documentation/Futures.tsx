@@ -59,10 +59,6 @@ export const Futures = async () => {
           <span className="text-white font-semibold">No strike — this is a forward, not an option.</span>{" "}
           For option pricing, use the <a href="/docs/options" className="text-primary underline">Options module</a>; for cash-or-nothing digitals, use <a href="/docs/binary" className="text-primary underline">Binary options</a>.
         </li>
-        <li>
-          <span className="text-white font-semibold">Lowest gas in the library.</span>{" "}
-          ~400 gas total — typically cheaper than reading a single storage slot, so feel free to call it inline.
-        </li>
       </ul>
 
       <p className="text-base font-medium text-muted text-opacity-95 mt-6">
