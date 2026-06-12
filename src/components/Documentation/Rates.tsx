@@ -94,10 +94,48 @@ export const Rates = async () => {
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-4">
         <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
-        Coming soon — same five-category structure used for <a href="/docs/math#testing" className="text-primary underline">Math</a> and <a href="/docs/options#testing" className="text-primary underline">Options</a>.
+        15 mathematical properties × 10,000 random runs each = <span className="text-white font-semibold">150,000 random executions per CI run</span>.
       </p>
+      <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto mt-4">
+        <table className="w-full text-base">
+          <thead>
+            <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+              <th className="py-3 px-4 font-medium whitespace-nowrap">Category</th>
+              <th className="py-3 px-4 font-medium text-right">Count</th>
+              <th className="py-3 px-4 font-medium">What they check</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Round-trips</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">5</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">PV(CI(P, r, t), r, t) ≈ P</code>, <code className="text-primary">CI(PV(FV, r, t), r, t) ≈ FV</code>, APR↔APY round-trip (<code className="text-primary">d2c(c2d(r)) ≈ r</code>), reverse (<code className="text-primary">c2d(d2c(r)) ≈ r</code>), bond YTM round-trip (<code className="text-primary">PV(F, YTM(P, F, t), t) ≈ P</code>)</td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Monotonicity</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">4</td>
+              <td className="py-2 px-4 text-muted text-opacity-95">CI ↑ in principal, PV ↑ in futureValue, PV ↓ in rate, <code className="text-primary">continuousToDiscrete</code> ↑ in apr</td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Identities</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">3</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">CI(P, 0, t) = P</code>, <code className="text-primary">CI(P, r, 0) = P</code>, <code className="text-primary">logReturn(p, p) = 0</code></td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Output bounds</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">2</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">CI ≥ principal</code> (for rate ≥ 0), <code className="text-primary">PV ≤ futureValue</code> (for rate ≥ 0)</td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Symmetries</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">1</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">logReturn(p1, p0) = −logReturn(p0, p1)</code> (anti-symmetric in argument order)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Rates.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Rates.test.mjs</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Rates.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Rates.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Rates.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Rates.t.sol</a>
       </p>
     </div>
   );
