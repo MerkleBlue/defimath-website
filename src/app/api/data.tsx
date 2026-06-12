@@ -113,7 +113,11 @@ export const featuresData: {
     link: { href: "/docs", label: "See the full list" },
   },
   { value: "0 dependencies", description: "pure Solidity ^0.8.31, MIT licensed" },
-  { value: "100% test coverage", description: "every branch, every edge case" },
+  {
+    value: "100% test coverage",
+    description: "+ 92 property-based fuzz tests, 2.94M random executions per CI run",
+    link: { href: "/docs/#testing", label: "See testing methodology" },
+  },
 ];
 
 export const connectData: {
