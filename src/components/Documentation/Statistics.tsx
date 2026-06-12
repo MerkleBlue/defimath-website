@@ -97,83 +97,9 @@ export const Statistics = async () => {
         </li>
       </ul>
 
-      <h3 id="limits-and-errors" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Limits &amp; errors</h3>
-      <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto mb-6">
-        <table className="w-full text-base">
-          <thead>
-            <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
-              <th className="py-3 px-4 font-medium whitespace-nowrap">Constant</th>
-              <th className="py-3 px-4 font-medium">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MAX_VALUE</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">1e15 (largest allowed value per array element)</td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MAX_ARRAY_LENGTH</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">1024 (gas-bomb guard on array inputs)</td>
-            </tr>
-            <tr>
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MAX_RATE</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">400% annual (<code className="text-primary">4e18</code>)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
-        <table className="w-full text-base">
-          <thead>
-            <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
-              <th className="py-3 px-4 font-medium whitespace-nowrap">Error</th>
-              <th className="py-3 px-4 font-medium">Trigger</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">ArrayLengthMismatchError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">weightedAverage</code> when values[] and weights[] differ in length</td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">ArrayLengthLowerBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">Array shorter than the minimum required by the function</td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">ArrayLengthUpperBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">Array exceeds <code className="text-primary">MAX_ARRAY_LENGTH</code></td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">ValueUpperBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">Any element exceeds <code className="text-primary">MAX_VALUE</code></td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">WeightSumZeroError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">weightedAverage</code> when Σweights == 0</td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">PriceLowerBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">Any price is 0 (can&apos;t take log of zero)</td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">IntervalLowerBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">historicalVolatility</code> / <code className="text-primary">sharpeRatio</code> when <code className="text-primary">intervalSec == 0</code></td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">RateUpperBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">sharpeRatio</code> when <code className="text-primary">riskFreeRateAnnual ≥ MAX_RATE</code></td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">VolatilityZeroError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">sharpeRatio</code> when sample std dev is zero (undefined)</td>
-            </tr>
-            <tr>
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">ConfidenceOutOfRangeError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">valueAtRisk</code> / <code className="text-primary">conditionalValueAtRisk</code> when confidence ∉ (0, 1)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <p className="text-base font-medium text-muted text-opacity-95 mt-6">
+        Every function reverts on out-of-bounds inputs with a named error — see the per-function pages for limits and error specifics.
+      </p>
 
       <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
       <p className="text-base font-medium text-muted text-opacity-95">

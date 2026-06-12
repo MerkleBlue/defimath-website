@@ -65,63 +65,9 @@ export const Futures = async () => {
         </li>
       </ul>
 
-      <h3 id="limits-and-errors" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Limits &amp; errors</h3>
-      <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto mb-6">
-        <table className="w-full text-base">
-          <thead>
-            <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
-              <th className="py-3 px-4 font-medium whitespace-nowrap">Constant</th>
-              <th className="py-3 px-4 font-medium">Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MIN_SPOT</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">1e-6 (smallest allowed spot price)</td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MAX_SPOT</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">1e15 (largest allowed spot price)</td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MAX_EXPIRATION</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">2 years (63,072,000 seconds)</td>
-            </tr>
-            <tr>
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">MAX_RATE</td>
-              <td className="py-2 px-4 text-muted text-opacity-95">400% annual (<code className="text-primary">4e18</code>)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
-        <table className="w-full text-base">
-          <thead>
-            <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
-              <th className="py-3 px-4 font-medium whitespace-nowrap">Error</th>
-              <th className="py-3 px-4 font-medium">Trigger</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">SpotLowerBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">spot ≤ MIN_SPOT</code></td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">SpotUpperBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">spot ≥ MAX_SPOT</code></td>
-            </tr>
-            <tr className="border-b border-dark_border border-opacity-20">
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">TimeToExpiryUpperBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">timeToExp ≥ MAX_EXPIRATION</code></td>
-            </tr>
-            <tr>
-              <td className="py-2 px-4 font-mono text-primary whitespace-nowrap">RateUpperBoundError</td>
-              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">rate ≥ MAX_RATE</code></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <p className="text-base font-medium text-muted text-opacity-95 mt-6">
+        Every function reverts on out-of-bounds inputs with a named error — see the per-function pages for limits and error specifics.
+      </p>
 
       <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
       <p className="text-base font-medium text-muted text-opacity-95">
