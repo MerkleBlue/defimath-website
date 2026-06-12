@@ -92,10 +92,43 @@ export const BinaryOptions = async () => {
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-4">
         <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
-        Coming soon — same five-category structure (round-trips, monotonicity, identities, output bounds, symmetries) used for <a href="/docs/math#testing" className="text-primary underline">Math</a> and <a href="/docs/options#testing" className="text-primary underline">Options</a>.
+        13 mathematical properties × 10,000 random runs each = <span className="text-white font-semibold">130,000 random executions per CI run</span>.
       </p>
+      <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto mt-4">
+        <table className="w-full text-base">
+          <thead>
+            <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+              <th className="py-3 px-4 font-medium whitespace-nowrap">Category</th>
+              <th className="py-3 px-4 font-medium text-right">Count</th>
+              <th className="py-3 px-4 font-medium">What they check</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Monotonicity</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">4</td>
+              <td className="py-2 px-4 text-muted text-opacity-95">binary call ↑ in spot, put ↓ in spot, call ↓ in strike, put ↑ in strike</td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Identities</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">3</td>
+              <td className="py-2 px-4 text-muted text-opacity-95">binary put-call parity (<code className="text-primary">BC + BP = e<sup>−rT</sup></code>), <code className="text-primary">δ<sub>call</sub> + δ<sub>put</sub> = 0</code>, <code className="text-primary">θ<sub>call</sub> + θ<sub>put</sub> = r·e<sup>−rT</sup>/365</code></td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Output bounds</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">4</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">BC ∈ [0, 1]</code>, <code className="text-primary">BP ∈ [0, 1]</code>, <code className="text-primary">δ<sub>call</sub> ≥ 0</code>, <code className="text-primary">δ<sub>put</sub> ≤ 0</code></td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Symmetries</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">2</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">γ<sub>call</sub> = −γ<sub>put</sub></code>, <code className="text-primary">ν<sub>call</sub> = −ν<sub>put</sub></code> (unique to binary — BC+BP is constant in spot and vol)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Binary.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Binary.test.mjs</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Binary.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Binary.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Binary.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Binary.t.sol</a>
       </p>
     </div>
   );
