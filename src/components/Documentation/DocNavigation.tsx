@@ -133,19 +133,14 @@ export const DocNavigation = () => {
     return () => observer.disconnect();
   }, [isIndex]);
 
-  // Expanded sections — auto-expand the active section; remember user-toggled state.
+  // Expanded sections — only the active module stays expanded. Navigating to a
+  // different module collapses any previously-expanded sections so the sidebar
+  // reflects "where am I now," not "where have I been."
   const [expanded, setExpanded] = useState<Set<string>>(() => {
     return new Set(activeFromPath ? [activeFromPath.hash] : []);
   });
   useEffect(() => {
-    if (activeFromPath) {
-      setExpanded((prev) => {
-        if (prev.has(activeFromPath.hash)) return prev;
-        const next = new Set(prev);
-        next.add(activeFromPath.hash);
-        return next;
-      });
-    }
+    setExpanded(activeFromPath ? new Set([activeFromPath.hash]) : new Set());
   }, [activeFromPath]);
 
   const toggle = (hash: string) =>
