@@ -1,6 +1,7 @@
 import { CodeBlock } from "../CodeBlock";
 import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
+import { DocPageNav } from "./DocPageNav";
 
 const MATH_EXAMPLE = `import "defimath-lib/contracts/math/Math.sol";
 
@@ -146,6 +147,7 @@ export const Math = async () => {
       <p className="text-sm text-muted text-opacity-60 mt-3">
         Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Math.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Math.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Math.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Math.t.sol</a>
       </p>
+      <DocPageNav />
     </div>
   );
 };

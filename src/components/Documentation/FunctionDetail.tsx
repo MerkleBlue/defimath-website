@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { Breadcrumb, BreadcrumbItem } from "./Breadcrumb";
 import { CodeBlock } from "../CodeBlock";
+import { DocPageNav } from "./DocPageNav";
 
 type ParamRow = { name: string; type: string; description: ReactNode };
 
@@ -222,6 +223,8 @@ export const FunctionDetail = async ({
           </Link>
         </div>
       )}
+
+      <DocPageNav />
     </article>
   );
 };

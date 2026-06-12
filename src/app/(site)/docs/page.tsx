@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Breadcrumb } from "@/components/Documentation/Breadcrumb";
 import { CodeBlock } from "@/components/CodeBlock";
+import { DocPageNav } from "@/components/Documentation/DocPageNav";
 import { Overview } from "@/components/Documentation/Overview";
 import { InstallCommand } from "@/components/InstallCommand";
 
@@ -196,6 +197,8 @@ export default async function Page() {
                 Or composing math primitives directly — the 68-95-99.7 rule, on-chain:
             </p>
             <CodeBlock code={MATH_EXAMPLE} />
+
+            <DocPageNav />
         </>
     );
 }

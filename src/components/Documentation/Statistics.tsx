@@ -1,6 +1,7 @@
 import { CodeBlock } from "../CodeBlock";
 import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
+import { DocPageNav } from "./DocPageNav";
 
 const STATS_EXAMPLE = `import "defimath-lib/contracts/finance/Stats.sol";
 
@@ -146,6 +147,7 @@ export const Statistics = async () => {
       <p className="text-sm text-muted text-opacity-60 mt-3">
         Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Stats.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Stats.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Stats.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Stats.t.sol</a>
       </p>
+      <DocPageNav />
     </div>
   );
 };

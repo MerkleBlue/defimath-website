@@ -1,6 +1,7 @@
 import { CodeBlock } from "../CodeBlock";
 import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
+import { DocPageNav } from "./DocPageNav";
 
 const BINARY_EXAMPLE = `import "defimath-lib/contracts/derivatives/Binary.sol";
 
@@ -130,6 +131,7 @@ export const BinaryOptions = async () => {
       <p className="text-sm text-muted text-opacity-60 mt-3">
         Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Binary.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Binary.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Binary.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Binary.t.sol</a>
       </p>
+      <DocPageNav />
     </div>
   );
 };
