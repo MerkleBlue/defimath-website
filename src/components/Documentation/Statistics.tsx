@@ -108,10 +108,43 @@ export const Statistics = async () => {
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-4">
         <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
-        Coming soon — same five-category structure used for <a href="/docs/math#testing" className="text-primary underline">Math</a> and <a href="/docs/options#testing" className="text-primary underline">Options</a>.
+        12 mathematical properties × 10,000 random runs each = <span className="text-white font-semibold">120,000 random executions per CI run</span>.
       </p>
+      <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto mt-4">
+        <table className="w-full text-base">
+          <thead>
+            <tr className="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+              <th className="py-3 px-4 font-medium whitespace-nowrap">Category</th>
+              <th className="py-3 px-4 font-medium text-right">Count</th>
+              <th className="py-3 px-4 font-medium">What they check</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Monotonicity</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">1</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">geometricMean</code> ↑ in first argument</td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Identities</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">7</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">geometricMean(a, a) = a</code>, <code className="text-primary">mean(constant) = constant</code>, <code className="text-primary">stdDev(constant) = 0</code>, <code className="text-primary">maxDrawdown(increasing) = 0</code>, <code className="text-primary">weightedAverage(equal_weights) = mean</code>, mean scales linearly (<code className="text-primary">mean(2·v) = 2·mean(v)</code>), stdDev scales linearly</td>
+            </tr>
+            <tr className="border-b border-dark_border border-opacity-20">
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Output bounds</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">3</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">min ≤ mean ≤ max</code>, <code className="text-primary">min(a, b) ≤ geometricMean ≤ max(a, b)</code>, <code className="text-primary">maxDrawdown ∈ [0, 1]</code></td>
+            </tr>
+            <tr>
+              <td className="py-2 px-4 font-semibold text-white whitespace-nowrap">Symmetries</td>
+              <td className="py-2 px-4 text-right text-muted text-opacity-95">1</td>
+              <td className="py-2 px-4 text-muted text-opacity-95"><code className="text-primary">geometricMean(a, b) = geometricMean(b, a)</code> — argument-order independence</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Source: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Stats.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Stats.test.mjs</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Stats.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Stats.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Stats.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Stats.t.sol</a>
       </p>
     </div>
   );
