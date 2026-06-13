@@ -56,10 +56,11 @@ export default function Page() {
             )}
             limits={{
                 constants: [
-                    { name: "EXP_UPPER_BOUND", value: <><code className="text-primary">135.305999…e18</code> — inherited from <code className="text-primary">exp</code> on the fallback branch for <code className="text-primary">|x| ≥ 0.01</code>.</> },
+                    { name: "EXP_UPPER_BOUND", value: <><code className="text-primary">135.305999…e18</code> — inherited from <code className="text-primary">exp</code> on the fallback branch (<code className="text-primary">|x| ≥ 0.01</code>). At <code className="text-primary">x ≥ EXP_UPPER_BOUND</code> the function reverts.</> },
+                    { name: "EXP_LOWER_BOUND", value: <><code className="text-primary">−41.446531…e18</code> — also inherited from <code className="text-primary">exp</code>. At <code className="text-primary">x ≤ EXP_LOWER_BOUND</code> the inner <code className="text-primary">exp(x)</code> silently returns <code className="text-primary">0</code>, so <code className="text-primary">expm1</code> returns <code className="text-primary">−1e18</code> (the asymptotic limit of <code className="text-primary">e^x − 1</code> as <code className="text-primary">x → −∞</code>) — no revert.</> },
                 ],
                 errors: [
-                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">|x| ≥ EXP_UPPER_BOUND</code> (via fallback to <code className="text-primary">exp</code>)</> },
+                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">x ≥ EXP_UPPER_BOUND</code> (positive overflow only — via the internal call to <code className="text-primary">exp</code>; the negative branch silently underflows to <code className="text-primary">−1e18</code>)</> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

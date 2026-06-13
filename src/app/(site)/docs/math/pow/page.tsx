@@ -53,11 +53,12 @@ export default function Page() {
             )}
             limits={{
                 constants: [
-                    { name: "EXP_UPPER_BOUND", value: <><code className="text-primary">135.305999…e18</code> — saturation magnitude on the composed exponent <code className="text-primary">a · ln(x)</code>. Below <code className="text-primary">−41.45e18</code> the result underflows silently to <code className="text-primary">0</code>.</> },
+                    { name: "EXP_UPPER_BOUND", value: <><code className="text-primary">135.305999…e18</code> — inherited from <code className="text-primary">exp</code>, applied to the composed exponent <code className="text-primary">a · ln(x)</code>. At <code className="text-primary">a · ln(x) ≥ EXP_UPPER_BOUND</code> the function reverts.</> },
+                    { name: "EXP_LOWER_BOUND", value: <><code className="text-primary">−41.446531…e18</code> — also inherited from <code className="text-primary">exp</code>. At <code className="text-primary">a · ln(x) ≤ EXP_LOWER_BOUND</code> the inner <code className="text-primary">exp(…)</code> silently returns <code className="text-primary">0</code>, so <code className="text-primary">pow</code> returns <code className="text-primary">0</code> — graceful underflow, no revert.</> },
                 ],
                 errors: [
                     { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code> and <code className="text-primary">a ≠ 0</code> (via the internal call to <code className="text-primary">ln</code>; the fast path <code className="text-primary">x⁰ = 1</code> skips this for any <code className="text-primary">x</code>, including 0)</> },
-                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">|a · ln(x)| ≥ EXP_UPPER_BOUND</code> (via the internal call to <code className="text-primary">exp</code>)</> },
+                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">a · ln(x) ≥ EXP_UPPER_BOUND</code> (positive overflow only — via the internal call to <code className="text-primary">exp</code>; sufficiently negative exponents silently underflow to <code className="text-primary">0</code>)</> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";
