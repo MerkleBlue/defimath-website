@@ -37,10 +37,10 @@ export const BinaryOptions = async () => {
         rows={[
           { name: "binaryCallPrice", gas: "2,018", description: "Cash-or-nothing call: e^(−r·τ) · Φ(d₂)" },
           { name: "binaryPutPrice", gas: "2,023", description: "Cash-or-nothing put" },
-          { name: "binaryDelta", gas: "1,825", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
-          { name: "binaryGamma", gas: "1,967", description: "Second derivative w.r.t. spot — returns (Γcall, Γput)" },
-          { name: "binaryTheta", gas: "3,353", description: "Time decay, per day — returns (Θcall, Θput)" },
-          { name: "binaryVega", gas: "1,913", description: "Sensitivity per 1% vol — returns (νcall, νput)" },
+          { name: "binaryDelta", gas: "1,822", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
+          { name: "binaryGamma", gas: "1,964", description: "Second derivative w.r.t. spot — returns (Γcall, Γput)" },
+          { name: "binaryTheta", gas: "3,350", description: "Time decay, per day — returns (Θcall, Θput)" },
+          { name: "binaryVega", gas: "1,910", description: "Sensitivity per 1% vol — returns (νcall, νput)" },
         ]}
       />
       <InstallCommand className="mt-6" />

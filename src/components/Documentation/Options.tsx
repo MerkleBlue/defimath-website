@@ -40,9 +40,9 @@ export const Options = async () => {
           { name: "callOptionPrice", gas: "2,729", description: "European call price (Black-Scholes)", href: "/docs/options/calloptionprice" },
           { name: "putOptionPrice", gas: "2,739", description: "European put price (Black-Scholes)", href: "/docs/options/putoptionprice" },
           { name: "delta", gas: "1,724", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
-          { name: "gamma", gas: "1,499", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)" },
-          { name: "theta", gas: "3,293", description: "Time decay, per day — returns (Θcall, Θput)" },
-          { name: "vega", gas: "1,439", description: "Sensitivity per 1% vol (νcall = νput under put-call parity)" },
+          { name: "gamma", gas: "1,496", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)" },
+          { name: "theta", gas: "3,290", description: "Time decay, per day — returns (Θcall, Θput)" },
+          { name: "vega", gas: "1,436", description: "Sensitivity per 1% vol (νcall = νput under put-call parity)" },
           { name: "impliedVolatility", gas: "~12,370", description: "IV solver via Newton-Raphson" },
         ]}
       />

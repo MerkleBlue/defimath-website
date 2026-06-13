@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "exp — Math | DeFiMath docs",
-    description: "Solidity exponential function e^x in 18-decimal fixed-point. Gas-optimized at 333 gas, max rel. error 5.1e-14.",
+    description: "Solidity exponential function e^x in 18-decimal fixed-point. Gas-optimized at 331 gas, max rel. error 5.1e-14.",
     alternates: { canonical: "/docs/math/exp/" },
 };
 
@@ -17,7 +17,7 @@ export default function Page() {
             module="Math"
             name="exp"
             summary="Computes the exponential function e^x for a signed 18-decimal fixed-point input."
-            gas="333"
+            gas="331"
             precision="5.1e-14"
             signature={`function exp(int256 x) internal pure returns (uint256 y)`}
             parameters={[
@@ -45,16 +45,17 @@ export default function Page() {
                         is accurate to well below 18-decimal precision in just two squarings and a single integer division. To undo the 256× reduction we raise the result to the 256th power — four quartic squarings (<code className="text-primary">y⁴</code>, then <code className="text-primary">y¹⁶</code>, <code className="text-primary">y⁶⁴</code>, <code className="text-primary">y²⁵⁶</code>). Finally we shift left by <code className="text-primary">k</code> to apply the <code className="text-primary">2^k</code> factor.
                     </p>
                     <p>
-                        Negative inputs use the same machinery on <code className="text-primary">|x|</code>, then reciprocate: <code className="text-primary">exp(−x) = 1 / exp(x)</code>. Inputs with <code className="text-primary">|x| ≥ 135.305…</code> would overflow <code className="text-primary">uint256</code>, so the function reverts above that bound; inputs below <code className="text-primary">−41.45e18</code> underflow to 0 (the true value is sub-1e-18). The whole hot path stays in <code className="text-primary">unchecked</code> Yul assembly — no library calls, ~333 gas.
+                        Negative inputs use the same machinery on <code className="text-primary">|x|</code>, then reciprocate: <code className="text-primary">exp(−x) = 1 / exp(x)</code>. The two endpoints are asymmetric: at <code className="text-primary">x ≥ EXP_UPPER_BOUND</code> (≈ <code className="text-primary">135.306e18</code>) a positive result would overflow <code className="text-primary">uint256</code>, so the function reverts with <code className="text-primary">ExpUpperBoundError</code>. At <code className="text-primary">x ≤ EXP_LOWER_BOUND</code> (≈ <code className="text-primary">−41.446e18</code>) the true result is sub-<code className="text-primary">1e-18</code> — not representable in 18-decimal fixed-point — so the function returns <code className="text-primary">0</code> silently as a graceful underflow rather than reverting. The whole hot path stays in <code className="text-primary">unchecked</code> Yul assembly — no library calls, ~331 gas.
                     </p>
                 </>
             )}
             limits={{
                 constants: [
-                    { name: "Input |x|", value: <><code className="text-primary">&lt; 135.305999…e18</code> (reverts above this magnitude; for very negative <code className="text-primary">x &lt; −41.45e18</code> underflows silently to 0)</> },
+                    { name: "EXP_UPPER_BOUND", value: <><code className="text-primary">135.305999…e18</code> — positive-input ceiling. Above this the true result overflows <code className="text-primary">uint256</code>, so the function reverts.</> },
+                    { name: "EXP_LOWER_BOUND", value: <><code className="text-primary">−41.446531…e18</code> — negative-input floor. At <code className="text-primary">x ≤ EXP_LOWER_BOUND</code> the true result is below <code className="text-primary">1e-18</code>, so the function returns <code className="text-primary">0</code> silently (no revert).</> },
                 ],
                 errors: [
-                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">|x| ≥ 135.305999…e18</code></> },
+                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">x ≥ EXP_UPPER_BOUND</code> (positive overflow only — the negative branch underflows silently to 0)</> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

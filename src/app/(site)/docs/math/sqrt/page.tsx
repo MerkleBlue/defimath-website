@@ -51,10 +51,10 @@ export default function Page() {
             )}
             limits={{
                 constants: [
-                    { name: "Input x", value: <><code className="text-primary">&lt; 1.2089…e42</code> (true value &lt; <code className="text-primary">2⁸⁰</code> ≈ 1.2e24); <code className="text-primary">x == 0</code> returns 0 without revert</> },
+                    { name: "SQRT_UPPER_BOUND", value: <><code className="text-primary">1.2089…e42</code> — upper bound on the FP-scaled input (true value <code className="text-primary">2⁸⁰ ≈ 1.2e24</code> before the <code className="text-primary">1e18</code> shift). <code className="text-primary">x == 0</code> returns <code className="text-primary">0</code> without revert.</> },
                 ],
                 errors: [
-                    { name: "SqrtUpperBoundError", trigger: <><code className="text-primary">x ≥ 1.2089…e42</code> (true value ≥ <code className="text-primary">2⁸⁰</code>)</> },
+                    { name: "SqrtUpperBoundError", trigger: <><code className="text-primary">x ≥ SQRT_UPPER_BOUND</code></> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

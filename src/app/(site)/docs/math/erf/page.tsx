@@ -50,6 +50,11 @@ export default function Page() {
                     </p>
                 </>
             )}
+            limits={{
+                constants: [
+                    { name: "ERF_BOUND", value: <><code className="text-primary">11.63e18</code> — saturation magnitude. At <code className="text-primary">|x| ≥ ERF_BOUND</code>, <code className="text-primary">erf(x)</code> is within <code className="text-primary">1e-18</code> of <code className="text-primary">±1</code>, so the function short-circuits to the boundary without running the kernel. Never reverts.</> },
+                ],
+            }}
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 int256 x = 1e18;             // x = 1.0

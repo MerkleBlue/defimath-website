@@ -35,13 +35,13 @@ export const Math = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "exp", gas: "333", description: "Exponential function e^x", href: "/docs/math/exp" },
-          { name: "expm1", gas: "439", description: "e^x − 1 (precision-preserving for small x)", href: "/docs/math/expm1" },
+          { name: "exp", gas: "331", description: "Exponential function e^x", href: "/docs/math/exp" },
+          { name: "expm1", gas: "438", description: "e^x − 1 (precision-preserving for small x)", href: "/docs/math/expm1" },
           { name: "ln", gas: "375", description: "Natural logarithm", href: "/docs/math/ln" },
           { name: "log1p", gas: "500", description: "ln(1 + x) (precision-preserving for small x)", href: "/docs/math/log1p" },
           { name: "log2", gas: "391", description: "Base-2 logarithm", href: "/docs/math/log2" },
           { name: "log10", gas: "391", description: "Base-10 logarithm", href: "/docs/math/log10" },
-          { name: "pow", gas: "750", description: "Power function x^a", href: "/docs/math/pow" },
+          { name: "pow", gas: "748", description: "Power function x^a", href: "/docs/math/pow" },
           { name: "sqrt", gas: "245", description: "Square root", href: "/docs/math/sqrt" },
           { name: "cbrt", gas: "368", description: "Cube root", href: "/docs/math/cbrt" },
           { name: "sqrtTime", gas: "184", description: "Specialized sqrt of time in years for Black-Scholes — no input validation" },

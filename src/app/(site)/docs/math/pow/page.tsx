@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "pow — Math | DeFiMath docs",
-    description: "Solidity power function x^a in 18-decimal fixed-point. Gas-optimized at 750 gas, max rel. error 5.2e-14.",
+    description: "Solidity power function x^a in 18-decimal fixed-point. Gas-optimized at 748 gas, max rel. error 5.2e-14.",
     alternates: { canonical: "/docs/math/pow/" },
 };
 
@@ -17,7 +17,7 @@ export default function Page() {
             module="Math"
             name="pow"
             summary="Computes the power function x^a for an 18-decimal fixed-point base and signed exponent."
-            gas="750"
+            gas="748"
             precision="5.2e-14"
             signature={`function pow(uint256 x, int256 a) internal pure returns (uint256 y)`}
             parameters={[
@@ -44,7 +44,7 @@ export default function Page() {
                         DeFiMath just composes its <a href="/docs/math/ln" className="text-primary underline">ln</a> and <a href="/docs/math/exp" className="text-primary underline">exp</a> — no separate Taylor series, no special handling of integer exponents, no per-case branching. The composition inherits both functions' bounds and precision automatically, and means <code className="text-primary">pow</code> doesn't have to be re-tuned every time <code className="text-primary">ln</code> or <code className="text-primary">exp</code> get a gas tweak.
                     </p>
                     <p>
-                        One fast path: <code className="text-primary">x^0 = 1</code> (which also covers <code className="text-primary">0^0 = 1</code> by convention) short-circuits before either expensive call. Everything else flows through <code className="text-primary">ln</code>, multiplies by <code className="text-primary">a</code>, then through <code className="text-primary">exp</code> — ~750 gas total, roughly the sum of one <code className="text-primary">ln</code> (375 gas) and one <code className="text-primary">exp</code> (333 gas).
+                        One fast path: <code className="text-primary">x^0 = 1</code> (which also covers <code className="text-primary">0^0 = 1</code> by convention) short-circuits before either expensive call. Everything else flows through <code className="text-primary">ln</code>, multiplies by <code className="text-primary">a</code>, then through <code className="text-primary">exp</code> — ~748 gas total, roughly the sum of one <code className="text-primary">ln</code> (375 gas) and one <code className="text-primary">exp</code> (331 gas).
                     </p>
                     <p>
                         The composition picks up CLZ savings for free. <code className="text-primary">ln</code> uses the <code className="text-primary">CLZ</code> opcode for range reduction (see the <a href="/blog/clz-opcode-solidity" className="text-primary underline">CLZ writeup</a>), <code className="text-primary">exp</code> uses a Padé approximant on a tiny reduced range. Both stay in inline assembly. The cost of <code className="text-primary">pow</code> is exactly the cost of its parts — predictable and stable.
@@ -53,12 +53,11 @@ export default function Page() {
             )}
             limits={{
                 constants: [
-                    { name: "Base x", value: <><code className="text-primary">&gt; 0</code> when <code className="text-primary">a ≠ 0</code> (fast path: <code className="text-primary">x⁰ = 1</code> for any x, including 0)</> },
-                    { name: "a · ln(x)", value: <><code className="text-primary">&lt; 135.305999…e18</code> (composition with <code className="text-primary">exp</code>; underflows to 0 below <code className="text-primary">−41.45e18</code>)</> },
+                    { name: "EXP_UPPER_BOUND", value: <><code className="text-primary">135.305999…e18</code> — saturation magnitude on the composed exponent <code className="text-primary">a · ln(x)</code>. Below <code className="text-primary">−41.45e18</code> the result underflows silently to <code className="text-primary">0</code>.</> },
                 ],
                 errors: [
-                    { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code> and <code className="text-primary">a ≠ 0</code> (via <code className="text-primary">ln(x)</code>)</> },
-                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">a · ln(x) ≥ 135.305999…e18</code> (via <code className="text-primary">exp(a · ln(x))</code>)</> },
+                    { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code> and <code className="text-primary">a ≠ 0</code> (via the internal call to <code className="text-primary">ln</code>; the fast path <code className="text-primary">x⁰ = 1</code> skips this for any <code className="text-primary">x</code>, including 0)</> },
+                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">|a · ln(x)| ≥ EXP_UPPER_BOUND</code> (via the internal call to <code className="text-primary">exp</code>)</> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

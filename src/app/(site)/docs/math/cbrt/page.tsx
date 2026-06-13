@@ -51,10 +51,10 @@ export default function Page() {
             )}
             limits={{
                 constants: [
-                    { name: "Input x", value: <><code className="text-primary">&lt; 7.5557…e40</code> (true value &lt; <code className="text-primary">2⁷⁶</code> ≈ 7.6e22); <code className="text-primary">x == 0</code> returns 0 without revert</> },
+                    { name: "CBRT_UPPER_BOUND", value: <><code className="text-primary">7.5557…e40</code> — upper bound on the FP-scaled input (true value <code className="text-primary">2⁷⁶ ≈ 7.6e22</code> before the <code className="text-primary">1e18</code> shift). <code className="text-primary">x == 0</code> returns <code className="text-primary">0</code> without revert.</> },
                 ],
                 errors: [
-                    { name: "CbrtUpperBoundError", trigger: <><code className="text-primary">x ≥ 7.5557…e40</code> (true value ≥ <code className="text-primary">2⁷⁶</code>)</> },
+                    { name: "CbrtUpperBoundError", trigger: <><code className="text-primary">x ≥ CBRT_UPPER_BOUND</code></> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

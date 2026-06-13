@@ -45,7 +45,7 @@ const BENCHMARKS: BenchmarkRow[] = [
     { fn: "putOptionPrice",  defimath: "2,739", nextBest: "13,363", nextLib: "Derivexyz", multiple: "4.9×", highlight: true },
     { fn: "binaryCallPrice", defimath: "2,018", nextBest: "16,218", nextLib: "Haptic",    multiple: "8.0×", highlight: true },
     { fn: "delta",           defimath: "1,724", nextBest: "8,621",  nextLib: "Derivexyz", multiple: "5.0×", highlight: true },
-    { fn: "vega",            defimath: "1,439", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
+    { fn: "vega",            defimath: "1,436", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
     { fn: "ln",              defimath: "375",   nextBest: "518",    nextLib: "Solady",    multiple: "1.4×", highlight: false },
     { fn: "sqrt",            defimath: "245",   nextBest: "341",    nextLib: "Solady",    multiple: "1.4×", highlight: false },
     { fn: "cbrt",            defimath: "368",   nextBest: "550",    nextLib: "Solady",    multiple: "1.5×", highlight: false },

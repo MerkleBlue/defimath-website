@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "expm1 — Math | DeFiMath docs",
-    description: "Solidity e^x − 1 in 18-decimal fixed-point. Precision-preserving for small x via Taylor series. 439 gas, max rel. error 9.9e-14.",
+    description: "Solidity e^x − 1 in 18-decimal fixed-point. Precision-preserving for small x via Taylor series. 438 gas, max rel. error 9.9e-14.",
     alternates: { canonical: "/docs/math/expm1/" },
 };
 
@@ -18,7 +18,7 @@ export default function Page() {
             module="Math"
             name="expm1"
             summary="Computes e^x − 1 while preserving full 18-digit precision near zero, where the naive exp(x) − 1 formula catastrophically cancels."
-            gas="439"
+            gas="438"
             precision="9.9e-14"
             signature={`function expm1(int256 x) internal pure returns (int256 y)`}
             parameters={[
@@ -56,10 +56,10 @@ export default function Page() {
             )}
             limits={{
                 constants: [
-                    { name: "Input |x|", value: <><code className="text-primary">&lt; 135.305999…e18</code> (inherited from <code className="text-primary">exp</code> on the fallback branch for <code className="text-primary">|x| ≥ 0.01</code>)</> },
+                    { name: "EXP_UPPER_BOUND", value: <><code className="text-primary">135.305999…e18</code> — inherited from <code className="text-primary">exp</code> on the fallback branch for <code className="text-primary">|x| ≥ 0.01</code>.</> },
                 ],
                 errors: [
-                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">|x| ≥ 135.305999…e18</code> (via fallback to <code className="text-primary">exp</code>)</> },
+                    { name: "ExpUpperBoundError", trigger: <><code className="text-primary">|x| ≥ EXP_UPPER_BOUND</code> (via fallback to <code className="text-primary">exp</code>)</> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";
