@@ -50,8 +50,11 @@ export default function Page() {
                 </>
             )}
             limits={{
+                constants: [
+                    { name: "Input domain", value: <>Full <code className="text-primary">uint256</code> domain except <code className="text-primary">x == 0</code> (see Errors). The natural log accepts arbitrarily small or large positive inputs — no named upper or lower bound constants.</> },
+                ],
                 errors: [
-                    { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code> — the natural-log domain is <code className="text-primary">x &gt; 0</code></> },
+                    { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code></> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

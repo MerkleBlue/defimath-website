@@ -53,8 +53,11 @@ export default function Page() {
                 </>
             )}
             limits={{
+                constants: [
+                    { name: "Input domain", value: <>Full <code className="text-primary">uint256</code> domain except <code className="text-primary">x == 0</code> (see Errors). Inherits <code className="text-primary">ln</code>&apos;s unbounded acceptance — no named upper or lower bound constants.</> },
+                ],
                 errors: [
-                    { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code> — the log₂ domain is <code className="text-primary">x &gt; 0</code> (inherited via the internal call to <code className="text-primary">ln</code>)</> },
+                    { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code> (inherited via the internal call to <code className="text-primary">ln</code>)</> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

@@ -52,7 +52,10 @@ export default function Page() {
             )}
             limits={{
                 constants: [
-                    { name: "ERF_BOUND", value: <><code className="text-primary">11.63e18</code> — saturation magnitude. At <code className="text-primary">|x| ≥ ERF_BOUND</code>, <code className="text-primary">erf(x)</code> is within <code className="text-primary">1e-18</code> of <code className="text-primary">±1</code>, so the function short-circuits to the boundary without running the kernel. Never reverts.</> },
+                    { name: "ERF_BOUND", value: <><code className="text-primary">11.63e18</code> — saturation magnitude. At <code className="text-primary">|x| ≥ ERF_BOUND</code>, <code className="text-primary">erf(x)</code> is within <code className="text-primary">1e-18</code> of <code className="text-primary">±1</code>, so the function short-circuits to the boundary without running the kernel.</> },
+                ],
+                errors: [
+                    { name: "None", trigger: <>Never reverts. Saturates to <code className="text-primary">±1e18</code> at the bound above.</> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

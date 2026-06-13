@@ -55,8 +55,11 @@ export default function Page() {
                 </>
             )}
             limits={{
+                constants: [
+                    { name: "Input domain", value: <>Signed <code className="text-primary">int256</code> with <code className="text-primary">x &gt; −1e18</code> (equivalently <code className="text-primary">1 + x &gt; 0</code>) — no named upper bound. The lower bound is enforced via Errors below.</> },
+                ],
                 errors: [
-                    { name: "Log1pLowerBoundError", trigger: <><code className="text-primary">x ≤ −1e18</code> — the domain is <code className="text-primary">1 + x &gt; 0</code>, i.e. <code className="text-primary">x &gt; −1</code></> },
+                    { name: "Log1pLowerBoundError", trigger: <><code className="text-primary">x ≤ −1e18</code></> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

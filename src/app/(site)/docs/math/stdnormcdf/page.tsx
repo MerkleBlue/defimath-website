@@ -52,7 +52,10 @@ export default function Page() {
             )}
             limits={{
                 constants: [
-                    { name: "STD_NORM_CDF_BOUND", value: <><code className="text-primary">16.447e18</code> — saturation magnitude. At <code className="text-primary">|x| ≥ STD_NORM_CDF_BOUND</code>, <code className="text-primary">Φ(x)</code> is within <code className="text-primary">1e-18</code> of <code className="text-primary">0</code> (negative) or <code className="text-primary">1</code> (positive), so the function short-circuits to the boundary without running the kernel. Never reverts.</> },
+                    { name: "STD_NORM_CDF_BOUND", value: <><code className="text-primary">16.447e18</code> — saturation magnitude. At <code className="text-primary">|x| ≥ STD_NORM_CDF_BOUND</code>, <code className="text-primary">Φ(x)</code> is within <code className="text-primary">1e-18</code> of <code className="text-primary">0</code> (negative) or <code className="text-primary">1</code> (positive), so the function short-circuits to the boundary without running the kernel.</> },
+                ],
+                errors: [
+                    { name: "None", trigger: <>Never reverts. Saturates to <code className="text-primary">0</code> or <code className="text-primary">1e18</code> at the bound above.</> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

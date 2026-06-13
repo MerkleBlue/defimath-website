@@ -137,7 +137,7 @@ export const FunctionDetail = async ({
 
       {limits?.constants && limits.constants.length > 0 && (
         <>
-          <h2 id="limits" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Limits</h2>
+          <h2 id="bounds" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Bounds</h2>
           <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
             <table className="w-full text-base">
               <thead>
