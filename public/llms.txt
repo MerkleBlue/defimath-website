@@ -47,9 +47,10 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 
 - [GitHub: defimath](https://github.com/MerkleBlue/defimath): Library source, tests, full docs
 - [GitHub: defimath-compare](https://github.com/MerkleBlue/defimath-compare): Reproducible gas + precision benchmarks against PRBMath, ABDK, Solady, SolStat, Derivexyz, Premia, Party1983, Dopex, Haptic
-- [npm: defimath-lib](https://www.npmjs.com/package/defimath-lib): Latest published package (currently v3.3.0)
+- [npm: defimath-lib](https://www.npmjs.com/package/defimath-lib): Latest published package (currently v3.4.0)
 
 ## Optional
 
 - [News](https://defimath.com/news/): Release notes and announcements
+- [v3.4.0 release notes](https://defimath.com/news/2026-06-14-defimath-v3-4-0-released/): Foundry property-based fuzz testing layer added — 92 mathematical properties × 32,000 random runs per CI run = 2.94M random executions. Plus signed-int refactor of EXP_LOWER_BOUND saves 1–3 gas across every function calling exp.
 - [v3.1.0 release notes](https://defimath.com/news/2026-05-27-defimath-v3-1-0-released/): cbrt function added — 368 gas, ~33% cheaper than Solady's cbrtWad at identical precision
