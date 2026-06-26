@@ -21,14 +21,14 @@ export default function Page() {
             precision="2.8e-16"
             signature={`function sqrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
-                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0). Must satisfy x < 2⁸⁰·1e18 (~1.2e42)." },
+                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0). Must satisfy x · 1e18 ≤ 2²⁵⁶ − 1 (i.e. x ≤ ⌊(2²⁵⁶ − 1) / 1e18⌋ ≈ 1.158e59) — the only revert is the actual overflow boundary." },
             ]}
             returns={[
                 { name: "y", type: "uint256", description: "Square root √x in 18-decimal fixed-point format." },
             ]}
             behaviorItems={[
                 <>Returns <code className="text-primary">0</code> when <code className="text-primary">x == 0</code> (no revert).</>,
-                <>Reverts with <code className="text-primary">SqrtUpperBoundError()</code> when the underlying value exceeds <code className="text-primary">2⁸⁰</code> (~1.2e24).</>,
+                <>Reverts with <code className="text-primary">SqrtUpperBoundError()</code> only at the input magnitude where the FP18 scaling step (<code className="text-primary">x · 1e18</code>) would overflow <code className="text-primary">uint256</code> — i.e. <code className="text-primary">x ≥ ⌊(2²⁵⁶ − 1) / 1e18⌋ + 1 ≈ 1.158e59</code>.</>,
                 <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) for a near-optimal initial guess; see <a className="text-primary underline" href="https://eips.ethereum.org/EIPS/eip-7939" target="_blank" rel="noopener noreferrer">EIP-7939</a>.</>,
                 <>Pure assembly hot path; no external calls or storage.</>,
             ]}
@@ -42,7 +42,7 @@ export default function Page() {
                         then doubles the number of correct bits every step, so six iterations carry us from one correct bit to 64 — comfortably bit-exact at the 1e18 fixed-point scale.
                     </p>
                     <p>
-                        To compute <code className="text-primary">sqrt(v) · 1e18</code> we scale the input first: <code className="text-primary">sqrt(x · 1e18) = sqrt(v · 1e36) = sqrt(v) · 1e18</code>. So for inputs ≥ 1.0 we multiply by 1e18 once, run the iteration, and we're done. The 2⁸⁰ true-value cap keeps the scaled value <code className="text-primary">x · 1e18</code> safely inside <code className="text-primary">uint256</code>.
+                        To compute <code className="text-primary">sqrt(v) · 1e18</code> we scale the input first: <code className="text-primary">sqrt(x · 1e18) = sqrt(v · 1e36) = sqrt(v) · 1e18</code>. So for inputs ≥ 1.0 we multiply by 1e18 once, run the iteration, and we're done. The input cap is set at exactly the boundary where this scaling multiplication would overflow <code className="text-primary">uint256</code> — no earlier, so the function accepts the full precision-safe input range.
                     </p>
                     <p>
                         For inputs below 1.0 we invert instead of scaling: compute <code className="text-primary">sqrt(1e54 / x)</code>, then divide <code className="text-primary">1e36</code> by the result. This preserves bit precision — a naive <code className="text-primary">sqrt(x · 1e18)</code> for tiny <code className="text-primary">x</code> would land in too few high-order bits and lose accuracy. The whole hot path stays in <code className="text-primary">unchecked</code> Yul assembly with no branches inside Newton — ~245 gas, the cheapest sqrt of any on-chain library we've measured.
@@ -51,7 +51,7 @@ export default function Page() {
             )}
             limits={{
                 constants: [
-                    { name: "SQRT_UPPER_BOUND", value: <><code className="text-primary">1.2089…e42</code> — upper bound on the FP-scaled input (true value <code className="text-primary">2⁸⁰ ≈ 1.2e24</code> before the <code className="text-primary">1e18</code> shift). <code className="text-primary">x == 0</code> returns <code className="text-primary">0</code> without revert.</> },
+                    { name: "SQRT_UPPER_BOUND", value: <><code className="text-primary">⌊(2²⁵⁶ − 1) / 1e18⌋ + 1 ≈ 1.158e59</code> — the smallest input where the FP18 scaling step <code className="text-primary">x · 1e18</code> would overflow <code className="text-primary">uint256</code>. <code className="text-primary">x == 0</code> returns <code className="text-primary">0</code> without revert.</> },
                 ],
                 errors: [
                     { name: "SqrtUpperBoundError", trigger: <><code className="text-primary">x ≥ SQRT_UPPER_BOUND</code></> },
