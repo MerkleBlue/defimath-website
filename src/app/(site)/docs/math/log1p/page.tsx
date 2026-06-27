@@ -22,7 +22,7 @@ export default function Page() {
             precision="7.0e-15"
             signature={`function log1p(int256 x) internal pure returns (int256 y)`}
             parameters={[
-                { name: "x", type: "int256", description: "Signed input in 18-decimal fixed-point format (1e18 = 1.0). Must satisfy x > −1e18 so that 1 + x > 0." },
+                { name: "x", type: "int256", description: "Signed input in 18-decimal fixed-point format (1e18 = 1.0)." },
             ]}
             returns={[
                 { name: "y", type: "int256", description: "Result ln(1 + x) in 18-decimal fixed-point format. Signed — returns negative values for x < 0." },

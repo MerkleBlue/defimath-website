@@ -21,7 +21,7 @@ export default function Page() {
             precision="2.8e-16"
             signature={`function sqrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
-                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0). Must satisfy x · 1e18 ≤ 2²⁵⁶ − 1 (i.e. x ≤ ⌊(2²⁵⁶ − 1) / 1e18⌋ ≈ 1.158e59) — the only revert is the actual overflow boundary." },
+                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0)." },
             ]}
             returns={[
                 { name: "y", type: "uint256", description: "Square root √x in 18-decimal fixed-point format." },

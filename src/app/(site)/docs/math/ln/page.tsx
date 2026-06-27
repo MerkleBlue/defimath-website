@@ -21,7 +21,7 @@ export default function Page() {
             precision="1.5e-14"
             signature={`function ln(uint256 x) internal pure returns (int256 y)`}
             parameters={[
-                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0). Must be > 0." },
+                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0)." },
             ]}
             returns={[
                 { name: "y", type: "int256", description: "Natural logarithm ln(x) in 18-decimal fixed-point format. Signed — negative when x < 1." },

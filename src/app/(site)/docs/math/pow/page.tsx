@@ -21,7 +21,7 @@ export default function Page() {
             precision="5.2e-14"
             signature={`function pow(uint256 x, int256 a) internal pure returns (uint256 y)`}
             parameters={[
-                { name: "x", type: "uint256", description: "Base in 18-decimal fixed-point format (1e18 = 1.0). Must be > 0 unless a == 0." },
+                { name: "x", type: "uint256", description: "Base in 18-decimal fixed-point format (1e18 = 1.0). When a == 0 the function fast-paths to 1 regardless of x." },
                 { name: "a", type: "int256", description: "Signed exponent in 18-decimal fixed-point format. Negative values give reciprocal powers." },
             ]}
             returns={[

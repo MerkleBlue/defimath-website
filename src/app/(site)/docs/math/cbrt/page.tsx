@@ -21,7 +21,7 @@ export default function Page() {
             precision="2.2e-16"
             signature={`function cbrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
-                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0). Must satisfy x < 7.5557863725914323e40 (true value < 2⁷⁶ ≈ 7.6e22)." },
+                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0)." },
             ]}
             returns={[
                 { name: "y", type: "uint256", description: "Cube root ∛x in 18-decimal fixed-point format." },

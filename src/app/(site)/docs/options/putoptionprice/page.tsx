@@ -30,11 +30,11 @@ export default function Page() {
     uint64  rate
 ) internal pure returns (uint256 price)`}
             parameters={[
-                { name: "spot", type: "uint128", description: "Current spot price, 18-decimal fixed-point. Must satisfy MIN_SPOT < spot < MAX_SPOT (1e-6 < spot < 1e15)." },
-                { name: "strike", type: "uint128", description: "Strike price, 18-decimal fixed-point. Must lie within [spot/5, spot·5] — the no-arbitrage band the function is precision-tuned for." },
-                { name: "timeToExp", type: "uint32", description: "Time to expiration in seconds. Must satisfy timeToExp < MAX_EXPIRATION (1,009,152,000 s ≈ 32 years). timeToExp == 0 is allowed (handled as expired)." },
+                { name: "spot", type: "uint128", description: "Current spot price, 18-decimal fixed-point." },
+                { name: "strike", type: "uint128", description: "Strike price, 18-decimal fixed-point. Precision-tuned for the no-arbitrage band against spot — see Bounds." },
+                { name: "timeToExp", type: "uint32", description: "Time to expiration in seconds. timeToExp == 0 is allowed (handled as expired)." },
                 { name: "volatility", type: "uint64", description: "Annualized implied volatility, 18-decimal fixed-point (e.g. 60% → 6e17)." },
-                { name: "rate", type: "uint64", description: "Annualized risk-free rate, 18-decimal fixed-point. Must satisfy rate < MAX_RATE (4e18 = 400%)." },
+                { name: "rate", type: "uint64", description: "Annualized risk-free rate, 18-decimal fixed-point." },
             ]}
             returns={[
                 { name: "price", type: "uint256", description: "Put option price in 18-decimal fixed-point. Always ≥ 0." },
