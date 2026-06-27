@@ -100,7 +100,7 @@ export const Math = async () => {
       <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
       <p className="text-base font-medium text-muted text-opacity-95">
         <span className="text-white font-semibold">Hardhat correctness layer.</span>{" "}
-        187 tests across 20 function groups. Each function is validated against the corresponding JavaScript reference (<code className="text-primary">Math.exp</code>, <code className="text-primary">Math.log</code>, <code className="text-primary">Math.sqrt</code>, <code className="text-primary">math-erf</code>) over ~200-sample sweeps that cover the full operational domain. Per-function precision thresholds match the table above. Limit tests pin behavior at min and max valid inputs; failure tests cover every documented revert path.
+        202 tests across 20 function groups. Each function is validated against the corresponding JavaScript reference (<code className="text-primary">Math.exp</code>, <code className="text-primary">Math.log</code>, <code className="text-primary">Math.sqrt</code>, <code className="text-primary">math-erf</code>) over ~200-sample sweeps that cover the full operational domain. Per-function precision thresholds match the table above. Limit tests pin behavior at min and max valid inputs; failure tests cover every documented revert path.
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-4">
         <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}

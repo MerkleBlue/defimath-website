@@ -114,7 +114,7 @@ export default async function Page() {
 
             <h3 id="testing-hardhat" className="text-xl font-semibold text-white mt-8 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Hardhat correctness layer</h3>
             <p className="text-base font-medium text-muted text-opacity-95">
-                589 tests validating against external JavaScript references (JS <code className="text-primary">Math</code>, <code className="text-primary">math-erf</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain. Every function in every module follows the same five-category taxonomy:
+                604 tests validating against external JavaScript references (JS <code className="text-primary">Math</code>, <code className="text-primary">math-erf</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain. Every function in every module follows the same five-category taxonomy:
             </p>
             <ul className="list-disc list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
                 <li><span className="text-white font-semibold">behaviour</span> — normal-case sweeps (~200 samples per test) validated against the JS reference</li>
