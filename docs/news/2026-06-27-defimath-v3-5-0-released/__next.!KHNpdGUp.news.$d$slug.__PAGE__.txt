@@ -1,0 +1,48 @@
+1:"$Sreact.fragment"
+2:I[22016,["/_next/static/chunks/0ruf2xgndalw8.js","/_next/static/chunks/0qc1sqmhdir1o.js","/_next/static/chunks/07.i_r9z1za9q.js"],""]
+3:I[9308,["/_next/static/chunks/0ruf2xgndalw8.js","/_next/static/chunks/0qc1sqmhdir1o.js","/_next/static/chunks/07.i_r9z1za9q.js"],"MarkdownContent"]
+8:I[97367,["/_next/static/chunks/0ruf2xgndalw8.js","/_next/static/chunks/0qc1sqmhdir1o.js"],"OutletBoundary"]
+9:"$Sreact.suspense"
+4:Td40,<p>Three input ceilings widened to the actual mathematical limit of each function.
+Same precision, same gas, no API change. The previous bounds were conservative
+defaults — chosen to match typical 2024 on-chain use. Long-dated insurance,
+RWA bond options, and primitives composing on top of <code>sqrt</code> over very large
+numbers now fit without recompiling.</p>
+<h2>sqrt: full FP18-safe range</h2>
+<p><code>SQRT_UPPER_BOUND</code> on the <a href="/docs/math/sqrt">sqrt function</a> raised from
+<code>2^80 · 1e18 ≈ 1.21 × 10⁴²</code> to <code>⌊(2²⁵⁶ − 1) / 1e18⌋ + 1 ≈ 1.158 × 10⁵⁹</code> —
+a ~10¹⁷× increase. The new ceiling is exactly the boundary where the FP18
+scaling step <code>x · 1e18</code> would overflow uint256; sqrt now exposes its full
+precision-safe domain to callers.</p>
+<h2>Options &#x26; Binary: MAX_EXPIRATION 2y → 32y</h2>
+<p><code>MAX_EXPIRATION</code> in both the <a href="/docs/options">Options</a> and
+<a href="/docs/binary">Binary</a> modules raised from <strong>2 years</strong> to <strong>32 years</strong>:</p>
+<pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8" tabindex="0"><code><span class="line"><span style="color:#6A737D">// Options.sol and Binary.sol</span></span>
+<span class="line"><span style="color:#79B8FF">uint256</span><span style="color:#F97583"> internal</span><span style="color:#F97583"> constant</span><span style="color:#E1E4E8"> MAX_EXPIRATION </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 32</span><span style="color:#F97583"> *</span><span style="color:#E1E4E8"> SECONDS_IN_YEAR </span><span style="color:#F97583">+</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<p>(Was <code>63072000 + 1</code>.) <code>timeToExp = 1,009,152,000</code> (exactly 32 years) is now
+accepted; anything above reverts with <code>TimeToExpiryUpperBoundError</code>.
+<code>MAX_RATE = 400%</code> and every other input bound is unchanged.</p>
+<h3>Why 32 years</h3>
+<p>The hard math limit is <code>scaledRate = rate · timeYear &#x3C; EXP_UPPER_BOUND ≈ 135.3</code>
+(that's where <code>expPositive</code> is precision-tuned). At <code>rate = MAX_RATE = 4</code>, the
+maximum allowable horizon is <code>135.3 / 4 ≈ 33.8 years</code>. 32 years sits ~5%
+under that ceiling — wide enough to admit every realistic long-dated product,
+with margin against precision degradation at the corner. At the worst
+combined corner (<code>rate = 400%</code>, <code>vol = uint64.max ≈ 1844%</code>, <code>T = 32y</code>), both
+<code>scaledRate = 128</code> and <code>scaledVol = vol · √T ≈ 104</code> stay under <code>135.3</code>.</p>
+<h3>Precision at the extended corners</h3>
+<p>Worst observed absolute error across the new extended-bound sweep (4y, 8y,
+30y, 50y horizons; 1000% vol; 200% rate; far-OTM and deep-ITM strikes) on a
+$1,000-spot call: <strong>5.9 × 10⁻¹² $</strong> — over 20× under the standard
+<code>MAX_OPTION_ABS_ERROR = 1.3 × 10⁻¹⁰</code> threshold.</p>
+<h2>Get it</h2>
+<pre><code>npm install defimath-lib@3.5.0
+</code></pre>
+<ul>
+<li>Release notes: <a href="https://github.com/MerkleBlue/defimath/releases/tag/v3.5.0">github.com/MerkleBlue/defimath/releases/tag/v3.5.0</a></li>
+<li>Package: <a href="https://www.npmjs.com/package/defimath-lib">npmjs.com/package/defimath-lib</a></li>
+</ul>0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"children":[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"DeFiMath v3.5.0 — Extended boundaries\",\"description\":\"DeFiMath v3.5.0 extends three input ceilings to their actual mathematical limits. sqrt now accepts the full FP18-safe uint256 range. Options and Binary MAX_EXPIRATION extended from 2 years to 32 years.\",\"url\":\"https://defimath.com/news/2026-06-27-defimath-v3-5-0-released/\",\"datePublished\":\"2026-06-27T00:00:00.000Z\",\"dateModified\":\"2026-06-27T00:00:00.000Z\",\"author\":{\"@type\":\"Organization\",\"name\":\"DeFiMath\",\"url\":\"https://defimath.com\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"DeFiMath\",\"url\":\"https://defimath.com\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https://defimath.com/apple-touch-icon.png\"}},\"mainEntityOfPage\":{\"@type\":\"WebPage\",\"@id\":\"https://defimath.com/news/2026-06-27-defimath-v3-5-0-released/\"},\"keywords\":\"defimath v3.5.0, sqrt upper bound, long-dated options, black-scholes 32 years, solidity math limits\"}"}}],["$","section",null,{"className":"relative md:pt-40 md:pb-28 pt-32 pb-20 overflow-hidden z-1","id":"main-banner","children":["$","div",null,{"className":"container mx-auto lg:max-w-screen-md px-4","children":[["$","$L2",null,{"href":"/news","className":"text-primary text-base font-medium underline","children":"← Back to news"}],["$","div",null,{"className":"flex flex-wrap items-center gap-3 mt-8 mb-3","children":[["$","span",null,{"className":"text-sm font-semibold text-darkmode bg-primary rounded px-2.5 py-1","children":["v","3.5.0"]}],["$","span",null,{"className":"text-sm font-medium text-muted text-opacity-60","children":"Jun 27, 2026"}]]}],["$","h1",null,{"className":"font-medium lg:text-54 md:text-44 text-40 text-white mb-8","children":"DeFiMath v3.5.0 — Extended boundaries"}],["$","$L3",null,{"className":"markdown-content","html":"$4"}],"$L5"]}]}]]}],["$L6"],"$L7"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"PL3f2PmV0AgtEfV8lhCqL"}
+5:["$","nav",null,{"aria-label":"Adjacent news","className":"mt-16 pt-8 border-t border-dark_border border-opacity-60 flex gap-4 flex-col sm:flex-row sm:justify-between","children":[["$","$L2",null,{"href":"/news/2026-06-14-defimath-v3-4-0-released","className":"group flex-1 min-w-0 p-5 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200","children":[["$","span",null,{"className":"block text-sm font-medium text-muted text-opacity-60 mb-1","children":"← Older"}],["$","span",null,{"className":"block text-base font-medium text-white group-hover:text-primary duration-200 truncate","children":"DeFiMath v3.4.0 — Foundry property-fuzz testing layer added"}]]}],["$","span",null,{"className":"flex-1","aria-hidden":"true"}]]}]
+6:["$","script","script-0",{"src":"/_next/static/chunks/07.i_r9z1za9q.js","async":true}]
+7:["$","$L8",null,{"children":["$","$9",null,{"name":"Next.MetadataOutlet","children":"$@a"}]}]
+a:null
