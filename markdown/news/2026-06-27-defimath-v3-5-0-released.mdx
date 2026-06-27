@@ -1,0 +1,67 @@
+---
+title: DeFiMath v3.5.0 — Extended boundaries
+date: 2026-06-27
+version: "3.5.0"
+excerpt: Three input ceilings pushed out to their actual mathematical limits — sqrt accepts the full FP18-safe uint256 range, Options and Binary admit horizons up to 32 years. Same precision, same gas, no API change.
+metaDescription: DeFiMath v3.5.0 extends three input ceilings to their actual mathematical limits. sqrt now accepts the full FP18-safe uint256 range. Options and Binary MAX_EXPIRATION extended from 2 years to 32 years.
+metaKeywords:
+  - defimath v3.5.0
+  - sqrt upper bound
+  - long-dated options
+  - black-scholes 32 years
+  - solidity math limits
+---
+
+Three input ceilings widened to the actual mathematical limit of each function.
+Same precision, same gas, no API change. The previous bounds were conservative
+defaults — chosen to match typical 2024 on-chain use. Long-dated insurance,
+RWA bond options, and primitives composing on top of `sqrt` over very large
+numbers now fit without recompiling.
+
+## sqrt: full FP18-safe range
+
+`SQRT_UPPER_BOUND` on the [sqrt function](/docs/math/sqrt) raised from
+`2^80 · 1e18 ≈ 1.21 × 10⁴²` to `⌊(2²⁵⁶ − 1) / 1e18⌋ + 1 ≈ 1.158 × 10⁵⁹` —
+a ~10¹⁷× increase. The new ceiling is exactly the boundary where the FP18
+scaling step `x · 1e18` would overflow uint256; sqrt now exposes its full
+precision-safe domain to callers.
+
+## Options & Binary: MAX_EXPIRATION 2y → 32y
+
+`MAX_EXPIRATION` in both the [Options](/docs/options) and
+[Binary](/docs/binary) modules raised from **2 years** to **32 years**:
+
+```solidity
+// Options.sol and Binary.sol
+uint256 internal constant MAX_EXPIRATION = 32 * SECONDS_IN_YEAR + 1;
+```
+
+(Was `63072000 + 1`.) `timeToExp = 1,009,152,000` (exactly 32 years) is now
+accepted; anything above reverts with `TimeToExpiryUpperBoundError`.
+`MAX_RATE = 400%` and every other input bound is unchanged.
+
+### Why 32 years
+
+The hard math limit is `scaledRate = rate · timeYear < EXP_UPPER_BOUND ≈ 135.3`
+(that's where `expPositive` is precision-tuned). At `rate = MAX_RATE = 4`, the
+maximum allowable horizon is `135.3 / 4 ≈ 33.8 years`. 32 years sits ~5%
+under that ceiling — wide enough to admit every realistic long-dated product,
+with margin against precision degradation at the corner. At the worst
+combined corner (`rate = 400%`, `vol = uint64.max ≈ 1844%`, `T = 32y`), both
+`scaledRate = 128` and `scaledVol = vol · √T ≈ 104` stay under `135.3`.
+
+### Precision at the extended corners
+
+Worst observed absolute error across the new extended-bound sweep (4y, 8y,
+30y, 50y horizons; 1000% vol; 200% rate; far-OTM and deep-ITM strikes) on a
+$1,000-spot call: **5.9 × 10⁻¹² $** — over 20× under the standard
+`MAX_OPTION_ABS_ERROR = 1.3 × 10⁻¹⁰` threshold.
+
+## Get it
+
+```
+npm install defimath-lib@3.5.0
+```
+
+- Release notes: [github.com/MerkleBlue/defimath/releases/tag/v3.5.0](https://github.com/MerkleBlue/defimath/releases/tag/v3.5.0)
+- Package: [npmjs.com/package/defimath-lib](https://www.npmjs.com/package/defimath-lib)

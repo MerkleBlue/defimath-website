@@ -32,7 +32,7 @@ export default function Page() {
             parameters={[
                 { name: "spot", type: "uint128", description: "Current spot price, 18-decimal fixed-point. Must satisfy MIN_SPOT < spot < MAX_SPOT (1e-6 < spot < 1e15)." },
                 { name: "strike", type: "uint128", description: "Strike price, 18-decimal fixed-point. Must lie within [spot/5, spot·5] — the no-arbitrage band the function is precision-tuned for." },
-                { name: "timeToExp", type: "uint32", description: "Time to expiration in seconds. Must satisfy timeToExp < MAX_EXPIRATION (63,072,000 s ≈ 2 years). timeToExp == 0 is allowed (handled as expired)." },
+                { name: "timeToExp", type: "uint32", description: "Time to expiration in seconds. Must satisfy timeToExp < MAX_EXPIRATION (1,009,152,000 s ≈ 32 years). timeToExp == 0 is allowed (handled as expired)." },
                 { name: "volatility", type: "uint64", description: "Annualized implied volatility, 18-decimal fixed-point (e.g. 60% → 6e17)." },
                 { name: "rate", type: "uint64", description: "Annualized risk-free rate, 18-decimal fixed-point. Must satisfy rate < MAX_RATE (4e18 = 400%)." },
             ]}
@@ -70,7 +70,7 @@ export default function Page() {
                     { name: "MIN_SPOT", value: <>1e-6 smallest allowed spot price (<code className="text-primary">1e12</code>)</> },
                     { name: "MAX_SPOT", value: <>1e15 largest allowed spot price (<code className="text-primary">1e33</code>)</> },
                     { name: "MAX_STSP_RATIO", value: <>5× (strike must lie within [spot/5, spot·5])</> },
-                    { name: "MAX_EXPIRATION", value: <>2 years (63,072,000 seconds)</> },
+                    { name: "MAX_EXPIRATION", value: <>32 years (1,009,152,000 seconds)</> },
                     { name: "MAX_RATE", value: <>400% annual (<code className="text-primary">4e18</code>)</> },
                 ],
                 errors: [
