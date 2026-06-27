@@ -6,6 +6,7 @@ import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import { AnalyticsPageviews } from "@/components/AnalyticsPageviews";
+import { GithubOutboundTracking } from "@/components/GithubOutboundTracking";
 import Aoscompo from "@/utils/aos";
 import Script from "next/script";
 const font = DM_Sans({ subsets: ["latin"], display: "optional" });
@@ -58,6 +59,20 @@ export default function RootLayout({
             gtag('js', new Date());
             gtag('config', 'G-NK671MJFPG');   // GA4 — analytics
             gtag('config', 'AW-1058581148');  // Google Ads — conversion tracking
+
+            // Google Ads outbound-click conversion helper (per Ads UI snippet).
+            // Optional inline form: onclick="return gtag_report_conversion('https://…')".
+            // Most outbound clicks are handled automatically by GithubOutboundTracking.
+            window.gtag_report_conversion = function (url) {
+              var callback = function () {
+                if (typeof url != 'undefined') { window.location = url; }
+              };
+              gtag('event', 'conversion', {
+                'send_to': 'AW-1058581148/bZxnCP3W6sYcEJzV4vgD',
+                'event_callback': callback
+              });
+              return false;
+            };
           `}
         </Script>
         <Script
@@ -82,6 +97,7 @@ export default function RootLayout({
         </Aoscompo>
         <ScrollToTop />
         <AnalyticsPageviews />
+        <GithubOutboundTracking />
       </body>
     </html>
   );
