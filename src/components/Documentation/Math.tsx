@@ -89,7 +89,7 @@ export const Math = async () => {
         </li>
         <li>
           <span className="text-white font-semibold"><code className="text-primary">sqrtTime</code> is specialized, not general-purpose.</span>{" "}
-          It expects <code className="text-primary">x</code> as time in years (<code className="text-primary">1e18 = 1 year</code>) and performs <span className="text-white font-semibold">no input validation</span>. It is built for Black-Scholes option pricing — where the caller has already bounded <code className="text-primary">x</code> — and is precision-tuned for <code className="text-primary">[1s, 8y]</code>. For a general fixed-point square root use <code className="text-primary">sqrt</code> instead.
+          It expects <code className="text-primary">x</code> as time in years (<code className="text-primary">1e18 = 1 year</code>) and performs <span className="text-white font-semibold">no input validation</span>. It is built for Black-Scholes option pricing — where the caller has already bounded <code className="text-primary">x</code> — and is precision-tuned for <code className="text-primary">[1s, 32y]</code>. For a general fixed-point square root use <code className="text-primary">sqrt</code> instead.
         </li>
       </ul>
 
