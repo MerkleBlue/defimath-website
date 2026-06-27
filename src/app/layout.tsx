@@ -48,14 +48,16 @@ export default function RootLayout({
         <link rel="preconnect" href="https://gateway.umami.is" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://cloud.umami.is" crossOrigin="anonymous" />
 
-        {/* GA4 — tiny stub runs immediately so window.gtag exists for click handlers.
-            The 155 KiB library is deferred and processes queued events when it arrives. */}
+        {/* GA4 + Google Ads — single gtag.js handles both destinations. The stub runs
+            immediately so window.gtag exists for click handlers; the 155 KiB library
+            is deferred and processes queued events (incl. queued config calls) on arrival. */}
         <Script id="gtag-stub" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             window.gtag = function gtag(){window.dataLayer.push(arguments);};
             gtag('js', new Date());
-            gtag('config', 'G-NK671MJFPG');
+            gtag('config', 'G-NK671MJFPG');   // GA4 — analytics
+            gtag('config', 'AW-1058581148');  // Google Ads — conversion tracking
           `}
         </Script>
         <Script
