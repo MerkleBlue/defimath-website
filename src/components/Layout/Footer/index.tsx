@@ -14,7 +14,24 @@ const Footer: FC = () => {
           <div className="lg:col-span-4 md:col-span-5 col-span-6">
             <Logo />
             <div className="flex gap-6 items-center mt-8">
-              <Link href="https://x.com/defi_math" target="_blank" rel="noopener noreferrer" aria-label="DeFiMath on X (Twitter)" className="group">
+              {/* Order: trust/action (GitHub, npm) → reach (X) → community (Telegram) → outreach (LinkedIn). */}
+              <Link href="https://github.com/MerkleBlue/defimath" target="_blank" rel="me noopener noreferrer" aria-label="DeFiMath on GitHub" className="group">
+                <Icon
+                  icon="fa6-brands:github"
+                  width="24"
+                  height="24"
+                  className="text-white group-hover:text-primary"
+                />
+              </Link>
+              <Link href="https://www.npmjs.com/package/defimath-lib" target="_blank" rel="noopener noreferrer" aria-label="defimath-lib on npm" className="group">
+                <Icon
+                  icon="fa6-brands:npm"
+                  width="24"
+                  height="24"
+                  className="text-white group-hover:text-primary"
+                />
+              </Link>
+              <Link href="https://x.com/defi_math" target="_blank" rel="me noopener noreferrer" aria-label="DeFiMath on X (Twitter)" className="group">
                 <Icon
                   icon="fa6-brands:x-twitter"
                   width="24"
@@ -22,7 +39,15 @@ const Footer: FC = () => {
                   className="text-white group-hover:text-primary"
                 />
               </Link>
-              <Link href="https://www.linkedin.com/company/defi-math" target="_blank" rel="noopener noreferrer" aria-label="DeFiMath on LinkedIn" className="group">
+              <Link href="https://t.me/NebojsaKonsta" target="_blank" rel="noopener noreferrer" aria-label="Contact on Telegram" className="group">
+                <Icon
+                  icon="fa6-brands:telegram"
+                  width="24"
+                  height="24"
+                  className="text-white group-hover:text-primary"
+                />
+              </Link>
+              <Link href="https://www.linkedin.com/company/defi-math" target="_blank" rel="me noopener noreferrer" aria-label="DeFiMath on LinkedIn" className="group">
                 <Icon
                   icon="fa6-brands:linkedin-in"
                   width="24"
@@ -30,15 +55,6 @@ const Footer: FC = () => {
                   className="text-white group-hover:text-primary"
                 />
               </Link>
-              {/* <Link href="#" className="group">
-                <Icon
-                  icon="fa6-brands:facebook-f"
-                  width="24"
-                  height="24"
-                  className="text-white group-hover:text-primary"
-                />
-              </Link> */}
-
             </div>
             <h3 className="text-white text-20 font-medium sm:mt-20 mt-12">
               Connect with us, we are here to help!
