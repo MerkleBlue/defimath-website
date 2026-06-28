@@ -25,7 +25,7 @@ const Footer: FC = () => {
               </Link>
               <Link href="https://www.npmjs.com/package/defimath-lib" target="_blank" rel="noopener noreferrer" aria-label="defimath-lib on npm" className="group">
                 <Icon
-                  icon="fa6-brands:npm"
+                  icon="simple-icons:npm"
                   width="24"
                   height="24"
                   className="text-white group-hover:text-primary"
