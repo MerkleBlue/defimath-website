@@ -168,7 +168,26 @@ export default async function Page() {
                 </a>{" "}
                 as <code className="text-primary">defimath-lib</code>. All functions are <code className="text-primary">internal pure</code>, so the library compiles directly into your contract bytecode — no linker step and no runtime contract to deploy.
             </p>
-            <InstallCommand className="mt-6" />
+
+            <h3 className="text-lg font-semibold text-white mt-6 mb-2">Hardhat / npm</h3>
+            <InstallCommand />
+
+            <h3 className="text-lg font-semibold text-white mt-6 mb-2">Foundry</h3>
+            <InstallCommand command="forge install defimath-lib=MerkleBlue/defimath" />
+            <p className="text-base font-medium text-muted text-opacity-95 mt-3 mb-2">
+                Then add to <code className="text-primary">remappings.txt</code>:
+            </p>
+            <CodeBlock code={`defimath-lib/=lib/defimath-lib/`} language="text" />
+            <details className="mt-3 group">
+                <summary className="text-sm text-muted text-opacity-60 cursor-pointer hover:text-primary duration-200 list-none flex items-center gap-1">
+                    <span className="inline-block transition-transform duration-150 group-open:rotate-90">▸</span>
+                    Why the alias and the remapping?
+                </summary>
+                <p className="text-sm text-muted text-opacity-60 mt-2 ms-3">
+                    The <code className="text-primary">defimath-lib=</code> install alias makes Foundry place the repo at <code className="text-primary">lib/defimath-lib/</code> so the same <code className="text-primary">defimath-lib/contracts/...</code> import path works under both toolchains. The remapping then overrides Foundry&apos;s auto-detect, which would otherwise treat <code className="text-primary">contracts/</code> as the src directory and produce <code className="text-primary">defimath-lib/=lib/defimath-lib/contracts/</code> — colliding with the leading <code className="text-primary">contracts/</code> in the import path.
+                </p>
+            </details>
+
             <div className="mt-6 p-6 rounded-md border border-dark_border border-opacity-60">
                 <p className="text-white font-medium mb-3">Compiler requirements</p>
                 <ul className="list-disc list-inside space-y-2 text-base font-medium text-muted text-opacity-95">
