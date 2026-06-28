@@ -25,9 +25,12 @@ export const MarkdownContent = ({ html, className }: Props) => {
 
       const text = pre.textContent ?? "";
 
-      // Promote the canonical install command to the InstallCommand styling
+      // Promote any canonical install command to the InstallCommand styling
       // (coral-orange copy button + GA event), matching the docs pages.
-      if (text.trim() === "npm install defimath-lib") {
+      // Matches: `npm install defimath-lib`, version-pinned `npm install defimath-lib@X.Y.Z`,
+      // and the Foundry path `forge install defimath-lib=MerkleBlue/defimath`.
+      const INSTALL_SNIPPET = /^(npm install defimath-lib(@\S+)?|forge install defimath-lib=MerkleBlue\/defimath)$/;
+      if (INSTALL_SNIPPET.test(text.trim())) {
         const cmd = text.trim();
         const wrapper = document.createElement("div");
         wrapper.className = "my-6 py-5 px-5 rounded-md bg-dark_grey relative";
@@ -62,10 +65,16 @@ export const MarkdownContent = ({ html, className }: Props) => {
         wrapper.appendChild(installBtn);
         pre.parentNode?.replaceChild(wrapper, pre);
 
-        cleanups.push(() => {
-          installBtn.removeEventListener("click", handleInstallClick);
-          wrapper.remove();
-        });
+        // No cleanup pushed. Under React's strict-mode double-invoke (Next.js
+        // dev default), the cleanup runs between the two mount invocations:
+        //   • `wrapper.remove()` would tear the wrapper out of the DOM, and
+        //     invocation 2's `querySelectorAll("pre")` finds nothing (the
+        //     original <pre> was already replaced) — empty slot.
+        //   • `removeEventListener` would leave the wrapper in place but
+        //     leave the click handler dead (re-attach in invocation 2 can't
+        //     happen — the original <pre> is gone, so the loop skips it).
+        // Letting React's commit phase tear down the parent <div> on unmount
+        // takes the wrapper and its listener with it via GC. No leak.
         return;
       }
 
@@ -94,10 +103,10 @@ export const MarkdownContent = ({ html, className }: Props) => {
       btn.addEventListener("click", handleClick);
       pre.appendChild(btn);
 
-      cleanups.push(() => {
-        btn.removeEventListener("click", handleClick);
-        btn.remove();
-      });
+      // Same rule as the install-snippet branch: no cleanup pushed. The
+      // early-return guard (`pre.querySelector("[data-copy-btn]")`) above
+      // makes invocation 2 idempotent; the unmount sweep on the parent
+      // takes the button with it via GC.
     });
 
     return () => cleanups.forEach((fn) => fn());
