@@ -1,4 +1,17 @@
-User-Agent: *
+# DeFiMath robots.txt
+# Served at https://defimath.com/robots.txt by Next.js static export (`public/*`).
+
+# Cloudflare Content Signals — declares how third-party crawlers may use
+# content pulled from this site. Spec: https://blog.cloudflare.com/content-signals/
+#   search        = traditional search indexing (Google, Bing, etc.)
+#   ai-train      = use as training data for LLMs
+#   ai-summarize  = quote / cite in AI-generated answers (ChatGPT, Perplexity, etc.)
+# All three are opt-in here — DeFiMath is an open-source library, the
+# accompanying llms.txt already invites LLM crawlers, and discoverability
+# (search rank + LLM-driven install_copy events) is part of the marketing.
+Content-Signal: search=yes, ai-train=yes, ai-summarize=yes
+
+User-agent: *
 Allow: /
 
 Sitemap: https://defimath.com/sitemap.xml
