@@ -25,6 +25,3 @@ package-lock.json
 
 # local agent instructions
 CLAUDE.md
-
-# marketing-internal trackers (directory submissions, listings, etc.) — local only
-/marketing

@@ -45,9 +45,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Umami sends beacons to gateway.umami.is — preconnect saves ~300ms on LCP path. */}
-        <link rel="preconnect" href="https://gateway.umami.is" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cloud.umami.is" crossOrigin="anonymous" />
+        {/* Ahrefs Analytics sends beacons to analytics.ahrefs.com — preconnect saves ~300ms on LCP path. */}
+        <link rel="preconnect" href="https://analytics.ahrefs.com" crossOrigin="anonymous" />
 
         {/* GA4 + Google Ads — single gtag.js handles both destinations. The stub runs
             immediately so window.gtag exists for click handlers; the 155 KiB library
@@ -80,11 +79,10 @@ export default function RootLayout({
           strategy="lazyOnload"
         />
 
-        {/* Umami */}
+        {/* Ahrefs Analytics — lightweight pageview tracking, no cookies. */}
         <Script
-          defer
-          src="https://cloud.umami.is/script.js"
-          data-website-id="f5364deb-2e8a-4fd6-8978-9e24033f7c7e"
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="ErxW5QEgtTiE79N0sfNfcA"
           strategy="afterInteractive"
         />
       </head>
