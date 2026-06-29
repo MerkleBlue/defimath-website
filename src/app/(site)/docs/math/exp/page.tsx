@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "exp — Math | DeFiMath docs",
-    description: "Solidity exponential function e^x in 18-decimal fixed-point. Gas-optimized at 331 gas, max rel. error 5.1e-14.",
+    description: "Solidity e^x in 18-decimal fixed-point — 331 gas, 5.1e-14 max rel. error. Range reduction plus Padé approximant in pure Yul assembly.",
     alternates: { canonical: "/docs/math/exp/" },
 };
 

@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "log1p — Math | DeFiMath docs",
-    description: "Solidity ln(1 + x) in 18-decimal fixed-point. Precision-preserving for small x via Taylor series. 500 gas, max rel. error 7.0e-15.",
+    description: "Solidity ln(1 + x) in 18-decimal fixed-point — 500 gas, 7.0e-15 max rel. error. Taylor branch for small x preserves precision where forming 1 + x would lose it.",
     alternates: { canonical: "/docs/math/log1p/" },
 };
 

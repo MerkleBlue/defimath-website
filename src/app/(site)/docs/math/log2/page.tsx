@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "log2 — Math | DeFiMath docs",
-    description: "Solidity base-2 logarithm in 18-decimal fixed-point. 391 gas, max rel. error 1.5e-14. Built on DeFiMath's gas-optimized ln.",
+    description: "Solidity base-2 logarithm in 18-decimal fixed-point — 391 gas, 1.5e-14 max rel. error. Change-of-base log₂(x) = ln(x) / ln(2) on DeFiMath's 375-gas ln.",
     alternates: { canonical: "/docs/math/log2/" },
 };
 

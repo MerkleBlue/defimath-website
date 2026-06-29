@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "expm1 — Math | DeFiMath docs",
-    description: "Solidity e^x − 1 in 18-decimal fixed-point. Precision-preserving for small x via Taylor series. 438 gas, max rel. error 9.9e-14.",
+    description: "Solidity e^x − 1 in 18-decimal fixed-point — 438 gas, 9.9e-14 max rel. error. Taylor branch for |x| < 0.01 preserves precision where naive exp(x) − 1 cancels.",
     alternates: { canonical: "/docs/math/expm1/" },
 };
 

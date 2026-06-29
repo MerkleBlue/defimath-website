@@ -4,7 +4,7 @@ import { BlogListing } from "@/components/Blog/BlogListing";
 
 export const metadata: Metadata = {
     title: "Blog | DefiMath",
-    description: "Articles and insights from the DefiMath team",
+    description: "Technical deep-dives from the DeFiMath team — Solidity gas optimization, EVM internals, math primitives, and how on-chain Black-Scholes pricing actually works.",
     alternates: { canonical: "/blog/" },
 };
 

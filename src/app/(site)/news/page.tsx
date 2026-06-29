@@ -4,7 +4,7 @@ import { NewsListing } from "@/components/News/NewsListing";
 
 export const metadata: Metadata = {
     title: "Latest News | DefiMath",
-    description: "Latest news and release notes from DefiMath",
+    description: "Latest DeFiMath news and release notes for the open-source Solidity library — Black-Scholes options pricing, Greeks, gas optimizations, and library milestones.",
     alternates: { canonical: "/news/" },
 };
 

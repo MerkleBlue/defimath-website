@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     const { page } = await params;
     return {
         title: `Blog — Page ${page} | DefiMath`,
-        description: "Older posts from the DefiMath blog",
+        description: "Older technical writeups from the DeFiMath team — Solidity gas optimization, EVM internals, math primitives, and on-chain options pricing internals.",
         alternates: { canonical: `/blog/page/${page}/` },
     };
 }

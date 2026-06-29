@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "ln — Math | DeFiMath docs",
-    description: "Solidity natural logarithm in 18-decimal fixed-point. Gas-optimized at 375 gas, max rel. error 1.5e-14.",
+    description: "Solidity natural logarithm in 18-decimal fixed-point — 375 gas, 1.5e-14 max rel. error. CLZ-derived range reduction (EIP-7939, EVM Osaka) plus polynomial fit.",
     alternates: { canonical: "/docs/math/ln/" },
 };
 

@@ -5,7 +5,7 @@ import { MathBlock } from "@/components/Documentation/Formula";
 
 export const metadata: Metadata = {
     title: "callOptionPrice — Options | DeFiMath docs",
-    description: "Black-Scholes European call option pricing in Solidity, 18-decimal fixed-point. 2,729 gas — 4.9× cheaper than next-best on-chain. Max abs. error 5.6e-12 at $1,000 spot.",
+    description: "Solidity Black-Scholes European call pricing, 18-decimal fixed-point — 2,729 gas, 5.6e-12 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
     alternates: { canonical: "/docs/options/calloptionprice/" },
 };
 

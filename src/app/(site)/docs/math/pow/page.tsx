@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "pow — Math | DeFiMath docs",
-    description: "Solidity power function x^a in 18-decimal fixed-point. Gas-optimized at 748 gas, max rel. error 5.2e-14.",
+    description: "Solidity power x^a in 18-decimal fixed-point — 748 gas, 5.2e-14 max rel. error. Composed as exp(a · ln(x)) on DeFiMath's CLZ-optimized ln and Padé exp.",
     alternates: { canonical: "/docs/math/pow/" },
 };
 

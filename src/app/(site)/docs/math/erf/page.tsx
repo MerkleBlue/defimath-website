@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "erf — Math | DeFiMath docs",
-    description: "Solidity error function erf(x) in 18-decimal fixed-point. Gas-optimized at 685 gas, max abs. error 7.4e-15.",
+    description: "Solidity error function erf(x) in 18-decimal fixed-point — 685 gas, 7.4e-15 max abs. error. West's rational approximation, same kernel as stdNormCDF.",
     alternates: { canonical: "/docs/math/erf/" },
 };
 

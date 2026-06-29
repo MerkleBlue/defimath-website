@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "cbrt — Math | DeFiMath docs",
-    description: "Solidity cube root in 18-decimal fixed-point. Gas-optimized at 368 gas, max rel. error 2.2e-16.",
+    description: "Solidity cube root in 18-decimal fixed-point — 368 gas, 2.2e-16 max rel. error. CLZ-derived initial guess (EIP-7939, EVM Osaka) plus single-branch Newton iteration.",
     alternates: { canonical: "/docs/math/cbrt/" },
 };
 

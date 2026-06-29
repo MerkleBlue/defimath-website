@@ -2,7 +2,7 @@
 import { Metadata } from "next";
 export const metadata: Metadata = {
     title: "Terms of use | DefiMath",
-    description: "Terms of use for DefiMath",
+    description: "DeFiMath Terms of Use covering the open-source MIT-licensed Solidity library for DeFi math, options, and rate primitives. Educational use only — no warranty.",
     alternates: { canonical: "/terms/" },
 };
 
