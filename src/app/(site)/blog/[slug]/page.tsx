@@ -72,7 +72,7 @@ export default async function Page({ params }: Params) {
                 <div className="container mx-auto lg:max-w-screen-md px-4">
 
                     <Link
-                        href="/blog"
+                        href="/blog/"
                         className="text-primary text-base font-medium underline"
                     >
                         ← Back to blog

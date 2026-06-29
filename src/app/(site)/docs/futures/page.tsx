@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <>
-            <Breadcrumb items={[{ label: "Docs", href: "/docs" }, { label: "Futures" }]} />
+            <Breadcrumb items={[{ label: "Docs", href: "/docs/" }, { label: "Futures" }]} />
             <Futures />
         </>
     );

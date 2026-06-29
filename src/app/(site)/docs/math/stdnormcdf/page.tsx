@@ -11,7 +11,7 @@ export default function Page() {
     return (
         <FunctionDetail
             breadcrumb={[
-                { label: "Math", href: "/docs/math" },
+                { label: "Math", href: "/docs/math/" },
                 { label: "stdNormCDF" },
             ]}
             module="Math"
@@ -30,7 +30,7 @@ export default function Page() {
             behaviorItems={[
                 <>Symmetric: <code className="text-primary">Φ(−x) = 1 − Φ(x)</code>. Handled internally — pass any signed <code className="text-primary">int256</code>.</>,
                 <>Saturates gracefully (no revert): returns <code className="text-primary">1e18</code> for <code className="text-primary">x ≥ 16.447</code> and <code className="text-primary">0</code> for <code className="text-primary">x ≤ −16.447</code>, where the true value is within <code className="text-primary">1e-60</code> of the bound.</>,
-                <>Built on the same West's approximation as <a href="/docs/math/erf" className="text-primary underline">erf</a> — calling <code className="text-primary">stdNormCDF</code> is the same kernel with one substitution.</>,
+                <>Built on the same West's approximation as <a href="/docs/math/erf/" className="text-primary underline">erf</a> — calling <code className="text-primary">stdNormCDF</code> is the same kernel with one substitution.</>,
                 <>Pure assembly hot path; no external calls or storage.</>,
             ]}
             howItWorks={(
@@ -40,7 +40,7 @@ export default function Page() {
                     </p>
                     <pre>{`Φ(x) = (1 + erf(x / √2)) / 2`}</pre>
                     <p>
-                        DeFiMath uses <a href="https://s2.smu.edu/~aleskovs/emis/sqc2/accuratecumnorm.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">West's rational approximation</a>, the same kernel that powers <a href="/docs/math/erf" className="text-primary underline">erf</a>. West parameterizes the approximation by <code className="text-primary">t = z · √2</code>, where <code className="text-primary">z</code> is the erf argument. Combining the two equations, the standard normal input <code className="text-primary">x</code> maps to <code className="text-primary">t = (x · 1/√2) · √2 = x</code> — the <code className="text-primary">1/√2</code> conversion and West's <code className="text-primary">·√2</code> cancel exactly. So <code className="text-primary">|x|</code> goes directly into the polynomial, no pre-scaling.
+                        DeFiMath uses <a href="https://s2.smu.edu/~aleskovs/emis/sqc2/accuratecumnorm.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">West's rational approximation</a>, the same kernel that powers <a href="/docs/math/erf/" className="text-primary underline">erf</a>. West parameterizes the approximation by <code className="text-primary">t = z · √2</code>, where <code className="text-primary">z</code> is the erf argument. Combining the two equations, the standard normal input <code className="text-primary">x</code> maps to <code className="text-primary">t = (x · 1/√2) · √2 = x</code> — the <code className="text-primary">1/√2</code> conversion and West's <code className="text-primary">·√2</code> cancel exactly. So <code className="text-primary">|x|</code> goes directly into the polynomial, no pre-scaling.
                     </p>
                     <p>
                         Each branch writes the result straight to <code className="text-primary">y</code> in assembly. For <code className="text-primary">x ≥ 0</code> the kernel returns <code className="text-primary">res = 1 − Φ(x)</code>, so we emit <code className="text-primary">y = 1e18 − res</code>. For <code className="text-primary">x &lt; 0</code> we exploit <code className="text-primary">Φ(−x) = 1 − Φ(x)</code> — the same <code className="text-primary">res</code> computed at <code className="text-primary">|x|</code> is already <code className="text-primary">Φ(x)</code>, so we emit it directly. No flag variable, no post-processing.

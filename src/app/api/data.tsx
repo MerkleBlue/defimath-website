@@ -110,7 +110,7 @@ export const featuresData: {
   {
     value: "40+ primitives",
     description: "Black-Scholes, binaries, Greeks, IV solver, futures, rates, statistics",
-    link: { href: "/docs", label: "See the full list" },
+    link: { href: "/docs/", label: "See the full list" },
   },
   { value: "0 dependencies", description: "pure Solidity ^0.8.31, MIT licensed" },
   {

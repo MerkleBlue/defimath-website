@@ -27,7 +27,7 @@ export function NewsListing({ items, currentPage, totalPages }: Props) {
                 {items.map((item) => (
                     <Link
                         key={item.slug}
-                        href={`/news/${item.slug}`}
+                        href={`/news/${item.slug}/`}
                         className="group block p-6 md:p-8 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200"
                     >
                         <div className="flex flex-wrap items-center gap-3 mb-3">

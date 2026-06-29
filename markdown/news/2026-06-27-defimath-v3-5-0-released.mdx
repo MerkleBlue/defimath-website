@@ -20,7 +20,7 @@ numbers now fit without recompiling.
 
 ## sqrt: full FP18-safe range
 
-`SQRT_UPPER_BOUND` on the [sqrt function](/docs/math/sqrt) raised from
+`SQRT_UPPER_BOUND` on the [sqrt function](/docs/math/sqrt/) raised from
 `2^80 · 1e18 ≈ 1.21 × 10⁴²` to `⌊(2²⁵⁶ − 1) / 1e18⌋ + 1 ≈ 1.158 × 10⁵⁹` —
 a ~10¹⁷× increase. The new ceiling is exactly the boundary where the FP18
 scaling step `x · 1e18` would overflow uint256; sqrt now exposes its full
@@ -28,8 +28,8 @@ precision-safe domain to callers.
 
 ## Options & Binary: MAX_EXPIRATION 2y → 32y
 
-`MAX_EXPIRATION` in both the [Options](/docs/options) and
-[Binary](/docs/binary) modules raised from **2 years** to **32 years**:
+`MAX_EXPIRATION` in both the [Options](/docs/options/) and
+[Binary](/docs/binary/) modules raised from **2 years** to **32 years**:
 
 ```solidity
 // Options.sol and Binary.sol

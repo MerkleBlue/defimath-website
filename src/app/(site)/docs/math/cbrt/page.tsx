@@ -11,7 +11,7 @@ export default function Page() {
     return (
         <FunctionDetail
             breadcrumb={[
-                { label: "Math", href: "/docs/math" },
+                { label: "Math", href: "/docs/math/" },
                 { label: "cbrt" },
             ]}
             module="Math"
@@ -35,7 +35,7 @@ export default function Page() {
             howItWorks={(
                 <>
                     <p>
-                        Cube root follows the same recipe as <a href="/docs/math/sqrt" className="text-primary underline">sqrt</a> — a CLZ-derived initial guess plus Newton's iteration — but with a twist that makes the implementation noticeably simpler. The cube-root Newton update is
+                        Cube root follows the same recipe as <a href="/docs/math/sqrt/" className="text-primary underline">sqrt</a> — a CLZ-derived initial guess plus Newton's iteration — but with a twist that makes the implementation noticeably simpler. The cube-root Newton update is
                     </p>
                     <pre>{`y ← (2y + x/y²) / 3`}</pre>
                     <p>

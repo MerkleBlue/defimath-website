@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 const MODULES = [
-  { href: "/docs/math", title: "Math", blurb: "Exp, log, sqrt, pow, standard normal CDF, error function, and more." },
-  { href: "/docs/options", title: "Options", blurb: "Black-Scholes pricing, full Greeks, and an iterative implied-volatility solver." },
-  { href: "/docs/binary", title: "Binary options", blurb: "Cash-or-nothing call and put pricing with full Greeks." },
-  { href: "/docs/futures", title: "Futures", blurb: "Continuous-compounding futures price." },
-  { href: "/docs/rates", title: "Rates", blurb: "Compound interest, present value, log returns, YTM, IRR." },
-  { href: "/docs/statistics", title: "Statistics", blurb: "Mean, std dev, historical volatility, Sharpe, max drawdown, VaR, CVaR." },
+  { href: "/docs/math/", title: "Math", blurb: "Exp, log, sqrt, pow, standard normal CDF, error function, and more." },
+  { href: "/docs/options/", title: "Options", blurb: "Black-Scholes pricing, full Greeks, and an iterative implied-volatility solver." },
+  { href: "/docs/binary/", title: "Binary options", blurb: "Cash-or-nothing call and put pricing with full Greeks." },
+  { href: "/docs/futures/", title: "Futures", blurb: "Continuous-compounding futures price." },
+  { href: "/docs/rates/", title: "Rates", blurb: "Compound interest, present value, log returns, YTM, IRR." },
+  { href: "/docs/statistics/", title: "Statistics", blurb: "Mean, std dev, historical volatility, Sharpe, max drawdown, VaR, CVaR." },
 ];
 
 export const Overview = () => {

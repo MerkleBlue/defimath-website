@@ -58,7 +58,7 @@ export const Futures = async () => {
         </li>
         <li>
           <span className="text-white font-semibold">No strike — this is a forward, not an option.</span>{" "}
-          For option pricing, use the <a href="/docs/options" className="text-primary underline">Options module</a>; for cash-or-nothing digitals, use <a href="/docs/binary" className="text-primary underline">Binary options</a>.
+          For option pricing, use the <a href="/docs/options/" className="text-primary underline">Options module</a>; for cash-or-nothing digitals, use <a href="/docs/binary/" className="text-primary underline">Binary options</a>.
         </li>
       </ul>
 

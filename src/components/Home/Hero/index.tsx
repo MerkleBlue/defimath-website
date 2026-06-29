@@ -15,7 +15,7 @@ const Hero = () => {
             </h1>
             <div className="flex items-center md:justify-start justify-center gap-8">
               <Link
-                href="/docs"
+                href="/docs/"
                 className="whitespace-nowrap bg-primary border border-primary rounded-lg text-21 font-medium hover:bg-transparent hover:text-primary text-darkmode py-2 px-7 z-50"
               >
                 Get started

@@ -13,7 +13,7 @@ metaKeywords:
   - gas optimization
 ---
 
-Seven small utility math functions land in [the Math module](/docs/math) — `mulDiv`,
+Seven small utility math functions land in [the Math module](/docs/math/) — `mulDiv`,
 `mul`, `abs`, `min`, `max`, `clamp`, `avg`. The kind every DeFi protocol ends up
 reimplementing, often without enough care. Each one is branchless where the math
 allows, gas-tight, and validated against BigInt references over 500+ random inputs
@@ -49,7 +49,7 @@ The remaining five round out the basics:
 - `clamp(x, lo, hi)` — **78 gas**, composed `max(x, lo)` then `min(_, hi)`.
 - `avg(a, b)` — **21 gas**, overflow-safe `(a & b) + ((a ^ b) >> 1)`. Never wraps even at the `uint256` ceiling where naive `(a + b) / 2` would.
 
-All seven are documented on the [Math module page](/docs/math).
+All seven are documented on the [Math module page](/docs/math/).
 
 ## Get it
 

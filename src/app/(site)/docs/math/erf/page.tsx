@@ -11,7 +11,7 @@ export default function Page() {
     return (
         <FunctionDetail
             breadcrumb={[
-                { label: "Math", href: "/docs/math" },
+                { label: "Math", href: "/docs/math/" },
                 { label: "erf" },
             ]}
             module="Math"
@@ -36,7 +36,7 @@ export default function Page() {
             howItWorks={(
                 <>
                     <p>
-                        The error function <code className="text-primary">erf(x) = (2/√π) · ∫₀ˣ e^(−t²) dt</code> has no closed form, so DeFiMath uses <a href="https://s2.smu.edu/~aleskovs/emis/sqc2/accuratecumnorm.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">West's rational approximation</a> — the same machinery <a href="/docs/math/stdnormcdf" className="text-primary underline">stdNormCDF</a> uses, with a single substitution to map between domains. The trick is the change of variable <code className="text-primary">t = x · √2</code>, which expresses <code className="text-primary">erf</code> in the gaussian-integral form West's paper was designed for:
+                        The error function <code className="text-primary">erf(x) = (2/√π) · ∫₀ˣ e^(−t²) dt</code> has no closed form, so DeFiMath uses <a href="https://s2.smu.edu/~aleskovs/emis/sqc2/accuratecumnorm.pdf" target="_blank" rel="noopener noreferrer" className="text-primary underline">West's rational approximation</a> — the same machinery <a href="/docs/math/stdnormcdf/" className="text-primary underline">stdNormCDF</a> uses, with a single substitution to map between domains. The trick is the change of variable <code className="text-primary">t = x · √2</code>, which expresses <code className="text-primary">erf</code> in the gaussian-integral form West's paper was designed for:
                     </p>
                     <pre>{`erf(x) = 1 − 2 · R(t) · e^(−t²/2),   where R(t) = num(t)/denom(t)`}</pre>
                     <p>

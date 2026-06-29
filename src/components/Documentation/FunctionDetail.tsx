@@ -96,7 +96,7 @@ export const FunctionDetail = async ({
 }: Props) => {
   return (
     <article className="pb-10">
-      <Breadcrumb items={[{ label: "Docs", href: "/docs" }, ...breadcrumb]} />
+      <Breadcrumb items={[{ label: "Docs", href: "/docs/" }, ...breadcrumb]} />
 
       <div className="flex flex-wrap items-center gap-3 mb-3">
         <h1 className="font-mono text-white text-40 md:text-44 lg:text-54 font-semibold">

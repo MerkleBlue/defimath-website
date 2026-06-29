@@ -28,7 +28,7 @@ export function BlogListing({ posts, currentPage, totalPages }: Props) {
                 {posts.map((post) => (
                     <Link
                         key={post.slug}
-                        href={`/blog/${post.slug}`}
+                        href={`/blog/${post.slug}/`}
                         className="group md:col-span-4 col-span-12 flex flex-col rounded-md border border-dark_border border-opacity-60 overflow-hidden hover:border-primary duration-200"
                     >
                         {post.coverImage && (

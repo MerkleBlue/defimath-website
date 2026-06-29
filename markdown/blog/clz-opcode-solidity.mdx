@@ -72,7 +72,7 @@ Both compile to one instruction. The rest of the post is what we do with that.
 
 Newton-Raphson for square root iterates `y ← (y + x/y) / 2` and roughly doubles the number of correct bits per step. The catch is that you have to *start somewhere*. A constant initial guess (say, `y₀ = 1`) needs ~30 iterations to converge to 18 decimals — a non-starter on-chain.
 
-CLZ collapses the initial-guess problem: `y₀ = 2^⌈bits/2⌉` is within a factor of `√2` (~1.41) of the true root. From one bit of error, six Newton iterations land bit-exact at the 1e18 fixed-point scale. The [DeFiMath sqrt](/docs/math/sqrt) hot path:
+CLZ collapses the initial-guess problem: `y₀ = 2^⌈bits/2⌉` is within a factor of `√2` (~1.41) of the true root. From one bit of error, six Newton iterations land bit-exact at the 1e18 fixed-point scale. The [DeFiMath sqrt](/docs/math/sqrt/) hot path:
 
 ```solidity
 assembly {
@@ -94,7 +94,7 @@ That's the whole function. 245 gas average.
 
 ## Use #2: cbrt initial guess
 
-Same trick at a different exponent. For cube root, `y₀ = 2^⌈bits/3⌉` lands within a factor of `∛2` (~1.26) of the true cube root. Six iterations of the cube-root Newton update `y ← (2y + x/y²) / 3` get to bit-exact precision. The [cbrt page](/docs/math/cbrt) has the full breakdown — most notably why this lets cbrt be single-branch where sqrt needs an inversion branch for `x < 1`. 368 gas average.
+Same trick at a different exponent. For cube root, `y₀ = 2^⌈bits/3⌉` lands within a factor of `∛2` (~1.26) of the true cube root. Six iterations of the cube-root Newton update `y ← (2y + x/y²) / 3` get to bit-exact precision. The [cbrt page](/docs/math/cbrt/) has the full breakdown — most notably why this lets cbrt be single-branch where sqrt needs an inversion branch for `x < 1`. 368 gas average.
 
 ## Use #3: ln range reduction
 
@@ -109,7 +109,7 @@ assembly {
 }
 ```
 
-[DeFiMath's ln](/docs/math/ln) does exactly this, then narrows further to `[1, √2)` with one more conditional divide so the Mercator series converges in ~10 terms. Total: 375 gas.
+[DeFiMath's ln](/docs/math/ln/) does exactly this, then narrows further to `[1, √2)` with one more conditional divide so the Mercator series converges in ~10 terms. Total: 375 gas.
 
 ## What this looks like across the libraries
 
@@ -156,7 +156,7 @@ The two functions where Solady stays competitive are exactly the ones with the c
 
 ## Compounding effects
 
-The savings don't stop at the primitives. `sqrt` and `ln` are the building blocks of Black-Scholes option pricing: both `callOptionPrice` and `putOptionPrice` call `ln(spot / strike)` once and a sqrt-based time-adjusted volatility once per evaluation. Swapping in the CLZ-powered versions of those two primitives drops [`callOptionPrice`](/docs/options) from ~3,100 gas to **2,876 gas** — roughly 10% cheaper, with zero change to the option-pricing math itself.
+The savings don't stop at the primitives. `sqrt` and `ln` are the building blocks of Black-Scholes option pricing: both `callOptionPrice` and `putOptionPrice` call `ln(spot / strike)` once and a sqrt-based time-adjusted volatility once per evaluation. Swapping in the CLZ-powered versions of those two primitives drops [`callOptionPrice`](/docs/options/) from ~3,100 gas to **2,876 gas** — roughly 10% cheaper, with zero change to the option-pricing math itself.
 
 The pattern repeats across the library. Every function that touches a root or a logarithm — IV solving, futures, log returns, historical volatility, Sharpe ratio — gets a free discount the moment its inner primitives switch to CLZ-based versions. The opcode doesn't just save ~150 gas on one `log2` call; it saves that ~150 gas everywhere `log2` lives.
 
@@ -172,6 +172,6 @@ The pattern repeats across the library. Every function that touches a root or a 
 npm install defimath-lib
 ```
 
-CLZ-powered primitives: [sqrt](/docs/math/sqrt), [cbrt](/docs/math/cbrt), [ln](/docs/math/ln). The library is MIT-licensed, pure Solidity, zero runtime dependencies. Source on [GitHub](https://github.com/MerkleBlue/defimath), reference benchmarks against PRBMath, ABDK, Solady and SolStat in [defimath-compare](https://github.com/MerkleBlue/defimath-compare).
+CLZ-powered primitives: [sqrt](/docs/math/sqrt/), [cbrt](/docs/math/cbrt/), [ln](/docs/math/ln/). The library is MIT-licensed, pure Solidity, zero runtime dependencies. Source on [GitHub](https://github.com/MerkleBlue/defimath), reference benchmarks against PRBMath, ABDK, Solady and SolStat in [defimath-compare](https://github.com/MerkleBlue/defimath-compare).
 
 The CLZ opcode itself is specified in [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939).

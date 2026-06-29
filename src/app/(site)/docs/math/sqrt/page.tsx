@@ -11,7 +11,7 @@ export default function Page() {
     return (
         <FunctionDetail
             breadcrumb={[
-                { label: "Math", href: "/docs/math" },
+                { label: "Math", href: "/docs/math/" },
                 { label: "sqrt" },
             ]}
             module="Math"

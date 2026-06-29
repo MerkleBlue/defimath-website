@@ -72,7 +72,7 @@ export default async function Page({ params }: Params) {
                 <div className="container mx-auto lg:max-w-screen-md px-4">
 
                     <Link
-                        href="/news"
+                        href="/news/"
                         className="text-primary text-base font-medium underline"
                     >
                         ← Back to news
@@ -104,7 +104,7 @@ export default async function Page({ params }: Params) {
                         >
                             {older ? (
                                 <Link
-                                    href={`/news/${older.slug}`}
+                                    href={`/news/${older.slug}/`}
                                     className="group flex-1 min-w-0 p-5 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200"
                                 >
                                     <span className="block text-sm font-medium text-muted text-opacity-60 mb-1">
@@ -120,7 +120,7 @@ export default async function Page({ params }: Params) {
 
                             {newer ? (
                                 <Link
-                                    href={`/news/${newer.slug}`}
+                                    href={`/news/${newer.slug}/`}
                                     className="group flex-1 min-w-0 p-5 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200 sm:text-right"
                                 >
                                     <span className="block text-sm font-medium text-muted text-opacity-60 mb-1">

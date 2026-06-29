@@ -13,7 +13,7 @@ export default function Page() {
     return (
         <FunctionDetail
             breadcrumb={[
-                { label: "Options", href: "/docs/options" },
+                { label: "Options", href: "/docs/options/" },
                 { label: "callOptionPrice" },
             ]}
             module="Options"
@@ -41,11 +41,11 @@ export default function Page() {
             ]}
             behaviorItems={[
                 <>Validates all five inputs against module-wide constants and reverts with a typed error on any violation.</>,
-                <>Volatility has no explicit revert — it&apos;s bounded only by its <code className="text-primary">uint64</code> type (max ≈ <code className="text-primary">1.84e19</code>, i.e. ~1840% annualized). Practical inputs stay well below that ceiling; the <code className="text-primary">MIN_VOL_IV</code> / <code className="text-primary">MAX_VOL_IV</code> constants in the source apply only to the <Link href="/docs/options" className="text-primary underline">impliedVolatility</Link> solver, not the pricer.</>,
+                <>Volatility has no explicit revert — it&apos;s bounded only by its <code className="text-primary">uint64</code> type (max ≈ <code className="text-primary">1.84e19</code>, i.e. ~1840% annualized). Practical inputs stay well below that ceiling; the <code className="text-primary">MIN_VOL_IV</code> / <code className="text-primary">MAX_VOL_IV</code> constants in the source apply only to the <Link href="/docs/options/" className="text-primary underline">impliedVolatility</Link> solver, not the pricer.</>,
                 <>Fast-path on expiration: when <code className="text-primary">timeToExp == 0</code>, returns intrinsic value <code className="text-primary">max(spot − strike, 0)</code> without running the pricer.</>,
-                <>Composes four DeFiMath primitives — <Link href="/docs/math/ln" className="text-primary underline">ln</Link>, <code className="text-primary">sqrtTime</code> (specialized <Link href="/docs/math/sqrt" className="text-primary underline">sqrt</Link> for years), <code className="text-primary">expPositive</code> (rate is non-negative by validation), and <Link href="/docs/math/stdnormcdf" className="text-primary underline">stdNormCDF</Link> — each independently gas-tuned and validated.</>,
+                <>Composes four DeFiMath primitives — <Link href="/docs/math/ln/" className="text-primary underline">ln</Link>, <code className="text-primary">sqrtTime</code> (specialized <Link href="/docs/math/sqrt/" className="text-primary underline">sqrt</Link> for years), <code className="text-primary">expPositive</code> (rate is non-negative by validation), and <Link href="/docs/math/stdnormcdf/" className="text-primary underline">stdNormCDF</Link> — each independently gas-tuned and validated.</>,
                 <>Pure <code className="text-primary">internal</code> function; no external calls, no storage. Inlined into the caller&apos;s bytecode at compile time.</>,
-                <>Symmetric counterpart: <Link href="/docs/options/putoptionprice" className="text-primary underline">putOptionPrice</Link> uses identical input validation and the same d₁/d₂ machinery — substituting <code className="text-primary">Φ(−d₁)</code>/<code className="text-primary">Φ(−d₂)</code> for the call&apos;s <code className="text-primary">Φ(d₁)</code>/<code className="text-primary">Φ(d₂)</code>.</>,
+                <>Symmetric counterpart: <Link href="/docs/options/putoptionprice/" className="text-primary underline">putOptionPrice</Link> uses identical input validation and the same d₁/d₂ machinery — substituting <code className="text-primary">Φ(−d₁)</code>/<code className="text-primary">Φ(−d₂)</code> for the call&apos;s <code className="text-primary">Φ(d₁)</code>/<code className="text-primary">Φ(d₂)</code>.</>,
             ]}
             howItWorks={(
                 <>
@@ -55,7 +55,7 @@ export default function Page() {
                     <MathBlock>{String.raw`C = S \cdot \Phi(d_1) - K \, e^{-rT} \cdot \Phi(d_2)`}</MathBlock>
                     <MathBlock>{String.raw`d_1 = \frac{\ln(S/K) + \left(r + \tfrac{\sigma^2}{2}\right) T}{\sigma \sqrt{T}}, \qquad d_2 = d_1 - \sigma \sqrt{T}`}</MathBlock>
                     <p>
-                        Every transcendental in the formula maps to a DeFiMath primitive: <code className="text-primary">σ·√T</code> uses <code className="text-primary">DeFiMath.sqrtTime</code> (a specialized square root tuned for time-in-years inputs), <code className="text-primary">ln(spot/strike)</code> uses <Link href="/docs/math/ln" className="text-primary underline">DeFiMath.ln</Link>, the discount factor <code className="text-primary">e^(−rT)</code> is computed as <code className="text-primary">1 / DeFiMath.expPositive(rT)</code> (since the input bounds guarantee <code className="text-primary">rT ≥ 0</code>, we skip the negative-input reciprocal branch), and the two normal CDFs use <Link href="/docs/math/stdnormcdf" className="text-primary underline">DeFiMath.stdNormCDF</Link>.
+                        Every transcendental in the formula maps to a DeFiMath primitive: <code className="text-primary">σ·√T</code> uses <code className="text-primary">DeFiMath.sqrtTime</code> (a specialized square root tuned for time-in-years inputs), <code className="text-primary">ln(spot/strike)</code> uses <Link href="/docs/math/ln/" className="text-primary underline">DeFiMath.ln</Link>, the discount factor <code className="text-primary">e^(−rT)</code> is computed as <code className="text-primary">1 / DeFiMath.expPositive(rT)</code> (since the input bounds guarantee <code className="text-primary">rT ≥ 0</code>, we skip the negative-input reciprocal branch), and the two normal CDFs use <Link href="/docs/math/stdnormcdf/" className="text-primary underline">DeFiMath.stdNormCDF</Link>.
                     </p>
                     <p>
                         The annualization step converts <code className="text-primary">timeToExp</code> (seconds) to a year fraction by dividing by <code className="text-primary">SECONDS_IN_YEAR</code>, then scales volatility by <code className="text-primary">√T</code> once and reuses the result through <code className="text-primary">d₁</code>, <code className="text-primary">d₂</code>, and the integral bounds. The <code className="text-primary">+1</code> on <code className="text-primary">scaledVol</code> is a defensive bump to keep the division in <code className="text-primary">d₁</code> well-defined even for zero-vol edge cases.

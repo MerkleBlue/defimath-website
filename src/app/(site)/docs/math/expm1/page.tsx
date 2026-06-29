@@ -12,7 +12,7 @@ export default function Page() {
     return (
         <FunctionDetail
             breadcrumb={[
-                { label: "Math", href: "/docs/math" },
+                { label: "Math", href: "/docs/math/" },
                 { label: "expm1" },
             ]}
             module="Math"
@@ -29,8 +29,8 @@ export default function Page() {
             ]}
             behaviorItems={[
                 <>For <code className="text-primary">|x| &lt; 0.01</code>: evaluates a 10-term Taylor series <code className="text-primary">x + x²/2! + x³/3! + … + x¹⁰/10!</code>, accurate to ~1e-29 truncation error at the interval boundary.</>,
-                <>For <code className="text-primary">|x| ≥ 0.01</code>: falls through to <code className="text-primary">int256(<Link href="/docs/math/exp" className="text-primary underline">exp</Link>(x)) − 1e18</code>, which has sufficient headroom that the subtraction no longer loses precision.</>,
-                <>Inherits <Link href="/docs/math/exp" className="text-primary underline">exp</Link>&apos;s bound: reverts with <code className="text-primary">ExpUpperBoundError()</code> when <code className="text-primary">x ≥ 135.305999…e18</code>.</>,
+                <>For <code className="text-primary">|x| ≥ 0.01</code>: falls through to <code className="text-primary">int256(<Link href="/docs/math/exp/" className="text-primary underline">exp</Link>(x)) − 1e18</code>, which has sufficient headroom that the subtraction no longer loses precision.</>,
+                <>Inherits <Link href="/docs/math/exp/" className="text-primary underline">exp</Link>&apos;s bound: reverts with <code className="text-primary">ExpUpperBoundError()</code> when <code className="text-primary">x ≥ 135.305999…e18</code>.</>,
                 <>For very negative inputs (roughly <code className="text-primary">x &lt; −41.45e18</code>) returns <code className="text-primary">−1e18</code> — the asymptotic limit of <code className="text-primary">e^x − 1</code> as <code className="text-primary">x → −∞</code>.</>,
                 <>Pure <code className="text-primary">internal</code> function; no external calls or storage.</>,
             ]}
@@ -47,10 +47,10 @@ export default function Page() {
                         With 10 terms the truncation error at the interval boundary (<code className="text-primary">|x| = 0.01</code>) is on the order of <code className="text-primary">0.01¹¹ / 11!</code> ≈ <code className="text-primary">2.5e-30</code>, well below 18-digit precision. Every term is computed as an integer multiply-and-divide, no exponential machinery needed — and because each <code className="text-primary">x</code> in the small range stays well-conditioned, no digits are lost to cancellation.
                     </p>
                     <p>
-                        For <code className="text-primary">|x| ≥ 0.01</code> the cancellation problem disappears: <code className="text-primary">exp(x)</code> and <code className="text-primary">1</code> are no longer near-equal, so the function falls through to <code className="text-primary">int256(<Link href="/docs/math/exp" className="text-primary underline">exp</Link>(x)) − 1e18</code> and inherits <code className="text-primary">exp</code>&apos;s ~5e-14 precision. The split point at <code className="text-primary">0.01</code> is where the two error profiles meet — below it the Taylor branch dominates, above it the <code className="text-primary">exp</code> branch does.
+                        For <code className="text-primary">|x| ≥ 0.01</code> the cancellation problem disappears: <code className="text-primary">exp(x)</code> and <code className="text-primary">1</code> are no longer near-equal, so the function falls through to <code className="text-primary">int256(<Link href="/docs/math/exp/" className="text-primary underline">exp</Link>(x)) − 1e18</code> and inherits <code className="text-primary">exp</code>&apos;s ~5e-14 precision. The split point at <code className="text-primary">0.01</code> is where the two error profiles meet — below it the Taylor branch dominates, above it the <code className="text-primary">exp</code> branch does.
                     </p>
                     <p>
-                        Note the return type is <code className="text-primary">int256</code>, not <code className="text-primary">uint256</code> like <Link href="/docs/math/exp" className="text-primary underline">exp</Link> — <code className="text-primary">expm1</code> returns negative values for <code className="text-primary">x &lt; 0</code> (e.g. <code className="text-primary">expm1(−1) ≈ −0.632</code>).
+                        Note the return type is <code className="text-primary">int256</code>, not <code className="text-primary">uint256</code> like <Link href="/docs/math/exp/" className="text-primary underline">exp</Link> — <code className="text-primary">expm1</code> returns negative values for <code className="text-primary">x &lt; 0</code> (e.g. <code className="text-primary">expm1(−1) ≈ −0.632</code>).
                     </p>
                 </>
             )}

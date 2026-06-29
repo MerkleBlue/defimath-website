@@ -78,7 +78,7 @@ export const BinaryOptions = async () => {
         </li>
         <li>
           <span className="text-white font-semibold">When to use binary vs. vanilla.</span>{" "}
-          Use binaries when the payout is discrete (prediction markets, depeg coverage, threshold hedges). For continuous payoff structures, reach for the <a href="/docs/options" className="text-primary underline">Options module</a>.
+          Use binaries when the payout is discrete (prediction markets, depeg coverage, threshold hedges). For continuous payoff structures, reach for the <a href="/docs/options/" className="text-primary underline">Options module</a>.
         </li>
       </ul>
 

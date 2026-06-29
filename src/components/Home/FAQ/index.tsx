@@ -102,7 +102,7 @@ const FAQ = async () => {
         <>
           Yes, on any L2 that has rolled forward to the Osaka hard fork (
           <code className="text-primary">CLZ</code> opcode availability). See{" "}
-          <a href="/supported-chains" className="text-primary underline">
+          <a href="/supported-chains/" className="text-primary underline">
             supported chains
           </a>{" "}
           for the live list.
@@ -139,7 +139,7 @@ const FAQ = async () => {
             dangerouslySetInnerHTML={{ __html: importHtml }}
           />
           <a
-            href="/docs#getting-started"
+            href="/docs/#getting-started"
             className="mt-3 inline-block text-primary underline"
           >
             See getting started →
