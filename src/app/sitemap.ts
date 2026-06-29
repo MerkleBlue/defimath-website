@@ -36,14 +36,22 @@ const STATIC_PAGES: Entry[] = [
   { path: "/docs/rates/", changeFrequency: "monthly", priority: 0.9 },
   { path: "/docs/statistics/", changeFrequency: "monthly", priority: 0.9 },
 
-  // Per-function pages
+  // Per-function pages — Math
   { path: "/docs/math/exp/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/math/expm1/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/math/ln/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/math/log1p/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/math/log2/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/math/log10/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/math/pow/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/math/sqrt/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/math/cbrt/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/math/erf/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/math/stdnormcdf/", changeFrequency: "monthly", priority: 0.8 },
+
+  // Per-function pages — Options
+  { path: "/docs/options/calloptionprice/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/options/putoptionprice/", changeFrequency: "monthly", priority: 0.8 },
 
   // Blog + news index
   { path: "/blog/", changeFrequency: "weekly", priority: 0.7 },
