@@ -43,8 +43,8 @@ export const Rates = async () => {
           { name: "compoundInterest", gas: "467", description: "Continuous compounding: P · e^(r·t)" },
           { name: "presentValue", gas: "519", description: "Discounting: FV · e^(−r·t)" },
           { name: "logReturn", gas: "600", description: "ln(currentPrice / previousPrice)" },
-          { name: "continuousToDiscrete", gas: "508", description: "e^apr − 1 (APR → APY)" },
-          { name: "discreteToContinuous", gas: "589", description: "ln(1 + apy) (APY → APR)" },
+          { name: "continuousToDiscrete", gas: "492", description: "e^apr − 1 (APR → APY)" },
+          { name: "discreteToContinuous", gas: "574", description: "ln(1 + apy) (APY → APR)" },
           { name: "yieldToMaturity", gas: "736", description: "Zero-coupon YTM (closed form)" },
           { name: "internalRateOfReturn", gas: "17k–49k", description: "IRR via Newton-Raphson (scales with cashflow count)" },
         ]}

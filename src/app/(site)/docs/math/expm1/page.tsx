@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "expm1 — Math | DeFiMath docs",
-    description: "Solidity e^x − 1 in 18-decimal fixed-point — 438 gas, 9.9e-14 max rel. error. Taylor branch for |x| < 0.01 preserves precision where naive exp(x) − 1 cancels.",
+    description: "Solidity e^x − 1 in 18-decimal fixed-point — 430 gas, 9.9e-14 max rel. error. Taylor branch for |x| < 0.01 preserves precision where naive exp(x) − 1 cancels.",
     alternates: { canonical: "/docs/math/expm1/" },
 };
 
@@ -18,7 +18,7 @@ export default function Page() {
             module="Math"
             name="expm1"
             summary="Computes e^x − 1 while preserving full 18-digit precision near zero, where the naive exp(x) − 1 formula catastrophically cancels."
-            gas="438"
+            gas="430"
             precision="9.9e-14"
             signature={`function expm1(int256 x) internal pure returns (int256 y)`}
             parameters={[

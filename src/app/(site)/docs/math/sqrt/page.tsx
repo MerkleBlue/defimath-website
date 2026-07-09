@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "sqrt — Math | DeFiMath docs",
-    description: "Solidity square root in 18-decimal fixed-point — 245 gas, 2.8e-16 max rel. error. CLZ-derived initial guess (EIP-7939, EVM Osaka) plus Newton's iteration.",
+    description: "Solidity square root in 18-decimal fixed-point — 218 gas, 2.2e-16 max rel. error. Minimax linear seed on a Q0.30 mantissa + 4 Newton iterations. Full uint256 domain, no revert.",
     alternates: { canonical: "/docs/math/sqrt/" },
 };
 
@@ -16,45 +16,57 @@ export default function Page() {
             ]}
             module="Math"
             name="sqrt"
-            summary="Computes the principal square root of an 18-decimal fixed-point input."
-            gas="245"
-            precision="2.8e-16"
+            summary="Computes the principal square root of an 18-decimal fixed-point input. Accepts the full uint256 domain without reverting."
+            gas="218"
+            precision="2.2e-16"
             signature={`function sqrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
-                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0)." },
+                { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0). Any value in [0, uint256.max] accepted." },
             ]}
             returns={[
                 { name: "y", type: "uint256", description: "Square root √x in 18-decimal fixed-point format." },
             ]}
             behaviorItems={[
-                <>Returns <code className="text-primary">0</code> when <code className="text-primary">x == 0</code> (no revert).</>,
-                <>Reverts with <code className="text-primary">SqrtUpperBoundError()</code> only at the input magnitude where the FP18 scaling step (<code className="text-primary">x · 1e18</code>) would overflow <code className="text-primary">uint256</code> — i.e. <code className="text-primary">x ≥ ⌊(2²⁵⁶ − 1) / 1e18⌋ + 1 ≈ 1.158e59</code>.</>,
-                <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) for a near-optimal initial guess; see <a className="text-primary underline" href="https://eips.ethereum.org/EIPS/eip-7939" target="_blank" rel="noopener noreferrer">EIP-7939</a>.</>,
+                <>Returns <code className="text-primary">0</code> when <code className="text-primary">x == 0</code> — handled by the algorithm's natural underflow via EVM&apos;s <code className="text-primary">div(0, 0) = 0</code> semantic, no explicit guard.</>,
+                <>Never reverts. Handles the full <code className="text-primary">[0, uint256.max]</code> range via a two-branch split at <code className="text-primary">type(uint128).max</code>.</>,
+                <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) inside the range reduction; see <a className="text-primary underline" href="https://eips.ethereum.org/EIPS/eip-7939" target="_blank" rel="noopener noreferrer">EIP-7939</a>.</>,
                 <>Pure assembly hot path; no external calls or storage.</>,
             ]}
             howItWorks={(
                 <>
                     <p>
-                        Square root in fixed-point reduces to two well-known problems: getting a fast initial guess and converging quickly with Newton's iteration. DeFiMath does both in assembly. The <code className="text-primary">CLZ</code> opcode (introduced in EVM Osaka) gives us <code className="text-primary">floor(log2(x))</code> for free, and from there an initial guess <code className="text-primary">y₀ = 2^⌈bits/2⌉</code> lands within a factor of <code className="text-primary">√2</code> (~1.41) of the true root — a one-bit error. Newton's iteration
+                        Square root in fixed-point reduces to three steps: reduce the input to a bounded mantissa, seed the answer from a linear approximation on that mantissa, and refine with Newton&apos;s iteration. DeFiMath does all three in assembly.
                     </p>
-                    <pre>{`y ← (y + x/y) / 2`}</pre>
+                    <pre>{`// Range reduction with CLZ (EIP-7939) — bounded mantissa m ∈ [2^30, 2^32)
+k := (256 − clz(x) − 31) & ~1
+m := x >> k
+
+// Minimax linear seed on m — sqrt(m_real) ≈ m_real/3 + 17/24, in Q0.30
+seed := 760567125 + m/3
+y_seed := seed << (k/2 − 15)
+
+// 4 Newton iterations — quadratic convergence to bit-perfect FP18
+y ← (y + x/y) / 2`}</pre>
                     <p>
-                        then doubles the number of correct bits every step, so six iterations carry us from one correct bit to 64 — comfortably bit-exact at the 1e18 fixed-point scale.
+                        The minimax linear approximation on <code className="text-primary">[1, 4)</code> gives ~4.6 correct bits from the start. Newton doubles the bit count each iteration: 4.6 → 9.2 → 18.4 → 36.8 → 73.6. Four iterations comfortably exceeds FP18&apos;s ~60-bit precision ceiling.
                     </p>
                     <p>
-                        To compute <code className="text-primary">sqrt(v) · 1e18</code> we scale the input first: <code className="text-primary">sqrt(x · 1e18) = sqrt(v · 1e36) = sqrt(v) · 1e18</code>. So for inputs ≥ 1.0 we multiply by 1e18 once, run the iteration, and we're done. The input cap is set at exactly the boundary where this scaling multiplication would overflow <code className="text-primary">uint256</code> — no earlier, so the function accepts the full precision-safe input range.
+                        The <code className="text-primary">Q0.30</code> mantissa (rather than the more common floating-point bases) makes every shift a clean power-of-2 operation, sidesteps the √2 parity correction on reconstruction, and works uniformly for both <code className="text-primary">x ≥ 1</code> and <code className="text-primary">x &lt; 1</code> without a branch inside the main path.
                     </p>
                     <p>
-                        For inputs below 1.0 we invert instead of scaling: compute <code className="text-primary">sqrt(1e54 / x)</code>, then divide <code className="text-primary">1e36</code> by the result. This preserves bit precision — a naive <code className="text-primary">sqrt(x · 1e18)</code> for tiny <code className="text-primary">x</code> would land in too few high-order bits and lose accuracy. The whole hot path stays in <code className="text-primary">unchecked</code> Yul assembly with no branches inside Newton — ~245 gas, the cheapest sqrt of any on-chain library we've measured.
+                        <strong>Two branches</strong> handle the full <code className="text-primary">uint256</code> domain. For <code className="text-primary">x ≤ type(uint128).max</code>, the input is pre-scaled by <code className="text-primary">1e18</code> so Newton converges to FP18 directly — bit-perfect. For <code className="text-primary">x &gt; type(uint128).max</code> (where <code className="text-primary">x · 1e18</code> would overflow), Newton runs on raw <code className="text-primary">x</code> and the result is post-scaled by <code className="text-primary">1e9</code>. Both branches are bit-perfect; the split is chosen so integer sqrt still has enough significant digits at the boundary.
+                    </p>
+                    <p>
+                        Total: ~218 gas for typical inputs — the cheapest sqrt of any on-chain library we&apos;ve measured. And the widest domain: no other library accepts the full <code className="text-primary">uint256</code> range without reverting.
                     </p>
                 </>
             )}
             limits={{
                 constants: [
-                    { name: "SQRT_UPPER_BOUND", value: <><code className="text-primary">⌊(2²⁵⁶ − 1) / 1e18⌋ + 1 ≈ 1.158e59</code> — the smallest input where the FP18 scaling step <code className="text-primary">x · 1e18</code> would overflow <code className="text-primary">uint256</code>. <code className="text-primary">x == 0</code> returns <code className="text-primary">0</code> without revert.</> },
+                    { name: "Input domain", value: <>Full <code className="text-primary">uint256</code> domain — the function has no named bounds and accepts any input in <code className="text-primary">[0, uint256.max]</code>. The internal branch cutoff at <code className="text-primary">type(uint128).max</code> is an implementation detail, not a limit on callers.</> },
                 ],
                 errors: [
-                    { name: "SqrtUpperBoundError", trigger: <><code className="text-primary">x ≥ SQRT_UPPER_BOUND</code></> },
+                    { name: "None", trigger: <>Never reverts. Accepts any <code className="text-primary">uint256</code> input. <code className="text-primary">x == 0</code> returns <code className="text-primary">0</code>; large <code className="text-primary">x</code> takes the post-scale branch and stays FP18-accurate.</> },
                 ],
             }}
             example={`import "defimath-lib/contracts/math/Math.sol";

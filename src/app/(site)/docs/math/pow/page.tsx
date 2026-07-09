@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "pow — Math | DeFiMath docs",
-    description: "Solidity power x^a in 18-decimal fixed-point — 748 gas, 5.2e-14 max rel. error. Composed as exp(a · ln(x)) on DeFiMath's CLZ-optimized ln and Padé exp.",
+    description: "Solidity power x^a in 18-decimal fixed-point — 803 gas, 5.2e-14 max rel. error. Composed as exp(a · ln(x)) on DeFiMath's CLZ-optimized ln and Padé exp.",
     alternates: { canonical: "/docs/math/pow/" },
 };
 
@@ -17,7 +17,7 @@ export default function Page() {
             module="Math"
             name="pow"
             summary="Computes the power function x^a for an 18-decimal fixed-point base and signed exponent."
-            gas="748"
+            gas="803"
             precision="5.2e-14"
             signature={`function pow(uint256 x, int256 a) internal pure returns (uint256 y)`}
             parameters={[
@@ -44,7 +44,7 @@ export default function Page() {
                         DeFiMath just composes its <a href="/docs/math/ln/" className="text-primary underline">ln</a> and <a href="/docs/math/exp/" className="text-primary underline">exp</a> — no separate Taylor series, no special handling of integer exponents, no per-case branching. The composition inherits both functions' bounds and precision automatically, and means <code className="text-primary">pow</code> doesn't have to be re-tuned every time <code className="text-primary">ln</code> or <code className="text-primary">exp</code> get a gas tweak.
                     </p>
                     <p>
-                        One fast path: <code className="text-primary">x^0 = 1</code> (which also covers <code className="text-primary">0^0 = 1</code> by convention) short-circuits before either expensive call. Everything else flows through <code className="text-primary">ln</code>, multiplies by <code className="text-primary">a</code>, then through <code className="text-primary">exp</code> — ~748 gas total, roughly the sum of one <code className="text-primary">ln</code> (375 gas) and one <code className="text-primary">exp</code> (331 gas).
+                        One fast path: <code className="text-primary">x^0 = 1</code> (which also covers <code className="text-primary">0^0 = 1</code> by convention) short-circuits before either expensive call. Everything else flows through <code className="text-primary">ln</code>, multiplies by <code className="text-primary">a</code>, then through <code className="text-primary">exp</code> — ~803 gas total: one <code className="text-primary">ln</code> (375 gas), one <code className="text-primary">exp</code> (331 gas), the <code className="text-primary">MAX_POW_EXPONENT</code> input check, and the mul-and-divide that joins them.
                     </p>
                     <p>
                         The composition picks up CLZ savings for free. <code className="text-primary">ln</code> uses the <code className="text-primary">CLZ</code> opcode for range reduction (see the <a href="/blog/clz-opcode-solidity/" className="text-primary underline">CLZ writeup</a>), <code className="text-primary">exp</code> uses a Padé approximant on a tiny reduced range. Both stay in inline assembly. The cost of <code className="text-primary">pow</code> is exactly the cost of its parts — predictable and stable.
@@ -53,10 +53,12 @@ export default function Page() {
             )}
             limits={{
                 constants: [
+                    { name: "MAX_POW_EXPONENT", value: <><code className="text-primary">1e54</code> — direct input bound on <code className="text-primary">|a|</code>. Beyond this the internal <code className="text-primary">a · ln(x)</code> multiplication (kept inside <code className="text-primary">unchecked</code> for gas) could wrap <code className="text-primary">int256</code> silently, so the function rejects up-front. Astronomically larger than any realistic financial exponent (real-value <code className="text-primary">10³⁶</code>).</> },
                     { name: "EXP_UPPER_BOUND", value: <><code className="text-primary">135.305999…e18</code> — inherited from <code className="text-primary">exp</code>, applied to the composed exponent <code className="text-primary">a · ln(x)</code>. At <code className="text-primary">a · ln(x) ≥ EXP_UPPER_BOUND</code> the function reverts.</> },
                     { name: "EXP_LOWER_BOUND", value: <><code className="text-primary">−41.446531…e18</code> — also inherited from <code className="text-primary">exp</code>. At <code className="text-primary">a · ln(x) ≤ EXP_LOWER_BOUND</code> the inner <code className="text-primary">exp(…)</code> silently returns <code className="text-primary">0</code>, so <code className="text-primary">pow</code> returns <code className="text-primary">0</code> — graceful underflow, no revert.</> },
                 ],
                 errors: [
+                    { name: "PowExponentOutOfBoundsError", trigger: <><code className="text-primary">|a| &gt; MAX_POW_EXPONENT</code></> },
                     { name: "LnLowerBoundError", trigger: <><code className="text-primary">x == 0</code> and <code className="text-primary">a ≠ 0</code> (via the internal call to <code className="text-primary">ln</code>; the fast path <code className="text-primary">x⁰ = 1</code> skips this for any <code className="text-primary">x</code>, including 0)</> },
                     { name: "ExpUpperBoundError", trigger: <><code className="text-primary">a · ln(x) ≥ EXP_UPPER_BOUND</code> (positive overflow only — via the internal call to <code className="text-primary">exp</code>; sufficiently negative exponents silently underflow to <code className="text-primary">0</code>)</> },
                 ],
