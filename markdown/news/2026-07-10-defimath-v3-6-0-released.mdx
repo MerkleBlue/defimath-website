@@ -1,0 +1,81 @@
+---
+title: "DeFiMath v3.6.0: sqrt and cbrt handle full uint256"
+date: 2026-07-10
+version: "3.6.0"
+excerpt: sqrt and cbrt rewritten to handle the full uint256 domain — no more SqrtUpperBoundError or CbrtUpperBoundError. sqrt drops from 245 to 218 gas (−11%), cbrt from 368 to 346 (−6%). Plus a pow overflow bugfix and downstream Rates + Statistics gas savings.
+metaDescription: DeFiMath v3.6.0 — sqrt and cbrt handle full uint256 (no revert), sqrt 245→218 gas, cbrt 368→346 gas. Pow overflow bugfix. Savings propagate to Rates and Statistics.
+metaKeywords:
+  - defimath v3.6.0
+  - solidity sqrt uint256
+  - solidity cbrt uint256
+  - solidity pow overflow
+  - gas optimization
+---
+
+Two changes:
+
+1. **`sqrt` and `cbrt` accept the full `uint256` domain.** Both errors and
+   their upper-bound constants (`SqrtUpperBoundError`, `CbrtUpperBoundError`,
+   `SQRT_UPPER_BOUND`, `CBRT_UPPER_BOUND`) are removed. Any input in
+   `[0, uint256.max]` returns a valid FP18 result.
+2. **`pow` overflow bugfix.** The internal `a · ln(x)` multiplication inside
+   `unchecked` could silently overflow `int256` for adversarial exponents
+   (`|a| ≳ 3.25 × 10⁵⁶`), letting `pow` return plausible-looking garbage.
+   New `MAX_POW_EXPONENT = 1e54` bound with a typed `PowExponentOutOfBoundsError`
+   revert — well below the overflow point and ~18 orders of magnitude above
+   any realistic financial exponent (real value 10³⁶).
+
+## Gas changes
+
+Beyond `sqrt` and `cbrt`, several other primitives picked up small internal
+optimizations this cycle. `expm1` and `log1p` shed a few gas each, which
+propagates into `continuousToDiscrete` and `discreteToContinuous` in the
+Rates module. The `sqrt` savings compound into every statistics function
+that calls it — `geometricMean`, `stdDev`, `historicalVolatility`,
+`sharpeRatio`. `pow` is the only row that went up: the new `MAX_POW_EXPONENT`
+check costs ~40 gas — the price of catching the silent overflow bug.
+
+<div class="rounded-md border border-dark_border border-opacity-60 overflow-x-auto my-4">
+  <table class="w-full text-base">
+    <thead>
+      <tr class="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Function</th>
+        <th class="py-3 px-4 font-medium text-right">v3.5.0 gas</th>
+        <th class="py-3 px-4 font-medium text-right">v3.6.0 gas</th>
+        <th class="py-3 px-4 font-medium text-right">Saved</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">sqrt</td><td class="py-2 px-4 text-right text-muted text-opacity-95">245</td><td class="py-2 px-4 text-right font-semibold text-white">218</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−27 (−11%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">cbrt</td><td class="py-2 px-4 text-right text-muted text-opacity-95">368</td><td class="py-2 px-4 text-right font-semibold text-white">346</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−22 (−6%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">pow</td><td class="py-2 px-4 text-right text-muted text-opacity-95">763</td><td class="py-2 px-4 text-right font-semibold text-white">803</td><td class="py-2 px-4 text-right text-muted text-opacity-95">+40 (safety)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">expm1</td><td class="py-2 px-4 text-right text-muted text-opacity-95">415</td><td class="py-2 px-4 text-right font-semibold text-white">407</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−8</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">log1p</td><td class="py-2 px-4 text-right text-muted text-opacity-95">487</td><td class="py-2 px-4 text-right font-semibold text-white">476</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−11</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">continuousToDiscrete</td><td class="py-2 px-4 text-right text-muted text-opacity-95">507</td><td class="py-2 px-4 text-right font-semibold text-white">491</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−16</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">discreteToContinuous</td><td class="py-2 px-4 text-right text-muted text-opacity-95">589</td><td class="py-2 px-4 text-right font-semibold text-white">574</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−15</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">geometricMean</td><td class="py-2 px-4 text-right text-muted text-opacity-95">330</td><td class="py-2 px-4 text-right font-semibold text-white">305</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−25</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">stdDev (N=100)</td><td class="py-2 px-4 text-right text-muted text-opacity-95">49,811</td><td class="py-2 px-4 text-right font-semibold text-white">49,786</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−25</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">historicalVolatility (N=100)</td><td class="py-2 px-4 text-right text-muted text-opacity-95">86,595</td><td class="py-2 px-4 text-right font-semibold text-white">86,542</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−53</td></tr>
+      <tr><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">sharpeRatio (N=100)</td><td class="py-2 px-4 text-right text-muted text-opacity-95">86,733</td><td class="py-2 px-4 text-right font-semibold text-white">86,680</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−53</td></tr>
+    </tbody>
+  </table>
+</div>
+
+## API removed
+
+- `SqrtUpperBoundError()` and `CbrtUpperBoundError()` errors deleted.
+- `SQRT_UPPER_BOUND` and `CBRT_UPPER_BOUND` constants deleted.
+- **New**: `PowExponentOutOfBoundsError()` and `MAX_POW_EXPONENT` for the pow bugfix.
+
+Callers who caught `SqrtUpperBoundError` or `CbrtUpperBoundError` need to
+remove those handlers — those code paths no longer exist. Callers who pass
+finite exponents to `pow` see no behavior change.
+
+## Get it
+
+```
+npm install defimath-lib
+```
+
+- Release notes: [github.com/MerkleBlue/defimath/releases/tag/v3.6.0](https://github.com/MerkleBlue/defimath/releases/tag/v3.6.0)
+- Package: [npmjs.com/package/defimath-lib](https://www.npmjs.com/package/defimath-lib)
