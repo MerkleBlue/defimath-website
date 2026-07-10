@@ -78,7 +78,7 @@ export function getAdjacentNews(slug: string): { older?: NewsItem; newer?: NewsI
   };
 }
 
-export const NEWS_PAGE_SIZE = 10;
+export const NEWS_PAGE_SIZE = 13;
 
 export function getNewsTotalPages(): number {
   return Math.max(1, Math.ceil(getAllNews().length / NEWS_PAGE_SIZE));

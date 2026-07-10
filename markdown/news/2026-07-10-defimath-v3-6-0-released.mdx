@@ -14,16 +14,18 @@ metaKeywords:
 
 Two changes:
 
-1. **`sqrt` and `cbrt` accept the full `uint256` domain.** Both errors and
-   their upper-bound constants (`SqrtUpperBoundError`, `CbrtUpperBoundError`,
-   `SQRT_UPPER_BOUND`, `CBRT_UPPER_BOUND`) are removed. Any input in
-   `[0, uint256.max]` returns a valid FP18 result.
-2. **`pow` overflow bugfix.** The internal `a · ln(x)` multiplication inside
-   `unchecked` could silently overflow `int256` for adversarial exponents
-   (`|a| ≳ 3.25 × 10⁵⁶`), letting `pow` return plausible-looking garbage.
-   New `MAX_POW_EXPONENT = 1e54` bound with a typed `PowExponentOutOfBoundsError`
-   revert — well below the overflow point and ~18 orders of magnitude above
-   any realistic financial exponent (real value 10³⁶).
+1. **[`sqrt`](/docs/math/sqrt/) and [`cbrt`](/docs/math/cbrt/) accept the full
+   `uint256` domain.** Both errors and their upper-bound constants
+   (`SqrtUpperBoundError`, `CbrtUpperBoundError`, `SQRT_UPPER_BOUND`,
+   `CBRT_UPPER_BOUND`) are removed. Any input in `[0, uint256.max]` returns a
+   valid FP18 result.
+2. **[`pow`](/docs/math/pow/) overflow bugfix.** The internal `a · ln(x)`
+   multiplication inside `unchecked` could silently overflow `int256` for
+   adversarial exponents (`|a| ≳ 3.25 × 10⁵⁶`), letting `pow` return
+   plausible-looking garbage. New `MAX_POW_EXPONENT = 1e54` bound with a typed
+   `PowExponentOutOfBoundsError` revert — well below the overflow point and
+   ~18 orders of magnitude above any realistic financial exponent
+   (real value 10³⁶).
 
 ## Gas changes
 
