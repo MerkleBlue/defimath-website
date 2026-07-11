@@ -43,12 +43,12 @@ export const Statistics = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "geometricMean", gas: "305", description: "sqrt(a · b) — Uniswap V2 invariant" },
+          { name: "geometricMean", gas: "299", description: "sqrt(a · b) — Uniswap V2 invariant" },
           { name: "mean", gas: "6,980 @ 30", description: "Arithmetic mean" },
           { name: "stdDev", gas: "15,298 @ 30", description: "Sample standard deviation (Bessel-corrected)" },
           { name: "weightedAverage", gas: "15,687 @ 30", description: "Σ(v · w) / Σ(w)" },
-          { name: "historicalVolatility", gas: "25,862 @ 30", description: "Annualized volatility from log returns" },
-          { name: "sharpeRatio", gas: "26,000 @ 30", description: "Risk-adjusted return" },
+          { name: "historicalVolatility", gas: "25,850 @ 30", description: "Annualized volatility from log returns" },
+          { name: "sharpeRatio", gas: "25,988 @ 30", description: "Risk-adjusted return" },
           { name: "maxDrawdown", gas: "15,470 @ 30", description: "Peak-to-trough decline" },
           { name: "valueAtRisk", gas: "34,531 @ 30", description: "Historical VaR (NumPy-compatible)" },
           { name: "conditionalValueAtRisk", gas: "31,889 @ 30", description: "Expected shortfall (left-tail mean)" },

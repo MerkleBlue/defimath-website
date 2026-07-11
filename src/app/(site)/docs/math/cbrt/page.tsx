@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "cbrt — Math | DeFiMath docs",
-    description: "Solidity cube root in 18-decimal fixed-point — 346 gas, 2.2e-16 max rel. error. CLZ-derived seed + 6 Newton iterations. Full uint256 domain, no revert.",
+    description: "Solidity cube root in 18-decimal fixed-point — 340 gas, 2.2e-16 max rel. error. CLZ-derived seed + 6 Newton iterations. Full uint256 domain, no revert.",
     alternates: { canonical: "/docs/math/cbrt/" },
 };
 
@@ -17,7 +17,7 @@ export default function Page() {
             module="Math"
             name="cbrt"
             summary="Computes the real cube root of an 18-decimal fixed-point input. Accepts the full uint256 domain without reverting."
-            gas="346"
+            gas="340"
             precision="2.2e-16"
             signature={`function cbrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
@@ -48,7 +48,7 @@ export default function Page() {
                         The large-x branch trades a small amount of precision for domain coverage. Near the branch boundary, integer cbrt has ~13 significant digits, so the post-scale gives ~10⁻¹³ relative error — sub-FP18 but well below any DeFi-relevant tolerance. Precision improves quickly as <code className="text-primary">x</code> grows and integer cbrt gains significant digits; by <code className="text-primary">x ≈ 10⁵⁴</code> the result is again bit-perfect.
                     </p>
                     <p>
-                        The whole hot path stays in <code className="text-primary">unchecked</code> Yul assembly: ~346 gas, ~37% cheaper than Solady&apos;s <code className="text-primary">cbrtWad</code> at matching precision, with a strictly wider input domain (Solady reverts on large inputs).
+                        The whole hot path stays in <code className="text-primary">unchecked</code> Yul assembly: ~340 gas, ~37% cheaper than Solady&apos;s <code className="text-primary">cbrtWad</code> at matching precision, with a strictly wider input domain (Solady reverts on large inputs).
                     </p>
                 </>
             )}

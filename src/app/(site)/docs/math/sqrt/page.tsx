@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "sqrt — Math | DeFiMath docs",
-    description: "Solidity square root in 18-decimal fixed-point — 218 gas, 2.2e-16 max rel. error. Minimax linear seed on a Q0.30 mantissa + 4 Newton iterations. Full uint256 domain, no revert.",
+    description: "Solidity square root in 18-decimal fixed-point — 212 gas, 2.2e-16 max rel. error. Minimax linear seed on a Q0.30 mantissa + 4 Newton iterations. Full uint256 domain, no revert.",
     alternates: { canonical: "/docs/math/sqrt/" },
 };
 
@@ -17,7 +17,7 @@ export default function Page() {
             module="Math"
             name="sqrt"
             summary="Computes the principal square root of an 18-decimal fixed-point input. Accepts the full uint256 domain without reverting."
-            gas="218"
+            gas="212"
             precision="2.2e-16"
             signature={`function sqrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
@@ -57,7 +57,7 @@ y ← (y + x/y) / 2`}</pre>
                         <strong>Two branches</strong> handle the full <code className="text-primary">uint256</code> domain. For <code className="text-primary">x ≤ type(uint128).max</code>, the input is pre-scaled by <code className="text-primary">1e18</code> so Newton converges to FP18 directly — bit-perfect. For <code className="text-primary">x &gt; type(uint128).max</code> (where <code className="text-primary">x · 1e18</code> would overflow), Newton runs on raw <code className="text-primary">x</code> and the result is post-scaled by <code className="text-primary">1e9</code>. Both branches are bit-perfect; the split is chosen so integer sqrt still has enough significant digits at the boundary.
                     </p>
                     <p>
-                        Total: ~218 gas for typical inputs — the cheapest sqrt of any on-chain library we&apos;ve measured. And the widest domain: no other library accepts the full <code className="text-primary">uint256</code> range without reverting.
+                        Total: ~212 gas for typical inputs — the cheapest sqrt of any on-chain library we&apos;ve measured. And the widest domain: no other library accepts the full <code className="text-primary">uint256</code> range without reverting.
                     </p>
                 </>
             )}

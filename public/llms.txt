@@ -1,6 +1,6 @@
 # DeFiMath
 
-> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 606 Hardhat correctness tests + 92 Foundry property-based fuzz tests (2.94M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,729 gas (~4.6× cheaper than Derivexyz), binary call in 2,018 gas (~8× cheaper than Haptic), cube root in 346 gas (~37% cheaper than Solady's cbrtWad), and natural log in 375 gas at 18-decimal fixed-point precision.
+> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 606 Hardhat correctness tests + 92 Foundry property-based fuzz tests (2.94M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,723 gas (~4.9× cheaper than Derivexyz), binary call in 2,012 gas (~8× cheaper than Haptic), cube root in 340 gas (~37% cheaper than Solady's cbrtWad), and natural log in 375 gas at 18-decimal fixed-point precision.
 
 Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install defimath-lib`.
 
@@ -9,15 +9,15 @@ Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install def
 - [Math overview](https://defimath.com/docs/math/): `exp`, `ln`, `log2`, `log10`, `pow`, `sqrt`, `cbrt`, `stdNormCDF`, `erf`, `expm1`, `log1p` — all 18-decimal fixed-point
 - [exp](https://defimath.com/docs/math/exp/): Exponential `e^x`, 331 gas, max abs error 5.1e-14, three-stage range reduction + [2,2] Padé approximant
 - [ln](https://defimath.com/docs/math/ln/): Natural logarithm, 375 gas, max abs error 1.5e-14, CLZ range reduction + 10-term Mercator series
-- [sqrt](https://defimath.com/docs/math/sqrt/): Square root, 218 gas, max abs error 2.2e-16, minimax linear seed on a Q0.30 mantissa + 4 Newton iterations, full uint256 domain (no revert)
-- [cbrt](https://defimath.com/docs/math/cbrt/): Cube root, 346 gas, max abs error 2.2e-16, CLZ-derived initial guess + 6 Newton iterations, full uint256 domain (no revert)
+- [sqrt](https://defimath.com/docs/math/sqrt/): Square root, 212 gas, max abs error 2.2e-16, minimax linear seed on a Q0.30 mantissa + 4 Newton iterations, full uint256 domain (no revert)
+- [cbrt](https://defimath.com/docs/math/cbrt/): Cube root, 340 gas, max abs error 2.2e-16, CLZ-derived initial guess + 6 Newton iterations, full uint256 domain (no revert)
 - [erf](https://defimath.com/docs/math/erf/): Error function, 685 gas, max abs error 7.4e-15, West's rational approximation
 - [stdNormCDF](https://defimath.com/docs/math/stdnormcdf/): Standard normal CDF Φ(x), 660 gas, max abs error 4.7e-15, same kernel as `erf` via `x/√2` substitution
 
 ## DeFi modules
 
-- [Options](https://defimath.com/docs/options/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,729 gas, `putOptionPrice` 2,739 gas, `delta` 1,724 gas, `vega` 1,436 gas
-- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `binaryCallPrice` 2,018 gas, `binaryPutPrice` 2,023 gas (~8× cheaper than Haptic 16,218)
+- [Options](https://defimath.com/docs/options/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,723 gas, `putOptionPrice` 2,733 gas, `delta` 1,718 gas, `vega` 1,430 gas
+- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `binaryCallPrice` 2,012 gas, `binaryPutPrice` 2,017 gas (~8× cheaper than Haptic 16,218)
 - [Futures](https://defimath.com/docs/futures/): Continuous-compounding futures pricing
 - [Rates](https://defimath.com/docs/rates/): Compound interest, present value, log returns, APR↔APY conversions, yield to maturity, IRR. `internalRateOfReturn` solves Σ Cᵢ·e^(−r·tᵢ)=0 via Newton-Raphson
 - [Statistics](https://defimath.com/docs/statistics/): `mean`, `stdDev`, `weightedAverage`, `historicalVolatility`, `sharpeRatio`, `maxDrawdown`, `valueAtRisk`, `conditionalValueAtRisk` (CVaR / expected shortfall)
@@ -32,12 +32,12 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 
 - `exp`: 331 / 372 / 2,820 / 5,840 / —
 - `ln`: 375 / 518 / 6,901 / 12,695 / —
-- `sqrt`: 218 / 341 / 959 / 808 / —
-- `cbrt`: 346 / 550 / — / — / —
+- `sqrt`: 212 / 341 / 959 / 808 / —
+- `cbrt`: 340 / 550 / — / — / —
 - `stdNormCDF`: 660 / — / — / — / 2,794
 - `erf`: 685 / — / — / — / 1,732
-- `callOptionPrice`: 2,729 / — / — / — / — (vs Derivexyz 13,360 — 4.6× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
-- `binaryCallPrice`: 2,018 (vs Haptic 16,218 — 7.8× cheaper)
+- `callOptionPrice`: 2,723 / — / — / — / — (vs Derivexyz 13,360 — 4.9× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
+- `binaryCallPrice`: 2,012 (vs Haptic 16,218 — 8.1× cheaper)
 
 ## Blog
 
@@ -52,7 +52,7 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 ## Optional
 
 - [News](https://defimath.com/news/): Release notes and announcements
-- [v3.6.0 release notes](https://defimath.com/news/2026-07-10-defimath-v3-6-0-released/): sqrt and cbrt handle the full uint256 domain (no more SqrtUpperBoundError / CbrtUpperBoundError). sqrt 245→218 gas (−11%), cbrt 368→346 gas (−6%) via a new minimax linear seed on Q0.30 mantissa + 4 Newton iterations for sqrt, and a two-branch structure for cbrt. Plus pow overflow bugfix (new MAX_POW_EXPONENT bound) and downstream savings in Rates and Statistics.
+- [v3.6.0 release notes](https://defimath.com/news/2026-07-10-defimath-v3-6-0-released/): sqrt and cbrt handle the full uint256 domain (no more SqrtUpperBoundError / CbrtUpperBoundError). sqrt 245→212 gas (−13%), cbrt 368→340 gas (−8%) via a new minimax linear seed on Q0.30 mantissa + 4 Newton iterations for sqrt, and a two-branch structure for cbrt. Plus pow overflow bugfix (new MAX_POW_EXPONENT bound) and downstream savings in Rates and Statistics.
 - [v3.5.0 release notes](https://defimath.com/news/2026-06-27-defimath-v3-5-0-released/): Extended boundaries release. sqrt upper bound widened to the full FP18-safe uint256 range (~1.21e42 → ~1.158e59). Options & Binary MAX_EXPIRATION extended from 2 years to 32 years — admits long-dated insurance, RWA bond options, and other long-horizon products. Same precision, same gas, no API change.
 - [v3.4.0 release notes](https://defimath.com/news/2026-06-14-defimath-v3-4-0-released/): Foundry property-based fuzz testing layer added — 92 mathematical properties × 32,000 random runs per CI run = 2.94M random executions. Plus signed-int refactor of EXP_LOWER_BOUND saves 1–3 gas across every function calling exp.
 - [v3.1.0 release notes](https://defimath.com/news/2026-05-27-defimath-v3-1-0-released/): cbrt function added — 368 gas, ~33% cheaper than Solady's cbrtWad at identical precision
