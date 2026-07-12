@@ -42,7 +42,7 @@ export const Math = async () => {
           { name: "log2", gas: "391", description: "Base-2 logarithm", href: "/docs/math/log2/" },
           { name: "log10", gas: "391", description: "Base-10 logarithm", href: "/docs/math/log10/" },
           { name: "pow", gas: "803", description: "Power function x^a", href: "/docs/math/pow/" },
-          { name: "sqrt", gas: "212", description: "Square root", href: "/docs/math/sqrt/" },
+          { name: "sqrt", gas: "197", description: "Square root", href: "/docs/math/sqrt/" },
           { name: "cbrt", gas: "340", description: "Cube root", href: "/docs/math/cbrt/" },
           { name: "sqrtTime", gas: "184", description: "Specialized sqrt of time in years for Black-Scholes — no input validation" },
           { name: "stdNormCDF", gas: "660", description: "Standard normal CDF Φ(x)", href: "/docs/math/stdnormcdf/" },

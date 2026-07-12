@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "sqrt — Math | DeFiMath docs",
-    description: "Solidity square root in 18-decimal fixed-point — 212 gas, 2.2e-16 max rel. error. Minimax linear seed on a Q0.30 mantissa + 4 Newton iterations. Full uint256 domain, no revert.",
+    description: "Solidity square root in 18-decimal fixed-point — 197 gas, 2.2e-16 max rel. error. Centered CLZ-derived seed (0.75 · 2^ceil(bits/2)) + 5 Newton iterations. Full uint256 domain, no revert.",
     alternates: { canonical: "/docs/math/sqrt/" },
 };
 
@@ -17,7 +17,7 @@ export default function Page() {
             module="Math"
             name="sqrt"
             summary="Computes the principal square root of an 18-decimal fixed-point input. Accepts the full uint256 domain without reverting."
-            gas="212"
+            gas="197"
             precision="2.2e-16"
             signature={`function sqrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
@@ -35,29 +35,25 @@ export default function Page() {
             howItWorks={(
                 <>
                     <p>
-                        Square root in fixed-point reduces to three steps: reduce the input to a bounded mantissa, seed the answer from a linear approximation on that mantissa, and refine with Newton&apos;s iteration. DeFiMath does all three in assembly.
+                        Square root in fixed-point reduces to two steps: pick a cheap seed close to <code className="text-primary">√x</code>, then refine with Newton&apos;s iteration. DeFiMath picks the seed from a single CLZ computation, then runs 5 Newton steps.
                     </p>
-                    <pre>{`// Range reduction with CLZ (EIP-7939) — bounded mantissa m ∈ [2^30, 2^32)
-k := (256 − clz(x) − 31) & ~1
-m := x >> k
+                    <pre>{`// Centered CLZ-derived seed:  y ≈ 0.75 · 2^ceil(bits/2)  =  3 · 2^(ceil-2)
+// Compact form: shl(shr(1, sub(253, clz(x))), 3)
+y := 3 << ((253 − clz(x)) / 2)
 
-// Minimax linear seed on m — sqrt(m_real) ≈ m_real/3 + 17/24, in Q0.30
-seed := 760567125 + m/3
-y_seed := seed << (k/2 − 15)
-
-// 4 Newton iterations — quadratic convergence to bit-perfect FP18
+// 5 Newton iterations — quadratic convergence to bit-perfect FP18
 y ← (y + x/y) / 2`}</pre>
                     <p>
-                        The minimax linear approximation on <code className="text-primary">[1, 4)</code> gives ~4.6 correct bits from the start. Newton doubles the bit count each iteration: 4.6 → 9.2 → 18.4 → 36.8 → 73.6. Four iterations comfortably exceeds FP18&apos;s ~60-bit precision ceiling.
+                        The pure &ldquo;ceiling&rdquo; CLZ seed <code className="text-primary">2^ceil(bits/2)</code> overshoots by 2× at even powers of 2 — a 100% initial error. Multiplying by <code className="text-primary">0.75</code> centers the seed geometrically between the floor and ceiling variants, cutting worst-case error to ~50%. Cost of the centering: a single extra <code className="text-primary">-2</code> in the exponent (folded into the constant as <code className="text-primary">253</code> instead of <code className="text-primary">257</code>) and shifting the value <code className="text-primary">3</code> instead of <code className="text-primary">1</code> — 6 extra gas vs the pure ceil form.
                     </p>
                     <p>
-                        The <code className="text-primary">Q0.30</code> mantissa (rather than the more common floating-point bases) makes every shift a clean power-of-2 operation, sidesteps the √2 parity correction on reconstruction, and works uniformly for both <code className="text-primary">x ≥ 1</code> and <code className="text-primary">x &lt; 1</code> without a branch inside the main path.
+                        From a 50% initial error, Newton&apos;s quadratic convergence gives 5 iterations of headroom to reach FP18: 0.5 → 0.083 → 3.5e-3 → 6.1e-6 → 1.9e-11 → 1.8e-22. Five iterations lands well past FP18&apos;s ~60-bit precision ceiling with margin for input variance.
                     </p>
                     <p>
                         <strong>Two branches</strong> handle the full <code className="text-primary">uint256</code> domain. For <code className="text-primary">x ≤ type(uint128).max</code>, the input is pre-scaled by <code className="text-primary">1e18</code> so Newton converges to FP18 directly — bit-perfect. For <code className="text-primary">x &gt; type(uint128).max</code> (where <code className="text-primary">x · 1e18</code> would overflow), Newton runs on raw <code className="text-primary">x</code> and the result is post-scaled by <code className="text-primary">1e9</code>. Both branches are bit-perfect; the split is chosen so integer sqrt still has enough significant digits at the boundary.
                     </p>
                     <p>
-                        Total: ~212 gas for typical inputs — the cheapest sqrt of any on-chain library we&apos;ve measured. And the widest domain: no other library accepts the full <code className="text-primary">uint256</code> range without reverting.
+                        Total: ~197 gas for typical inputs — the cheapest sqrt of any on-chain library we&apos;ve measured. And the widest domain: no other library accepts the full <code className="text-primary">uint256</code> range without reverting.
                     </p>
                 </>
             )}

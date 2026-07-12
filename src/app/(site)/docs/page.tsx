@@ -47,7 +47,7 @@ const BENCHMARKS: BenchmarkRow[] = [
     { fn: "delta",           defimath: "1,718", nextBest: "8,621",  nextLib: "Derivexyz", multiple: "5.0×", highlight: true },
     { fn: "vega",            defimath: "1,430", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
     { fn: "ln",              defimath: "375",   nextBest: "518",    nextLib: "Solady",    multiple: "1.4×", highlight: false },
-    { fn: "sqrt",            defimath: "212",   nextBest: "341",    nextLib: "Solady",    multiple: "1.6×", highlight: false },
+    { fn: "sqrt",            defimath: "197",   nextBest: "341",    nextLib: "Solady",    multiple: "1.7×", highlight: false },
     { fn: "cbrt",            defimath: "340",   nextBest: "550",    nextLib: "Solady",    multiple: "1.6×", highlight: false },
     { fn: "stdNormCDF",      defimath: "660",   nextBest: "2,794",  nextLib: "SolStat",   multiple: "4.2×", highlight: true },
 ];
