@@ -105,7 +105,7 @@ export const featuresData: {
   description: string;
   link?: { href: string; label: string };
 }[] = [
-  { value: "2,723 gas", description: "full Black-Scholes option pricing (call or put)" },
+  { value: "2,708 gas", description: "full Black-Scholes option pricing (call or put)" },
   { value: "< 1e-12 error", description: "verified against off-chain reference implementations" },
   {
     value: "40+ primitives",

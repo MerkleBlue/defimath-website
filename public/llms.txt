@@ -1,6 +1,6 @@
 # DeFiMath
 
-> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 606 Hardhat correctness tests + 92 Foundry property-based fuzz tests (2.94M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,723 gas (~4.9× cheaper than Derivexyz), binary call in 2,012 gas (~8× cheaper than Haptic), cube root in 340 gas (~37% cheaper than Solady's cbrtWad), and natural log in 375 gas at 18-decimal fixed-point precision.
+> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 606 Hardhat correctness tests + 92 Foundry property-based fuzz tests (2.94M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,708 gas (~4.9× cheaper than Derivexyz), binary call in 1,997 gas (~8× cheaper than Haptic), cube root in 340 gas (~37% cheaper than Solady's cbrtWad), and natural log in 375 gas at 18-decimal fixed-point precision.
 
 Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install defimath-lib`.
 
@@ -16,8 +16,8 @@ Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install def
 
 ## DeFi modules
 
-- [Options](https://defimath.com/docs/options/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,723 gas, `putOptionPrice` 2,733 gas, `delta` 1,718 gas, `vega` 1,430 gas
-- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `binaryCallPrice` 2,012 gas, `binaryPutPrice` 2,017 gas (~8× cheaper than Haptic 16,218)
+- [Options](https://defimath.com/docs/options/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,708 gas, `putOptionPrice` 2,718 gas, `delta` 1,703 gas, `vega` 1,415 gas
+- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `binaryCallPrice` 1,997 gas, `binaryPutPrice` 2,002 gas (~8× cheaper than Haptic 16,218)
 - [Futures](https://defimath.com/docs/futures/): Continuous-compounding futures pricing
 - [Rates](https://defimath.com/docs/rates/): Compound interest, present value, log returns, APR↔APY conversions, yield to maturity, IRR. `internalRateOfReturn` solves Σ Cᵢ·e^(−r·tᵢ)=0 via Newton-Raphson
 - [Statistics](https://defimath.com/docs/statistics/): `mean`, `stdDev`, `weightedAverage`, `historicalVolatility`, `sharpeRatio`, `maxDrawdown`, `valueAtRisk`, `conditionalValueAtRisk` (CVaR / expected shortfall)
@@ -36,8 +36,8 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 - `cbrt`: 340 / 550 / — / — / —
 - `stdNormCDF`: 660 / — / — / — / 2,794
 - `erf`: 685 / — / — / — / 1,732
-- `callOptionPrice`: 2,723 / — / — / — / — (vs Derivexyz 13,360 — 4.9× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
-- `binaryCallPrice`: 2,012 (vs Haptic 16,218 — 8.1× cheaper)
+- `callOptionPrice`: 2,708 / — / — / — / — (vs Derivexyz 13,360 — 4.9× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
+- `binaryCallPrice`: 1,997 (vs Haptic 16,218 — 8.1× cheaper)
 
 ## Blog
 

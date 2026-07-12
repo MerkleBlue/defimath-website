@@ -35,12 +35,12 @@ export const BinaryOptions = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "binaryCallPrice", gas: "2,012", description: "Cash-or-nothing call: e^(−r·τ) · Φ(d₂)" },
-          { name: "binaryPutPrice", gas: "2,017", description: "Cash-or-nothing put" },
-          { name: "binaryDelta", gas: "1,816", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
-          { name: "binaryGamma", gas: "1,958", description: "Second derivative w.r.t. spot — returns (Γcall, Γput)" },
-          { name: "binaryTheta", gas: "3,344", description: "Time decay, per day — returns (Θcall, Θput)" },
-          { name: "binaryVega", gas: "1,904", description: "Sensitivity per 1% vol — returns (νcall, νput)" },
+          { name: "binaryCallPrice", gas: "1,997", description: "Cash-or-nothing call: e^(−r·τ) · Φ(d₂)" },
+          { name: "binaryPutPrice", gas: "2,002", description: "Cash-or-nothing put" },
+          { name: "binaryDelta", gas: "1,801", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
+          { name: "binaryGamma", gas: "1,943", description: "Second derivative w.r.t. spot — returns (Γcall, Γput)" },
+          { name: "binaryTheta", gas: "3,329", description: "Time decay, per day — returns (Θcall, Θput)" },
+          { name: "binaryVega", gas: "1,889", description: "Sensitivity per 1% vol — returns (νcall, νput)" },
         ]}
       />
       <InstallCommand className="mt-6" />

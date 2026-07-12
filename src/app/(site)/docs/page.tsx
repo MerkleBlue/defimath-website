@@ -41,11 +41,11 @@ contract Confidence {
 
 type BenchmarkRow = { fn: string; defimath: string; nextBest: string; nextLib: string; multiple: string; highlight: boolean };
 const BENCHMARKS: BenchmarkRow[] = [
-    { fn: "callOptionPrice", defimath: "2,723", nextBest: "13,360", nextLib: "Derivexyz", multiple: "4.9×", highlight: true },
-    { fn: "putOptionPrice",  defimath: "2,733", nextBest: "13,363", nextLib: "Derivexyz", multiple: "4.9×", highlight: true },
-    { fn: "binaryCallPrice", defimath: "2,012", nextBest: "16,218", nextLib: "Haptic",    multiple: "8.1×", highlight: true },
-    { fn: "delta",           defimath: "1,718", nextBest: "8,621",  nextLib: "Derivexyz", multiple: "5.0×", highlight: true },
-    { fn: "vega",            defimath: "1,430", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
+    { fn: "callOptionPrice", defimath: "2,708", nextBest: "13,360", nextLib: "Derivexyz", multiple: "4.9×", highlight: true },
+    { fn: "putOptionPrice",  defimath: "2,718", nextBest: "13,363", nextLib: "Derivexyz", multiple: "4.9×", highlight: true },
+    { fn: "binaryCallPrice", defimath: "1,997", nextBest: "16,218", nextLib: "Haptic",    multiple: "8.1×", highlight: true },
+    { fn: "delta",           defimath: "1,703", nextBest: "8,621",  nextLib: "Derivexyz", multiple: "5.1×", highlight: true },
+    { fn: "vega",            defimath: "1,415", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.3×", highlight: true },
     { fn: "ln",              defimath: "375",   nextBest: "518",    nextLib: "Solady",    multiple: "1.4×", highlight: false },
     { fn: "sqrt",            defimath: "197",   nextBest: "341",    nextLib: "Solady",    multiple: "1.7×", highlight: false },
     { fn: "cbrt",            defimath: "340",   nextBest: "550",    nextLib: "Solady",    multiple: "1.6×", highlight: false },

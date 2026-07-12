@@ -2,8 +2,8 @@
 title: "DeFiMath v3.6.0: sqrt and cbrt handle full uint256"
 date: 2026-07-10
 version: "3.6.0"
-excerpt: sqrt and cbrt rewritten to handle the full uint256 domain — no more SqrtUpperBoundError or CbrtUpperBoundError. sqrt drops from 245 to 197 gas (−20%), cbrt from 368 to 340 (−8%). Plus a pow overflow bugfix and downstream Rates + Statistics gas savings.
-metaDescription: DeFiMath v3.6.0 — sqrt and cbrt handle full uint256 (no revert), sqrt 245→197 gas, cbrt 368→340 gas. Pow overflow bugfix. Savings propagate to Rates and Statistics.
+excerpt: sqrt and cbrt rewritten to handle the full uint256 domain — no more SqrtUpperBoundError or CbrtUpperBoundError. sqrt drops from 245 to 197 gas (−20%), cbrt from 368 to 340 (−8%). sqrtTime also gets a new CLZ-derived seed algorithm. Plus a pow overflow bugfix, and cascading savings across Options, Binary options, Rates, and Statistics.
+metaDescription: DeFiMath v3.6.0 — sqrt and cbrt handle full uint256 (no revert), sqrt 245→197 gas, cbrt 368→340 gas, sqrtTime 184→163 gas. Pow overflow bugfix. Savings propagate to Options, Binary options, Rates, and Statistics.
 metaKeywords:
   - defimath v3.6.0
   - solidity sqrt uint256
@@ -29,13 +29,16 @@ Two changes:
 
 ## Gas changes
 
-Beyond `sqrt` and `cbrt`, several other primitives picked up small internal
-optimizations this cycle. `expm1` and `log1p` shed a few gas each, which
-propagates into `continuousToDiscrete` and `discreteToContinuous` in the
-Rates module. The `sqrt` savings compound into every statistics function
+Beyond `sqrt` and `cbrt`, `sqrtTime` also picked up the new CLZ-derived seed
+algorithm — its savings cascade through every Black-Scholes function that
+computes an annualized time term. `expm1` and `log1p` shed a few gas each,
+which propagates into `continuousToDiscrete` and `discreteToContinuous` in
+the Rates module. The `sqrt` savings compound into every statistics function
 that calls it — `geometricMean`, `stdDev`, `historicalVolatility`,
-`sharpeRatio`. `pow` is the only row that went up: the new `MAX_POW_EXPONENT`
-check costs ~40 gas — the price of catching the silent overflow bug.
+`sharpeRatio`. Options and Binary options both benefit — every function that
+depends on `sqrtTime` (all Greeks, IV, both pricing functions) drops ~15 gas.
+`pow` is the only row that went up: the new `MAX_POW_EXPONENT` check costs
+~40 gas — the price of catching the silent overflow bug.
 
 <div class="rounded-md border border-dark_border border-opacity-60 overflow-x-auto my-4">
   <table class="w-full text-base">
@@ -50,6 +53,9 @@ check costs ~40 gas — the price of catching the silent overflow bug.
     <tbody>
       <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">sqrt</td><td class="py-2 px-4 text-right text-muted text-opacity-95">245</td><td class="py-2 px-4 text-right font-semibold text-white">197</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−48 (−20%)</td></tr>
       <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">cbrt</td><td class="py-2 px-4 text-right text-muted text-opacity-95">368</td><td class="py-2 px-4 text-right font-semibold text-white">340</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−28 (−8%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">sqrtTime</td><td class="py-2 px-4 text-right text-muted text-opacity-95">184</td><td class="py-2 px-4 text-right font-semibold text-white">163</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−21 (−11%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">callOptionPrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">2,876</td><td class="py-2 px-4 text-right font-semibold text-white">2,708</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−168 (−6%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">binaryCallPrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">2,092</td><td class="py-2 px-4 text-right font-semibold text-white">1,997</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−95 (−5%)</td></tr>
       <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">pow</td><td class="py-2 px-4 text-right text-muted text-opacity-95">763</td><td class="py-2 px-4 text-right font-semibold text-white">803</td><td class="py-2 px-4 text-right text-muted text-opacity-95">+40 (safety)</td></tr>
       <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">expm1</td><td class="py-2 px-4 text-right text-muted text-opacity-95">415</td><td class="py-2 px-4 text-right font-semibold text-white">407</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−8</td></tr>
       <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">log1p</td><td class="py-2 px-4 text-right text-muted text-opacity-95">487</td><td class="py-2 px-4 text-right font-semibold text-white">476</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−11</td></tr>

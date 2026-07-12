@@ -25,7 +25,7 @@ export const Overview = () => {
       </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
         <div className="p-5 rounded-md border border-dark_border border-opacity-60">
-          <p className="text-primary text-2xl font-semibold">2,723 gas</p>
+          <p className="text-primary text-2xl font-semibold">2,708 gas</p>
           <p className="text-sm text-muted text-opacity-60 mt-1">
             Black-Scholes option pricing
           </p>
