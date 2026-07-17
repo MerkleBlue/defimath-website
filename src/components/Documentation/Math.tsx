@@ -35,18 +35,18 @@ export const Math = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "exp", gas: "331", description: "Exponential function e^x", href: "/docs/math/exp/" },
-          { name: "expm1", gas: "430", description: "e^x − 1 (precision-preserving for small x)", href: "/docs/math/expm1/" },
-          { name: "ln", gas: "375", description: "Natural logarithm", href: "/docs/math/ln/" },
-          { name: "log1p", gas: "489", description: "ln(1 + x) (precision-preserving for small x)", href: "/docs/math/log1p/" },
-          { name: "log2", gas: "391", description: "Base-2 logarithm", href: "/docs/math/log2/" },
-          { name: "log10", gas: "391", description: "Base-10 logarithm", href: "/docs/math/log10/" },
+          { name: "exp", gas: "327", description: "Exponential function e^x", href: "/docs/math/exp/" },
+          { name: "expm1", gas: "407", description: "e^x − 1 (precision-preserving for small x)", href: "/docs/math/expm1/" },
+          { name: "ln", gas: "390", description: "Natural logarithm", href: "/docs/math/ln/" },
+          { name: "log1p", gas: "476", description: "ln(1 + x) (precision-preserving for small x)", href: "/docs/math/log1p/" },
+          { name: "log2", gas: "406", description: "Base-2 logarithm", href: "/docs/math/log2/" },
+          { name: "log10", gas: "406", description: "Base-10 logarithm", href: "/docs/math/log10/" },
           { name: "pow", gas: "803", description: "Power function x^a", href: "/docs/math/pow/" },
           { name: "sqrt", gas: "197", description: "Square root", href: "/docs/math/sqrt/" },
           { name: "cbrt", gas: "340", description: "Cube root", href: "/docs/math/cbrt/" },
-          { name: "sqrtTime", gas: "184", description: "Specialized sqrt of time in years for Black-Scholes — no input validation" },
+          { name: "sqrtTime", gas: "163", description: "Specialized sqrt of time in years for Black-Scholes — no input validation" },
           { name: "stdNormCDF", gas: "660", description: "Standard normal CDF Φ(x)", href: "/docs/math/stdnormcdf/" },
-          { name: "erf", gas: "685", description: "Error function", href: "/docs/math/erf/" },
+          { name: "erf", gas: "691", description: "Error function", href: "/docs/math/erf/" },
           { name: "mulDiv", gas: "155", description: "(a · b) / d with full 512-bit intermediate precision" },
           { name: "mul", gas: "130", description: "(a · b) / 1e18 — fixed-point multiply with denominator baked in" },
           { name: "abs", gas: "17", description: "Branchless |int256| (handles int256.min cleanly)" },
@@ -100,7 +100,7 @@ export const Math = async () => {
       <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
       <p className="text-base font-medium text-muted text-opacity-95">
         <span className="text-white font-semibold">Hardhat correctness layer.</span>{" "}
-        204 tests across 20 function groups. Each function is validated against the corresponding JavaScript reference (<code className="text-primary">Math.exp</code>, <code className="text-primary">Math.log</code>, <code className="text-primary">Math.sqrt</code>, <code className="text-primary">math-erf</code>) over ~200-sample sweeps that cover the full operational domain. Per-function precision thresholds match the table above. Limit tests pin behavior at min and max valid inputs; failure tests cover every documented revert path.
+        221 tests across 20 function groups. Each function is validated against the corresponding JavaScript reference (<code className="text-primary">Math.exp</code>, <code className="text-primary">Math.log</code>, <code className="text-primary">Math.sqrt</code>, <code className="text-primary">math-erf</code>) over ~200-sample sweeps that cover the full operational domain. Per-function precision thresholds match the table above. Limit tests pin behavior at min and max valid inputs; failure tests cover every documented revert path.
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-4">
         <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}

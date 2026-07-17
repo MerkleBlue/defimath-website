@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "erf — Math | DeFiMath docs",
-    description: "Solidity error function erf(x) in 18-decimal fixed-point — 685 gas, 7.4e-15 max abs. error. West's rational approximation, same kernel as stdNormCDF.",
+    description: "Solidity error function erf(x) in 18-decimal fixed-point — 691 gas, 2.0e-14 max abs. error. West's rational approximation, same kernel as stdNormCDF.",
     alternates: { canonical: "/docs/math/erf/" },
 };
 
@@ -17,8 +17,8 @@ export default function Page() {
             module="Math"
             name="erf"
             summary="Computes the Gauss error function erf(x) using West's rational approximation."
-            gas="685"
-            precision="7.4e-15"
+            gas="691"
+            precision="2.0e-14"
             precisionLabel="Max abs. error"
             signature={`function erf(int256 x) internal pure returns (int256 y)`}
             parameters={[
@@ -46,7 +46,7 @@ export default function Page() {
                         For <code className="text-primary">x &lt; 0</code> we exploit <code className="text-primary">erf(−x) = −erf(x)</code>: compute the positive branch and negate. For <code className="text-primary">|x| ≥ 11.63</code> the true value is within <code className="text-primary">1e-58</code> of <code className="text-primary">±1</code> — far below 1e-18 precision — so the function saturates to <code className="text-primary">±1e18</code> and skips the kernel entirely.
                     </p>
                     <p>
-                        The hot path closes with a five-instruction assembly block that fuses the reciprocal, multiply, divide, subtract-from-half, and double into a tight sequence. Result: ~685 gas at max abs. error <code className="text-primary">7.4e-15</code>.
+                        The hot path closes with a five-instruction assembly block that fuses the reciprocal, multiply, divide, subtract-from-half, and double into a tight sequence. Result: ~691 gas at max abs. error <code className="text-primary">2.0e-14</code>.
                     </p>
                 </>
             )}

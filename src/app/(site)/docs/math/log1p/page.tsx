@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "log1p — Math | DeFiMath docs",
-    description: "Solidity ln(1 + x) in 18-decimal fixed-point — 489 gas, 7.0e-15 max rel. error. Taylor branch for small x preserves precision where forming 1 + x would lose it.",
+    description: "Solidity ln(1 + x) in 18-decimal fixed-point — 476 gas, 1.6e-15 max rel. / 1.0e-15 max abs. error. Taylor branch for small x preserves precision where forming 1 + x would lose it.",
     alternates: { canonical: "/docs/math/log1p/" },
 };
 
@@ -18,8 +18,9 @@ export default function Page() {
             module="Math"
             name="log1p"
             summary="Computes ln(1 + x) while preserving full 18-digit precision near zero, where forming 1 + x for tiny x would lose most of x's significant digits."
-            gas="489"
-            precision="7.0e-15"
+            gas="476"
+            precision="1.6e-15 / 1.0e-15"
+            precisionLabel="Max rel. / abs. error"
             signature={`function log1p(int256 x) internal pure returns (int256 y)`}
             parameters={[
                 { name: "x", type: "int256", description: "Signed input in 18-decimal fixed-point format (1e18 = 1.0)." },

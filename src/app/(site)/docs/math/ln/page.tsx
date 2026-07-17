@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "ln — Math | DeFiMath docs",
-    description: "Solidity natural logarithm in 18-decimal fixed-point — 375 gas, 1.5e-14 max rel. error. CLZ-derived range reduction (EIP-7939, EVM Osaka) plus polynomial fit.",
+    description: "Solidity natural logarithm in 18-decimal fixed-point — 390 gas, 1.6e-15 max rel. / 1.0e-15 max abs. error. CLZ-derived range reduction (EIP-7939, EVM Osaka) plus polynomial fit.",
     alternates: { canonical: "/docs/math/ln/" },
 };
 
@@ -17,8 +17,9 @@ export default function Page() {
             module="Math"
             name="ln"
             summary="Computes the natural logarithm ln(x) for a 18-decimal fixed-point input."
-            gas="375"
-            precision="1.5e-14"
+            gas="390"
+            precision="1.6e-15 / 1.0e-15"
+            precisionLabel="Max rel. / abs. error"
             signature={`function ln(uint256 x) internal pure returns (int256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0)." },
@@ -45,7 +46,7 @@ export default function Page() {
                     </p>
                     <pre>{`ln(x) = 2 · (t + t³/3 + t⁵/5 + t⁷/7 + … + t¹⁹/19)`}</pre>
                     <p>
-                        via Horner's method on <code className="text-primary">t²</code> — ten terms is enough for full 18-decimal precision on this interval. For <code className="text-primary">x &lt; 1</code> the function computes <code className="text-primary">−ln(1/x)</code> instead. Reverts on <code className="text-primary">x = 0</code> (mathematically undefined); ~375 gas including the CLZ opcode.
+                        via Horner's method on <code className="text-primary">t²</code> — ten terms is enough for full 18-decimal precision on this interval. For <code className="text-primary">x &lt; 1</code> the function computes <code className="text-primary">−ln(1/x)</code> instead. Reverts on <code className="text-primary">x = 0</code> (mathematically undefined); ~390 gas including the CLZ opcode.
                     </p>
                 </>
             )}

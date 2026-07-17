@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "stdNormCDF — Math | DeFiMath docs",
-    description: "Solidity standard normal CDF Φ(x) in 18-decimal fixed-point — 660 gas, 4.7e-15 max abs. error. West's rational approximation, same kernel as DeFiMath's erf.",
+    description: "Solidity standard normal CDF Φ(x) in 18-decimal fixed-point — 660 gas, 6.4e-15 max abs. error. West's rational approximation, same kernel as DeFiMath's erf.",
     alternates: { canonical: "/docs/math/stdnormcdf/" },
 };
 
@@ -18,7 +18,7 @@ export default function Page() {
             name="stdNormCDF"
             summary="Computes the standard normal cumulative distribution function Φ(x) — the probability that a standard normal random variable is ≤ x."
             gas="660"
-            precision="4.7e-15"
+            precision="6.4e-15"
             precisionLabel="Max abs. error"
             signature={`function stdNormCDF(int256 x) internal pure returns (uint256 y)`}
             parameters={[

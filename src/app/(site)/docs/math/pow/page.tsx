@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "pow — Math | DeFiMath docs",
-    description: "Solidity power x^a in 18-decimal fixed-point — 803 gas, 5.2e-14 max rel. error. Composed as exp(a · ln(x)) on DeFiMath's CLZ-optimized ln and Padé exp.",
+    description: "Solidity power x^a in 18-decimal fixed-point — 803 gas, 1.0e-11 max rel. error. Composed as exp(a · ln(x)) on DeFiMath's CLZ-optimized ln and Padé exp.",
     alternates: { canonical: "/docs/math/pow/" },
 };
 
@@ -18,7 +18,7 @@ export default function Page() {
             name="pow"
             summary="Computes the power function x^a for an 18-decimal fixed-point base and signed exponent."
             gas="803"
-            precision="5.2e-14"
+            precision="1.0e-11"
             signature={`function pow(uint256 x, int256 a) internal pure returns (uint256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Base in 18-decimal fixed-point format (1e18 = 1.0). When a == 0 the function fast-paths to 1 regardless of x." },
@@ -44,7 +44,7 @@ export default function Page() {
                         DeFiMath just composes its <a href="/docs/math/ln/" className="text-primary underline">ln</a> and <a href="/docs/math/exp/" className="text-primary underline">exp</a> — no separate Taylor series, no special handling of integer exponents, no per-case branching. The composition inherits both functions' bounds and precision automatically, and means <code className="text-primary">pow</code> doesn't have to be re-tuned every time <code className="text-primary">ln</code> or <code className="text-primary">exp</code> get a gas tweak.
                     </p>
                     <p>
-                        One fast path: <code className="text-primary">x^0 = 1</code> (which also covers <code className="text-primary">0^0 = 1</code> by convention) short-circuits before either expensive call. Everything else flows through <code className="text-primary">ln</code>, multiplies by <code className="text-primary">a</code>, then through <code className="text-primary">exp</code> — ~803 gas total: one <code className="text-primary">ln</code> (375 gas), one <code className="text-primary">exp</code> (331 gas), the <code className="text-primary">MAX_POW_EXPONENT</code> input check, and the mul-and-divide that joins them.
+                        One fast path: <code className="text-primary">x^0 = 1</code> (which also covers <code className="text-primary">0^0 = 1</code> by convention) short-circuits before either expensive call. Everything else flows through <code className="text-primary">ln</code>, multiplies by <code className="text-primary">a</code>, then through <code className="text-primary">exp</code> — ~803 gas total: one <code className="text-primary">ln</code> (390 gas), one <code className="text-primary">exp</code> (327 gas), the <code className="text-primary">MAX_POW_EXPONENT</code> input check, and the mul-and-divide that joins them.
                     </p>
                     <p>
                         The composition picks up CLZ savings for free. <code className="text-primary">ln</code> uses the <code className="text-primary">CLZ</code> opcode for range reduction (see the <a href="/blog/clz-opcode-solidity/" className="text-primary underline">CLZ writeup</a>), <code className="text-primary">exp</code> uses a Padé approximant on a tiny reduced range. Both stay in inline assembly. The cost of <code className="text-primary">pow</code> is exactly the cost of its parts — predictable and stable.

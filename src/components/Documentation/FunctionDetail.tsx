@@ -17,11 +17,14 @@ type Props = {
   summary: ReactNode;
   /** Gas cost label (e.g. "333") */
   gas?: string;
-  /** Precision (e.g. "5.1e-14") */
+  /** Precision — copied verbatim from defimath's Tolerances.test.mjs, never a
+   *  measured value. Single bound (e.g. "1.0e-11") where the suite bounds one
+   *  metric; "rel / abs" (e.g. "1.6e-15 / 1.0e-15") where it bounds both. */
   precision?: string;
   /** Label for the precision stat. Defaults to "Max rel. error" (math/rates/stats).
    *  Pass "Max abs. error" for derivatives (options/binary/futures) where the
-   *  benchmark is absolute error in price/Greek units. */
+   *  benchmark is absolute error in price/Greek units, or "Max rel. / abs. error"
+   *  for functions with a root that carry both bounds (ln, exp, cbrt, ...). */
   precisionLabel?: string;
   /** Full Solidity signature, shown verbatim in a code block */
   signature: string;

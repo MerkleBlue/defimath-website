@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "cbrt — Math | DeFiMath docs",
-    description: "Solidity cube root in 18-decimal fixed-point — 340 gas, 2.2e-16 max rel. error. CLZ-derived seed + 6 Newton iterations. Full uint256 domain, no revert.",
+    description: "Solidity cube root in 18-decimal fixed-point — 340 gas, 2.0e-13 max rel. / 3.0e-16 max abs. error. CLZ-derived seed + 6 Newton iterations. Full uint256 domain, no revert.",
     alternates: { canonical: "/docs/math/cbrt/" },
 };
 
@@ -18,7 +18,8 @@ export default function Page() {
             name="cbrt"
             summary="Computes the real cube root of an 18-decimal fixed-point input. Accepts the full uint256 domain without reverting."
             gas="340"
-            precision="2.2e-16"
+            precision="2.0e-13 / 3.0e-16"
+            precisionLabel="Max rel. / abs. error"
             signature={`function cbrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0). Any value in [0, uint256.max] accepted." },

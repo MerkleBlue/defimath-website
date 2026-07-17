@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "log10 — Math | DeFiMath docs",
-    description: "Solidity base-10 logarithm in 18-decimal fixed-point — 391 gas, 1.4e-14 max rel. error. Change-of-base log₁₀(x) = ln(x) / ln(10) on DeFiMath's 375-gas ln.",
+    description: "Solidity base-10 logarithm in 18-decimal fixed-point — 406 gas, 1.6e-15 max rel. / 1.0e-15 max abs. error. Change-of-base log₁₀(x) = ln(x) / ln(10) on DeFiMath's 390-gas ln.",
     alternates: { canonical: "/docs/math/log10/" },
 };
 
@@ -18,8 +18,9 @@ export default function Page() {
             module="Math"
             name="log10"
             summary="Computes the base-10 logarithm of a positive 18-decimal fixed-point input via the change-of-base identity log₁₀(x) = ln(x) / ln(10)."
-            gas="391"
-            precision="1.4e-14"
+            gas="406"
+            precision="1.6e-15 / 1.0e-15"
+            precisionLabel="Max rel. / abs. error"
             signature={`function log10(uint256 x) internal pure returns (int256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0)." },
@@ -45,7 +46,7 @@ export default function Page() {
                     </p>
                     <pre>{`y = ln(x) * 1e18 / 2302585092994045684;`}</pre>
                     <p>
-                        The multiplication by <code className="text-primary">1e18</code> before dividing keeps the result in 18-decimal fixed-point format. Total cost is one <Link href="/docs/math/ln/" className="text-primary underline">ln</Link> call (~375 gas) plus a 16-gas mul+div, hence the ~391 gas total.
+                        The multiplication by <code className="text-primary">1e18</code> before dividing keeps the result in 18-decimal fixed-point format. Total cost is one <Link href="/docs/math/ln/" className="text-primary underline">ln</Link> call (~390 gas) plus a 16-gas mul+div, hence the ~406 gas total.
                     </p>
                     <p>
                         Because the implementation is a thin wrapper over <Link href="/docs/math/ln/" className="text-primary underline">ln</Link>, every guarantee <code className="text-primary">ln</code> provides — domain (<code className="text-primary">x &gt; 0</code>), precision, sign behavior — flows through directly. The only added error term is the rounding of <code className="text-primary">ln(10)</code> to 18 decimals, which is dwarfed by <code className="text-primary">ln</code>&apos;s own ~1e-14 error.

@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "exp — Math | DeFiMath docs",
-    description: "Solidity e^x in 18-decimal fixed-point — 331 gas, 5.1e-14 max rel. error. Range reduction plus Padé approximant in pure Yul assembly.",
+    description: "Solidity e^x in 18-decimal fixed-point — 327 gas, 7.2e-14 max rel. / 5.0e-14 max abs. error. Range reduction plus Padé approximant in pure Yul assembly.",
     alternates: { canonical: "/docs/math/exp/" },
 };
 
@@ -17,8 +17,9 @@ export default function Page() {
             module="Math"
             name="exp"
             summary="Computes the exponential function e^x for a signed 18-decimal fixed-point input."
-            gas="331"
-            precision="5.1e-14"
+            gas="327"
+            precision="7.2e-14 / 5.0e-14"
+            precisionLabel="Max rel. / abs. error"
             signature={`function exp(int256 x) internal pure returns (uint256 y)`}
             parameters={[
                 { name: "x", type: "int256", description: "Signed input in 18-decimal fixed-point format (1e18 = 1.0)." },
@@ -45,7 +46,7 @@ export default function Page() {
                         is accurate to well below 18-decimal precision in just two squarings and a single integer division. To undo the 256× reduction we raise the result to the 256th power — four quartic squarings (<code className="text-primary">y⁴</code>, then <code className="text-primary">y¹⁶</code>, <code className="text-primary">y⁶⁴</code>, <code className="text-primary">y²⁵⁶</code>). Finally we shift left by <code className="text-primary">k</code> to apply the <code className="text-primary">2^k</code> factor.
                     </p>
                     <p>
-                        Negative inputs use the same machinery on <code className="text-primary">|x|</code>, then reciprocate: <code className="text-primary">exp(−x) = 1 / exp(x)</code>. The two endpoints are asymmetric: at <code className="text-primary">x ≥ EXP_UPPER_BOUND</code> (≈ <code className="text-primary">135.306e18</code>) a positive result would overflow <code className="text-primary">uint256</code>, so the function reverts with <code className="text-primary">ExpUpperBoundError</code>. At <code className="text-primary">x ≤ EXP_LOWER_BOUND</code> (≈ <code className="text-primary">−41.446e18</code>) the true result is sub-<code className="text-primary">1e-18</code> — not representable in 18-decimal fixed-point — so the function returns <code className="text-primary">0</code> silently as a graceful underflow rather than reverting. The whole hot path stays in <code className="text-primary">unchecked</code> Yul assembly — no library calls, ~331 gas.
+                        Negative inputs use the same machinery on <code className="text-primary">|x|</code>, then reciprocate: <code className="text-primary">exp(−x) = 1 / exp(x)</code>. The two endpoints are asymmetric: at <code className="text-primary">x ≥ EXP_UPPER_BOUND</code> (≈ <code className="text-primary">135.306e18</code>) a positive result would overflow <code className="text-primary">uint256</code>, so the function reverts with <code className="text-primary">ExpUpperBoundError</code>. At <code className="text-primary">x ≤ EXP_LOWER_BOUND</code> (≈ <code className="text-primary">−41.446e18</code>) the true result is sub-<code className="text-primary">1e-18</code> — not representable in 18-decimal fixed-point — so the function returns <code className="text-primary">0</code> silently as a graceful underflow rather than reverting. The whole hot path stays in <code className="text-primary">unchecked</code> Yul assembly — no library calls, ~327 gas.
                     </p>
                 </>
             )}
