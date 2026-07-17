@@ -167,7 +167,7 @@ In the end, I tried to tweak parameters in this line:
 ```
 I tried to change that last shift left to include some other number than 1 in combination with reducing the 256. I printed everything so we can analyze if we are getting closer to true y with different seeding parameters: 
 
-![Sqrt seeding algorithm comparison](/images/blog/sqrt-seeding-algorithm-comparison.png)
+![Sqrt seeding algorithm comparison](/images/blog/sqrt-seeding-algorithm-comparison.webp)
 
 The table shows 3 different versions of seed generation, using y1, y2, and y3, each with different last number and adjusted second number. We can notice that y1 and y2 were producing exactly the same seed, while y3 was producing slightly higher seed with higher max relative error. 
 
