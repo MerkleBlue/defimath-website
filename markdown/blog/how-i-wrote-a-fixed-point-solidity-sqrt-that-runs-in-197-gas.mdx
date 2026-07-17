@@ -16,7 +16,7 @@ author: DeFiMath
 authorUrl: https://x.com/defi_math
 ---
 
-I live by a simple rule - if a function is on your pocket calculator, I want to implement it in Solidity with extreme efficiency and more-than-enough precision. Square root function needs no introduction, so I'll jump right into what I did: sqrt function in DefiMath library works with any uint256 input, calculates sqrt using 18-decimal fixed-point format, and does so in 197 gas while preserving very high precision. 
+I live by a simple rule - if a function is on your pocket calculator, I want to implement it in Solidity with extreme efficiency and more-than-enough precision. Square root function needs no introduction, so I'll jump right into what I did: sqrt function in DeFiMath library works with any uint256 input, calculates sqrt using 18-decimal fixed-point format, and does so in 197 gas while preserving very high precision. 
 
 I started optimizing square root function as part of the effort to optimize Black-Scholes: sqrt gets called once on each option pricing. But also when you want to calculate Greeks, multiple times when you are solving implied volatility, and also almost in every derivative, defi protocol, and advanced math in general. 
 
@@ -155,7 +155,7 @@ With this simple method our seed y is always close to real y, it's never off by 
   </table>
 </div>
 
-We see that 5 Newton's iterations is enough to get to 80 bits of precision for a worst case seed. 80 bits is more than enough for 18-decimal fixed-point format. It gives us bit-exact y when sqrt(x) < 1, and max relative error below 2.0e-18 when sqrt(x) > 1.
+We see that 5 Newton's iterations is enough to get to 80 bits of precision for a worst case seed. 80 bits is more than enough for 18-decimal fixed-point format. It gives us bit-exact Y when sqrt(x) < 1, and max relative error below 2e-18 when sqrt(x) > 1.
 
 # Final Optimization
 
@@ -177,4 +177,4 @@ The else branch is used for large inputs, and works almost identically as if bra
  - x is large enough so that we don't need to scale to preserve information through algorithm, and
  - pre-scaling would overflow for inputs close to uint256.max 
 
-Finally, we measured sqrt function to cost 197 gas in a sweep where X is in [1e-6, 1e6], with bit-exact results when sqrt(x) < 1, and max relative error of 2e-18 when sqrt(x) >= 1. My conclusions after spending a full week on implementing it is that simplicity wins by a wide margin in Solidity if the idea is to have gas-optimized primitives such as square root function. 
+Finally, I measured sqrt function to cost 197 gas in a sweep where X is in [1e-6, 1e6], with bit-exact results when sqrt(x) < 1, and max relative error below 2e-18 when sqrt(x) >= 1. My conclusions after spending a full week on implementing it is that simplicity wins by a wide margin in Solidity if the idea is to have gas-optimized primitives such as square root function. 
