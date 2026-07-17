@@ -79,7 +79,7 @@ const FAQ = async () => {
       answer: (
         <>
           <code className="text-primary">callOptionPrice</code> 2,708 vs Derivexyz 13,360 (~4.9×
-          cheaper); <code className="text-primary">sqrt</code> 197 vs Solady 341;{" "}
+          cheaper); <code className="text-primary">sqrt</code> 197 vs Solady 384;{" "}
           <code className="text-primary">ln</code> 373 vs Solady 518, PRBMath 6,910. Precision
           matches Solady within 1 ulp on the shared functions. Full reproducible benchmarks at{" "}
           <a
@@ -94,7 +94,7 @@ const FAQ = async () => {
         </>
       ),
       answerText:
-        "callOptionPrice 2,708 vs Derivexyz 13,360 (~4.9× cheaper); sqrt 197 vs Solady 341; ln 373 vs Solady 518, PRBMath 6,910. Precision matches Solady within 1 ulp on the shared functions. Full reproducible benchmarks at github.com/MerkleBlue/defimath-compare.",
+        "callOptionPrice 2,708 vs Derivexyz 13,360 (~4.9× cheaper); sqrt 197 vs Solady 384; ln 373 vs Solady 518, PRBMath 6,910. Precision matches Solady within 1 ulp on the shared functions. Full reproducible benchmarks at github.com/MerkleBlue/defimath-compare.",
     },
     {
       question: "Will it work on Ethereum L2s?",

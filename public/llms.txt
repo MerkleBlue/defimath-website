@@ -32,7 +32,7 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 
 - `exp`: 331 / 372 / 2,820 / 5,840 / —
 - `ln`: 373 / 518 / 6,910 / 12,667 / —
-- `sqrt`: 197 / 341 / 944 / 808 / —
+- `sqrt`: 197 / 384 / 944 / 808 / —
 - `cbrt`: 340 / 550 / — / — / —
 - `stdNormCDF`: 660 / — / — / — / 2,794
 - `erf`: 685 / — / — / — / 1,732
