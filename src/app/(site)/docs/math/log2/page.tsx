@@ -19,8 +19,10 @@ export default function Page() {
             name="log2"
             summary="Computes the base-2 logarithm of a positive 18-decimal fixed-point input via the change-of-base identity log₂(x) = ln(x) / ln(2)."
             gas="406"
-            precision="1.6e-15 / 1.0e-15"
-            precisionLabel="Max rel. / abs. error"
+            absError="1.0e-15"
+            absErrorWhen="when |log2(x)| < 1"
+            relError="1.6e-15"
+            relErrorWhen="when |log2(x)| ≥ 1"
             signature={`function log2(uint256 x) internal pure returns (int256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0)." },

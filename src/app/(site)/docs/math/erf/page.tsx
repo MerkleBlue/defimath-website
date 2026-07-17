@@ -18,8 +18,7 @@ export default function Page() {
             name="erf"
             summary="Computes the Gauss error function erf(x) using West's rational approximation."
             gas="691"
-            precision="2.0e-14"
-            precisionLabel="Max abs. error"
+            absError="2.0e-14"
             signature={`function erf(int256 x) internal pure returns (int256 y)`}
             parameters={[
                 { name: "x", type: "int256", description: "Signed input in 18-decimal fixed-point format (1e18 = 1.0)." },

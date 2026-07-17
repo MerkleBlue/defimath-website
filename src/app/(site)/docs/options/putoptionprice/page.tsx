@@ -5,7 +5,7 @@ import { MathBlock } from "@/components/Documentation/Formula";
 
 export const metadata: Metadata = {
     title: "putOptionPrice — Options | DeFiMath docs",
-    description: "Solidity Black-Scholes European put pricing, 18-decimal fixed-point — 2,718 gas, 5.4e-12 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
+    description: "Solidity Black-Scholes European put pricing, 18-decimal fixed-point — 2,718 gas, 1.3e-10 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
     alternates: { canonical: "/docs/options/putoptionprice/" },
 };
 
@@ -20,8 +20,7 @@ export default function Page() {
             name="putOptionPrice"
             summary="Computes the Black-Scholes price of a European put option in 18-decimal fixed-point, at ~2,718 gas."
             gas="2,718"
-            precision="5.4e-12"
-            precisionLabel="Max abs. error"
+            absError="1.3e-10"
             signature={`function putOptionPrice(
     uint128 spot,
     uint128 strike,
@@ -61,7 +60,7 @@ export default function Page() {
                         Every transcendental maps to a DeFiMath primitive: <code className="text-primary">σ·√T</code> uses <code className="text-primary">DeFiMath.sqrtTime</code> (specialized for time-in-years inputs), <code className="text-primary">ln(spot/strike)</code> uses <Link href="/docs/math/ln/" className="text-primary underline">DeFiMath.ln</Link>, the discount factor <code className="text-primary">e^(−rT)</code> is computed as <code className="text-primary">1 / DeFiMath.expPositive(rT)</code> (positive-input branch, since the input bounds guarantee <code className="text-primary">rT ≥ 0</code>), and the two normal CDFs use <Link href="/docs/math/stdnormcdf/" className="text-primary underline">DeFiMath.stdNormCDF</Link>.
                     </p>
                     <p>
-                        The annualization step converts <code className="text-primary">timeToExp</code> (seconds) to a year fraction by dividing by <code className="text-primary">SECONDS_IN_YEAR</code>, then scales volatility by <code className="text-primary">√T</code> once and reuses the result throughout. The <code className="text-primary">+1</code> on <code className="text-primary">scaledVol</code> keeps the division in <code className="text-primary">d₁</code> well-defined even for zero-vol edge cases. The final assembly computes <code className="text-primary">discountedStrike · Φ(−d₂) − spot · Φ(−d₁)</code> and clamps at zero — Black-Scholes can produce slightly negative values (on the order of <code className="text-primary">10⁻¹²</code>) due to rounding in the underlying primitives when the option is far out of the money. The 5.4e-12 max absolute error is benchmarked at <code className="text-primary">spot = $1,000</code> across a full sweep of strike, time, vol, and rate — reproducible from <a href="https://github.com/MerkleBlue/defimath-compare" target="_blank" rel="noopener noreferrer" className="text-primary underline">defimath-compare</a>.
+                        The annualization step converts <code className="text-primary">timeToExp</code> (seconds) to a year fraction by dividing by <code className="text-primary">SECONDS_IN_YEAR</code>, then scales volatility by <code className="text-primary">√T</code> once and reuses the result throughout. The <code className="text-primary">+1</code> on <code className="text-primary">scaledVol</code> keeps the division in <code className="text-primary">d₁</code> well-defined even for zero-vol edge cases. The final assembly computes <code className="text-primary">discountedStrike · Φ(−d₂) − spot · Φ(−d₁)</code> and clamps at zero — Black-Scholes can produce slightly negative values (on the order of <code className="text-primary">10⁻¹²</code>) due to rounding in the underlying primitives when the option is far out of the money. The 1.3e-10 max absolute error is the bound the test suite enforces at <code className="text-primary">spot = $1,000</code> across a full sweep of strike, time, vol, and rate — head-to-head measurements against other libraries live in <a href="https://github.com/MerkleBlue/defimath-compare" target="_blank" rel="noopener noreferrer" className="text-primary underline">defimath-compare</a>.
                     </p>
                 </>
             )}

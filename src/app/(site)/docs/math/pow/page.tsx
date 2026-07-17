@@ -18,7 +18,7 @@ export default function Page() {
             name="pow"
             summary="Computes the power function x^a for an 18-decimal fixed-point base and signed exponent."
             gas="803"
-            precision="1.0e-11"
+            relError="1.0e-11"
             signature={`function pow(uint256 x, int256 a) internal pure returns (uint256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Base in 18-decimal fixed-point format (1e18 = 1.0). When a == 0 the function fast-paths to 1 regardless of x." },

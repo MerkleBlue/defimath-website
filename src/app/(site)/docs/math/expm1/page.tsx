@@ -19,8 +19,10 @@ export default function Page() {
             name="expm1"
             summary="Computes e^x − 1 while preserving full 18-digit precision near zero, where the naive exp(x) − 1 formula catastrophically cancels."
             gas="407"
-            precision="1.0e-13 / 1.5e-13"
-            precisionLabel="Max rel. / abs. error"
+            absError="1.5e-13"
+            absErrorWhen="when expm1(x) < 1"
+            relError="1.0e-13"
+            relErrorWhen="when expm1(x) ≥ 1"
             signature={`function expm1(int256 x) internal pure returns (int256 y)`}
             parameters={[
                 { name: "x", type: "int256", description: "Signed input in 18-decimal fixed-point format (1e18 = 1.0)." },

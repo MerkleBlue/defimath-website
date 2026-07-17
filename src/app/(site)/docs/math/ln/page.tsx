@@ -18,8 +18,10 @@ export default function Page() {
             name="ln"
             summary="Computes the natural logarithm ln(x) for a 18-decimal fixed-point input."
             gas="390"
-            precision="1.6e-15 / 1.0e-15"
-            precisionLabel="Max rel. / abs. error"
+            absError="1.0e-15"
+            absErrorWhen="when |ln(x)| < 1"
+            relError="1.6e-15"
+            relErrorWhen="when |ln(x)| ≥ 1"
             signature={`function ln(uint256 x) internal pure returns (int256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0)." },

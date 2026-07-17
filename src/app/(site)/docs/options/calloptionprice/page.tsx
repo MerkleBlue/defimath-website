@@ -5,7 +5,7 @@ import { MathBlock } from "@/components/Documentation/Formula";
 
 export const metadata: Metadata = {
     title: "callOptionPrice — Options | DeFiMath docs",
-    description: "Solidity Black-Scholes European call pricing, 18-decimal fixed-point — 2,708 gas, 5.6e-12 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
+    description: "Solidity Black-Scholes European call pricing, 18-decimal fixed-point — 2,708 gas, 1.3e-10 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
     alternates: { canonical: "/docs/options/calloptionprice/" },
 };
 
@@ -20,8 +20,7 @@ export default function Page() {
             name="callOptionPrice"
             summary="Computes the Black-Scholes price of a European call option in 18-decimal fixed-point, at ~2,708 gas."
             gas="2,708"
-            precision="5.6e-12"
-            precisionLabel="Max abs. error"
+            absError="1.3e-10"
             signature={`function callOptionPrice(
     uint128 spot,
     uint128 strike,
@@ -61,7 +60,7 @@ export default function Page() {
                         The annualization step converts <code className="text-primary">timeToExp</code> (seconds) to a year fraction by dividing by <code className="text-primary">SECONDS_IN_YEAR</code>, then scales volatility by <code className="text-primary">√T</code> once and reuses the result through <code className="text-primary">d₁</code>, <code className="text-primary">d₂</code>, and the integral bounds. The <code className="text-primary">+1</code> on <code className="text-primary">scaledVol</code> is a defensive bump to keep the division in <code className="text-primary">d₁</code> well-defined even for zero-vol edge cases.
                     </p>
                     <p>
-                        The final assembly computes <code className="text-primary">spot · Φ(d₁) − discountedStrike · Φ(d₂)</code> and clamps the result at zero — Black-Scholes can produce slightly negative values (on the order of <code className="text-primary">10⁻¹²</code>) due to rounding in the rounded primitives when the option is far out of the money. The clamp guarantees the function never returns a nonsensical negative price. The 5.6e-12 max absolute error is benchmarked at <code className="text-primary">spot = $1,000</code> across a full sweep of strike, time, vol, and rate — reproducible from <a href="https://github.com/MerkleBlue/defimath-compare" target="_blank" rel="noopener noreferrer" className="text-primary underline">defimath-compare</a>.
+                        The final assembly computes <code className="text-primary">spot · Φ(d₁) − discountedStrike · Φ(d₂)</code> and clamps the result at zero — Black-Scholes can produce slightly negative values (on the order of <code className="text-primary">10⁻¹²</code>) due to rounding in the rounded primitives when the option is far out of the money. The clamp guarantees the function never returns a nonsensical negative price. The 1.3e-10 max absolute error is the bound the test suite enforces at <code className="text-primary">spot = $1,000</code> across a full sweep of strike, time, vol, and rate — head-to-head measurements against other libraries live in <a href="https://github.com/MerkleBlue/defimath-compare" target="_blank" rel="noopener noreferrer" className="text-primary underline">defimath-compare</a>.
                     </p>
                 </>
             )}

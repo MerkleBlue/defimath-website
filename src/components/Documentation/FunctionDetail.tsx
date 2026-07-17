@@ -17,15 +17,19 @@ type Props = {
   summary: ReactNode;
   /** Gas cost label (e.g. "333") */
   gas?: string;
-  /** Precision — copied verbatim from defimath's Tolerances.test.mjs, never a
-   *  measured value. Single bound (e.g. "1.0e-11") where the suite bounds one
-   *  metric; "rel / abs" (e.g. "1.6e-15 / 1.0e-15") where it bounds both. */
-  precision?: string;
-  /** Label for the precision stat. Defaults to "Max rel. error" (math/rates/stats).
-   *  Pass "Max abs. error" for derivatives (options/binary/futures) where the
-   *  benchmark is absolute error in price/Greek units, or "Max rel. / abs. error"
-   *  for functions with a root that carry both bounds (ln, exp, cbrt, ...). */
-  precisionLabel?: string;
+  /** Max ABSOLUTE error — copied verbatim from defimath's `Tolerances.test.mjs`
+   *  constants, never a measured value (e.g. "1.0e-15"). Omit entirely when the
+   *  suite defines no absolute bound for this function — the card is then hidden. */
+  absError?: string;
+  /** Condition under which `absError` applies, mirroring that constant's comment in
+   *  `Tolerances.test.mjs` (e.g. "when |ln(x)| < 1"). Omit for an unconditional bound. */
+  absErrorWhen?: string;
+  /** Max RELATIVE error — verbatim from `Tolerances.test.mjs` (e.g. "1.6e-15").
+   *  Omit when the suite defines no relative bound — the card is then hidden. */
+  relError?: string;
+  /** Condition under which `relError` applies, mirroring the Tolerances comment
+   *  (e.g. "when |ln(x)| ≥ 1"). Omit for an unconditional bound. */
+  relErrorWhen?: string;
   /** Full Solidity signature, shown verbatim in a code block */
   signature: string;
   parameters?: ParamRow[];
@@ -72,10 +76,11 @@ const ParamTable = ({ rows }: { rows: ParamRow[] }) => (
   </div>
 );
 
-const Stat = ({ label, value }: { label: string; value: string }) => (
+const Stat = ({ label, value, note }: { label: string; value: string; note?: string }) => (
   <div className="p-4 rounded-md border border-dark_border border-opacity-60">
     <p className="text-sm font-medium text-muted text-opacity-60">{label}</p>
     <p className="text-primary text-xl font-semibold mt-1">{value}</p>
+    {note && <p className="text-sm font-medium text-muted text-opacity-60 mt-1">{note}</p>}
   </div>
 );
 
@@ -85,8 +90,10 @@ export const FunctionDetail = async ({
   name,
   summary,
   gas,
-  precision,
-  precisionLabel = "Max rel. error",
+  absError,
+  absErrorWhen,
+  relError,
+  relErrorWhen,
   signature,
   parameters,
   returns,
@@ -114,10 +121,17 @@ export const FunctionDetail = async ({
         {summary}
       </p>
 
-      {(gas || precision) && (
-        <div className="grid grid-cols-2 gap-4 mt-6 max-w-md">
+      {(gas || absError || relError) && (
+        <div
+          className={`grid gap-4 mt-6 ${
+            [gas, absError, relError].filter(Boolean).length >= 3
+              ? "grid-cols-1 sm:grid-cols-3 max-w-2xl"
+              : "grid-cols-2 max-w-md"
+          }`}
+        >
           {gas && <Stat label="Gas" value={gas} />}
-          {precision && <Stat label={precisionLabel} value={precision} />}
+          {absError && <Stat label="Max abs. error" value={absError} note={absErrorWhen} />}
+          {relError && <Stat label="Max rel. error" value={relError} note={relErrorWhen} />}
         </div>
       )}
 

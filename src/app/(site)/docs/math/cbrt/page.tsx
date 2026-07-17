@@ -18,8 +18,10 @@ export default function Page() {
             name="cbrt"
             summary="Computes the real cube root of an 18-decimal fixed-point input. Accepts the full uint256 domain without reverting."
             gas="340"
-            precision="2.0e-13 / 3.0e-16"
-            precisionLabel="Max rel. / abs. error"
+            absError="3.0e-16"
+            absErrorWhen="when cbrt(x) < 1"
+            relError="2.0e-13"
+            relErrorWhen="when cbrt(x) ≥ 1"
             signature={`function cbrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0). Any value in [0, uint256.max] accepted." },

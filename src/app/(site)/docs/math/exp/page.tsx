@@ -18,8 +18,10 @@ export default function Page() {
             name="exp"
             summary="Computes the exponential function e^x for a signed 18-decimal fixed-point input."
             gas="327"
-            precision="7.2e-14 / 5.0e-14"
-            precisionLabel="Max rel. / abs. error"
+            absError="5.0e-14"
+            absErrorWhen="when |exp(x)| < 1"
+            relError="7.2e-14"
+            relErrorWhen="when |exp(x)| ≥ 1"
             signature={`function exp(int256 x) internal pure returns (uint256 y)`}
             parameters={[
                 { name: "x", type: "int256", description: "Signed input in 18-decimal fixed-point format (1e18 = 1.0)." },

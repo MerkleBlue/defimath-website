@@ -18,7 +18,10 @@ export default function Page() {
             name="sqrt"
             summary="Computes the principal square root of an 18-decimal fixed-point input. Accepts the full uint256 domain without reverting."
             gas="197"
-            precision="2.0e-18"
+            absError="1.0e-18"
+            absErrorWhen="when sqrt(x) < 1"
+            relError="2.0e-18"
+            relErrorWhen="when sqrt(x) ≥ 1"
             signature={`function sqrt(uint256 x) internal pure returns (uint256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Input in 18-decimal fixed-point format (1e18 = 1.0). Any value in [0, uint256.max] accepted." },

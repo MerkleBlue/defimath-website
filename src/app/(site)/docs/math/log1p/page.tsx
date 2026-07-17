@@ -19,8 +19,10 @@ export default function Page() {
             name="log1p"
             summary="Computes ln(1 + x) while preserving full 18-digit precision near zero, where forming 1 + x for tiny x would lose most of x's significant digits."
             gas="476"
-            precision="1.6e-15 / 1.0e-15"
-            precisionLabel="Max rel. / abs. error"
+            absError="1.0e-15"
+            absErrorWhen="when |log1p(x)| < 1"
+            relError="1.6e-15"
+            relErrorWhen="when |log1p(x)| ≥ 1"
             signature={`function log1p(int256 x) internal pure returns (int256 y)`}
             parameters={[
                 { name: "x", type: "int256", description: "Signed input in 18-decimal fixed-point format (1e18 = 1.0)." },
