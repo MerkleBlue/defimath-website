@@ -27,6 +27,8 @@ Two changes:
    ~18 orders of magnitude above any realistic financial exponent
    (real value 10³⁶).
 
+For a deep dive into the new `sqrt` — the CLZ seed, the five Newton iterations, and how it lands at 197 gas — see the companion post: [How I wrote a fixed-point Solidity sqrt that runs in 197 gas](/blog/how-i-wrote-a-fixed-point-solidity-sqrt-that-runs-in-197-gas/).
+
 ## Gas changes
 
 Beyond `sqrt` and `cbrt`, `sqrtTime` also picked up the new CLZ-derived seed

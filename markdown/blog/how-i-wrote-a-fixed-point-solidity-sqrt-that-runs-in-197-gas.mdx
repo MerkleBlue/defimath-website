@@ -16,11 +16,11 @@ author: DeFiMath
 authorUrl: https://x.com/defi_math
 ---
 
-I live by a simple rule - if a function is on your pocket calculator, I want to implement it in Solidity with extreme efficiency and more-than-enough precision. Square root function needs no introduction, so I'll jump right into what I did: the sqrt function in the DeFiMath library works with any uint256 input, calculates sqrt using 18-decimal fixed-point format, and does so in 197 gas while preserving very high precision. 
+I live by a simple rule: if a function is on your pocket calculator, I want it in Solidity — as fast as possible, and precise enough that you never have to think about it. Square root is exactly that kind of workhorse, so I'll skip the introduction and jump to the result: DeFiMath's `sqrt` takes any `uint256`, returns an 18-decimal fixed-point value, and does it in **197 gas** — bit-exact when the answer is below 1, and within 2e-18 relative error above it.
 
-I started optimizing the square root function as part of the effort to optimize Black-Scholes: sqrt gets called once on each option pricing. But it's also called when you calculate Greeks, several times when you solve implied volatility, and in almost every derivative, DeFi protocol, and advanced math in general. 
+That efficiency matters because `sqrt` is everywhere. This started as part of optimizing Black-Scholes — one call per option price — but `sqrt` also shows up in every Greek, several times over inside an implied-volatility solve, and buried in almost every derivative, DeFi protocol, and serious piece of on-chain math.
 
-In this post, I wanted to share how I implemented it in a gas-efficient way.
+Here's how it works, top to bottom.
 
 # Sqrt Function Code
 
