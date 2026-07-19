@@ -99,10 +99,10 @@ The best way to understand how seed y is generated is to analyze this line (the 
 Seeding works like this: 
 
 1) we find the scale of x by counting leading zeros, and then we subtract leading zeros from 256 to get the scale of the number (most significant bit or msb).  
-2) once we find msb, we divide it by 2, using shr opcode
-3) then we generate the seed: seed = 2^(msb/2), using shl
+2) once we find msb, we divide it by 2, using the shr opcode
+3) then we generate the seed: seed = 2^(msb/2), using the shl opcode
 
-With this simple method our seed y is always close to real y — it's never off by more than a factor of √2. And that is important to know when choosing the number of iterations that come after seeding: 5 iterations is more than enough for the worst case seed. Here's the table showing how the worst case seed (for example x = 2048) with max relative error of 0.41 (41%) converges to real y:
+With this simple method our seed y is always close to real y — it's never off by more than a factor of √2. And that is important to know when choosing the number of iterations that come after seeding: 5 iterations are more than enough for the worst case seed. Here's the table showing how the worst case seed (for example x = 2048) with max relative error of 0.41 (41%) converges to real y:
 
 <div class="my-6 rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
   <table class="w-full text-base">
