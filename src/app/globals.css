@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 html {
+  font-size: 106.25%; /* ~17px base (from 16px) — scales all rem-based text & spacing +6.25% */
   scroll-behavior: auto;
 }
 

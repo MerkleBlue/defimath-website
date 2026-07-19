@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 import Header from "@/components/Layout/Header";
@@ -9,7 +9,7 @@ import { AnalyticsPageviews } from "@/components/AnalyticsPageviews";
 import { GithubOutboundTracking } from "@/components/GithubOutboundTracking";
 import Aoscompo from "@/utils/aos";
 import Script from "next/script";
-const font = DM_Sans({ subsets: ["latin"], display: "optional" });
+const font = Roboto({ subsets: ["latin"], weight: ["400", "500", "600", "700"], display: "optional" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://defimath.com"),
