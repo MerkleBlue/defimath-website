@@ -16,9 +16,9 @@ author: DeFiMath
 authorUrl: https://x.com/defi_math
 ---
 
-I live by a simple rule - if a function is on your pocket calculator, I want to implement it in Solidity with extreme efficiency and more-than-enough precision. Square root function needs no introduction, so I'll jump right into what I did: sqrt function in DeFiMath library works with any uint256 input, calculates sqrt using 18-decimal fixed-point format, and does so in 197 gas while preserving very high precision. 
+I live by a simple rule - if a function is on your pocket calculator, I want to implement it in Solidity with extreme efficiency and more-than-enough precision. Square root function needs no introduction, so I'll jump right into what I did: the sqrt function in the DeFiMath library works with any uint256 input, calculates sqrt using 18-decimal fixed-point format, and does so in 197 gas while preserving very high precision. 
 
-I started optimizing square root function as part of the effort to optimize Black-Scholes: sqrt gets called once on each option pricing. But also when you want to calculate Greeks, multiple times when you are solving implied volatility, and also almost in every derivative, defi protocol, and advanced math in general. 
+I started optimizing the square root function as part of the effort to optimize Black-Scholes: sqrt gets called once on each option pricing. But it's also called when you calculate Greeks, several times when you solve implied volatility, and in almost every derivative, DeFi protocol, and advanced math in general. 
 
 In this post, I wanted to share how I implemented it in a gas-efficient way.
 
@@ -69,27 +69,27 @@ function sqrt(uint256 x) internal pure returns (uint256 y) {
    }
 }
 ```
-As we can see, the whole function is wrapped inside of unchecked block, which helps keep gas cost low. But we must be careful not to overflow or underflow anywhere. We can also see that function is divided to 2 parts, each in almost identical assembly blocks. We are using assembly here because we can get away more cheaply with it. First half of the function calculates sqrt of X that is <= than any number in uint128, which probably covers 99% of usage in DeFi. Let's analyze the if branch.
+As we can see, the whole function is wrapped inside of unchecked block, which helps keep gas cost low. But we must be careful not to overflow or underflow anywhere. We can also see that the function is divided into 2 parts, each in almost identical assembly blocks. We are using assembly here because it's cheaper. The first half of the function calculates sqrt of x that is ≤ uint128 max, which probably covers 99% of usage in DeFi. Let's analyze the if branch.
 
-If we ignore scaling to 1e36 base (which I will explain later), we are left with only 6 lines of code, which are enough to calculate sqrt down to specified precision (2e-18). In case you need more precision than I specified, just add one more Newton's iteration. The algorithm is simple: generate a close-enough seed value y ≈ sqrt(x), and then refine it using Newton's method. 
+If we ignore scaling to 1e36 base (which I will explain later), we are left with only 6 lines of code, which are enough to calculate sqrt down to the specified precision (2e-18). In case you need more precision than I specified, just add one more Newton iteration. The algorithm is simple: generate a close-enough seed value y ≈ sqrt(x), and then refine it using Newton's method. 
 
 # Newton's Method
 
-[Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method) help us find the square root by iterating over seed y. Each iteration gets us closer to solution, and it has some nice properties: it's simple and cheap gas-wise, and it converges to solution quickly if we start close enough. Here's the Newton's method:
+[Newton's method](https://en.wikipedia.org/wiki/Newton%27s_method) helps us find the square root by iterating over seed y. Each iteration gets us closer to the solution, and it has some nice properties: it's simple and cheap gas-wise, and it converges to the solution quickly if we start close enough. Here's Newton's method:
 
 ```
 yₙ₊₁ = (yₙ + x / yₙ) / 2
 ```
 
-Each iteration takes the current estimate `yₙ`, averages it with `x / yₙ`, and produces a better estimate `yₙ₊₁`. Convergence is quadratic — the number of correct digits roughly doubles with every step. It is extremely efficient, especially if seed is close to true y. In Solidity, we implement each step like this:
+Each iteration takes the current estimate `yₙ`, averages it with `x / yₙ`, and produces a better estimate `yₙ₊₁`. Convergence is quadratic — the number of correct digits roughly doubles with every step. It is extremely efficient, especially if the seed is close to true y. In Solidity, we implement each step like this:
 ```solidity
 y := shr(1, add(y, div(x, y)))
 ```
-We use shift right to divide by 2, because shr is cheaper than div. This line is measured to cost 20 gas, so 5 Newton iterations costs around 100 gas. Also, important note here is that x is already in 1e36 base, while y is in 1e18, so when we do div(x, y), we are back to 1e18 base. Scaling x once to 1e36 at the beginning helps us lower the cost of Newton's method, allowing us to avoid costly muldiv by using div only.
+We use shift right to divide by 2, because shr is cheaper than div. This line is measured to cost 20 gas, so 5 Newton iterations cost around 100 gas. Also, an important note here is that x is already in 1e36 base, while y is in 1e18, so when we do div(x, y), we are back to 1e18 base. Scaling x once to 1e36 at the beginning helps us lower the cost of Newton's method, allowing us to avoid costly muldiv by using div only.
 
 # Seed Algorithm
 
-I am using clz opcode extensively throughout DeFiMath to approximate the scale of a number, as I wrote in [Counting Leading Zeros In Solidity Using CLZ Opcode](/blog/clz-opcode-solidity/). For sqrt specifically, clz gives us a seed y that is close enough to actual solution. 
+I am using clz opcode extensively throughout DeFiMath to approximate the scale of a number, as I wrote in [Counting Leading Zeros In Solidity Using CLZ Opcode](/blog/clz-opcode-solidity/). For sqrt specifically, clz gives us a seed y that is close enough to the actual solution. 
 
 The best way to understand how seed y is generated is to analyze this line (the shipped code uses an equivalent form — I'll explain why at the end):
 ```solidity
@@ -102,7 +102,7 @@ Seeding works like this:
 2) once we find msb, we divide it by 2, using shr opcode
 3) then we generate the seed: seed = 2^(msb/2), using shl
 
-With this simple method our seed y is always close to real y, it's never off by more than a factor of √2. And that is important to know when choosing the number of iterations that comes after seeding: 5 iterations is more than enough for worst case seed. Here's the table showing how the worst case seed (for example x = 2048) with max relative error of 0.41 (41%) converges to real y:
+With this simple method our seed y is always close to real y — it's never off by more than a factor of √2. And that is important to know when choosing the number of iterations that come after seeding: 5 iterations is more than enough for the worst case seed. Here's the table showing how the worst case seed (for example x = 2048) with max relative error of 0.41 (41%) converges to real y:
 
 <div class="my-6 rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
   <table class="w-full text-base">
@@ -155,26 +155,26 @@ With this simple method our seed y is always close to real y, it's never off by 
   </table>
 </div>
 
-We see that 5 Newton's iterations is enough to get to 80 bits of precision for a worst case seed. 80 bits is more than enough for 18-decimal fixed-point format. It gives us bit-exact Y when sqrt(x) < 1, and max relative error below 2e-18 when sqrt(x) > 1.
+We see that 5 Newton iterations are enough to get to 80 bits of precision for the worst case seed. 80 bits is more than enough for 18-decimal fixed-point format. It gives us bit-exact y when sqrt(x) < 1, and max relative error below 2e-18 when sqrt(x) >= 1.
 
 # Final Optimization
 
-I tried using different seed methods to get closer to true y so that we can lower Newton's iterations down to 4 and shave off 20 gas. The simplest and cheapest way I found was to use minimax linear approximation of y on the narrow range of x in [1, 4], but that was costing more in gas. I also tried quadratic interpolation, but that was even more expensive. 
+I tried using different seed methods to get closer to true y so that we can reduce Newton iterations to 4 and shave off 20 gas. The simplest and cheapest way I found was to use minimax linear approximation of y on the narrow range of x in [1, 4], but that was costing more in gas. I also tried quadratic interpolation, but that was even more expensive. 
 
 In the end, I tried to tweak parameters in this line:
 ```solidity
    y := shl(shr(1, sub(256, clz(x))), 1)
 ```
-I tried to change that last shift left to include some other number than 1 in combination with reducing the 256. I printed everything so we can analyze if we are getting closer to true y with different seeding parameters: 
+I tried changing that last shift-left value to something other than 1, together with reducing the 256. I printed everything so we could see whether we were getting closer to true y with different seeding parameters: 
 
 ![Sqrt seeding algorithm comparison](/images/blog/sqrt-seeding-algorithm-comparison.webp)
 
-The table shows 3 different versions of seed generation, using y1, y2, and y3, each with different last number and adjusted second number. We can notice that y1 and y2 were producing exactly the same seed, while y3 was producing slightly higher seed with higher max relative error. 
+The table shows 3 different versions of seed generation, using y1, y2, and y3, each with different last number and adjusted second number. We can notice that y1 and y2 were producing exactly the same seed, while y3 was producing a slightly higher seed with a higher max relative error. 
 
 After analyzing a lot of versions, I decided to write the seed as (254, 2) instead of (256, 1) because it shaves one byte off the bytecode (254 is a single-byte PUSH), and in this version the optimizer happens to schedule it one gas cheaper — though that last gas is a stack-scheduling artifact, not a property of the seed itself.
 
-The else branch is used for large inputs, and works almost identically as if branch, but we use one scaling trick - post-scale instead of pre-scale for 2 reasons:
- - x is large enough so that we don't need to scale to preserve information through algorithm, and
+The else branch is used for large inputs, and works almost identically to the if branch, but with one scaling trick — post-scaling instead of pre-scaling, for 2 reasons:
+ - x is large enough that we don't need to scale to preserve information through the algorithm, and
  - pre-scaling would overflow for inputs close to uint256.max 
 
-Finally, I measured sqrt function to cost 197 gas in a sweep where X is in [1e-6, 1e6], with bit-exact results when sqrt(x) < 1, and max relative error below 2e-18 when sqrt(x) >= 1. My conclusions after spending a full week on implementing it is that simplicity wins by a wide margin in Solidity if the idea is to have gas-optimized primitives such as square root function. 
+Finally, I measured the sqrt function to cost 197 gas in a sweep where x is in [1e-6, 1e6], with bit-exact results when sqrt(x) < 1, and max relative error below 2e-18 when sqrt(x) >= 1. My conclusion after spending a full week on implementing it is that simplicity wins by a wide margin in Solidity if the goal is gas-optimized primitives such as the square root function. 
