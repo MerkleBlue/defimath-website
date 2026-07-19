@@ -1,0 +1,142 @@
+1:"$Sreact.fragment"
+3:I[22016,["/_next/static/chunks/0nbjh7e-zskwh.js","/_next/static/chunks/0qc1sqmhdir1o.js","/_next/static/chunks/14hje02.ex7vy.js"],""]
+4:I[9308,["/_next/static/chunks/0nbjh7e-zskwh.js","/_next/static/chunks/0qc1sqmhdir1o.js","/_next/static/chunks/14hje02.ex7vy.js"],"MarkdownContent"]
+8:I[97367,["/_next/static/chunks/0nbjh7e-zskwh.js","/_next/static/chunks/0qc1sqmhdir1o.js"],"OutletBoundary"]
+9:"$Sreact.suspense"
+2:T40a,{"@context":"https://schema.org","@type":"BlogPosting","headline":"How I Wrote A Fixed-Point Solidity Sqrt That Runs In 197 Gas","description":"Walkthrough: how I wrote a fixed-point sqrt in Solidity at 197 gas. Design choices, precision trade-offs, and gas benchmarks throughout the build.","url":"https://defimath.com/blog/how-i-wrote-a-fixed-point-solidity-sqrt-that-runs-in-197-gas/","datePublished":"2026-07-19T00:00:00.000Z","dateModified":"2026-07-19T00:00:00.000Z","author":{"@type":"Person","name":"DeFiMath","url":"https://x.com/defi_math"},"publisher":{"@type":"Organization","name":"DeFiMath","url":"https://defimath.com","logo":{"@type":"ImageObject","url":"https://defimath.com/apple-touch-icon.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://defimath.com/blog/how-i-wrote-a-fixed-point-solidity-sqrt-that-runs-in-197-gas/"},"keywords":"solidity sqrt, solidity square root, fixed-point sqrt solidity, solidity gas optimization, newton-raphson solidity, sqrt in solidity, solidity math library, 197 gas sqrt"}5:T5915,<p>I live by a simple rule: if a function is on your pocket calculator, I want it in Solidity — as fast as possible, and precise enough that you never have to think about it. Square root is exactly that kind of workhorse, so I'll skip the introduction and jump to the result: DeFiMath's <a href="/docs/math/sqrt/"><code>sqrt</code></a> takes any <code>uint256</code>, returns an 18-decimal fixed-point value, and does it in <strong>197 gas</strong> — bit-exact when the result is below 1, and within 2e-18 relative error above it.</p>
+<p>That efficiency matters because <code>sqrt</code> is everywhere. This started as part of optimizing Black-Scholes — one call per option price — but <code>sqrt</code> also shows up in every Greek, several times over inside an implied-volatility solve, and buried in almost every derivative, DeFi protocol, and serious piece of on-chain math.</p>
+<p>Here's how it works, top to bottom.</p>
+<h1>Sqrt Function Code</h1>
+<p>Let's take a look at the Solidity code directly, then analyze it, line by line.</p>
+<pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8" tabindex="0"><code><span class="line"><span style="color:#6A737D">/// </span><span style="color:#F97583">@notice</span><span style="color:#6A737D"> Computes square root of x in 18-decimal fixed-point. </span></span>
+<span class="line"><span style="color:#6A737D">/// </span><span style="color:#F97583">@dev</span><span style="color:#6A737D"> Accepts the full uint256 domain, never reverts.</span></span>
+<span class="line"><span style="color:#6A737D">///      Max relative error: &#x3C; 2e-18 for any x >= 1e18.</span></span>
+<span class="line"><span style="color:#6A737D">///      Max absolute error: bit-exact for any x &#x3C; 1e18.</span></span>
+<span class="line"><span style="color:#6A737D">/// </span><span style="color:#F97583">@param</span><span style="color:#E1E4E8"> x</span><span style="color:#6A737D"> Input in 18-decimal fixed-point format.</span></span>
+<span class="line"><span style="color:#6A737D">/// </span><span style="color:#F97583">@return</span><span style="color:#E1E4E8"> y</span><span style="color:#6A737D"> Square root in 18-decimal fixed-point format.</span></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> sqrt</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">uint256</span><span style="color:#FFAB70"> x</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">internal</span><span style="color:#F97583"> pure</span><span style="color:#F97583"> returns</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">uint256</span><span style="color:#FFAB70"> y</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">   unchecked</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">      if</span><span style="color:#E1E4E8"> (x </span><span style="color:#F97583">&#x3C;=</span><span style="color:#79B8FF"> type</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">uint128</span><span style="color:#E1E4E8">).max) {</span></span>
+<span class="line"><span style="color:#B392F0">            assembly</span><span style="color:#E1E4E8"> (</span><span style="color:#9ECBFF">"memory-safe"</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#6A737D">               // pre-scale x to 1e36 base (because x can be small)</span></span>
+<span class="line"><span style="color:#E1E4E8">               x </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> mul</span><span style="color:#E1E4E8">(x, </span><span style="color:#79B8FF">1000000000000000000</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">               // generate seed y using clz</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shl</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">sub</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">254</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">clz</span><span style="color:#E1E4E8">(x))), </span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">               // refine y using 5x Newton's method</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">      } </span><span style="color:#F97583">else</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">            assembly</span><span style="color:#E1E4E8"> (</span><span style="color:#9ECBFF">"memory-safe"</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#6A737D">               // generate seed y using clz</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shl</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">sub</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">254</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">clz</span><span style="color:#E1E4E8">(x))), </span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">               // refine y using 5x Newton's method</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">               // post-scale y to 1e18 base</span></span>
+<span class="line"><span style="color:#E1E4E8">               y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> mul</span><span style="color:#E1E4E8">(y, </span><span style="color:#79B8FF">1000000000</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">   }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>As we can see, the whole function is wrapped inside of unchecked block, which helps keep gas cost low. But we must be careful not to overflow or underflow anywhere. We can also see that the function is divided into 2 parts, each in almost identical assembly blocks. We are using assembly here because it's cheaper. The first half of the function calculates sqrt of x that is ≤ uint128 max, which probably covers 99% of usage in DeFi. Let's analyze the if branch.</p>
+<p>If we ignore scaling to 1e36 base (which I will explain later), we are left with only 6 lines of code, which are enough to calculate sqrt down to the specified precision (2e-18). In case you need more precision than I specified, just add one more Newton iteration. The algorithm is simple: generate a close-enough seed value y ≈ sqrt(x), and then refine it using Newton's method.</p>
+<h1>Newton's Method</h1>
+<p><a href="https://en.wikipedia.org/wiki/Newton%27s_method">Newton's method</a> helps us find the square root by iterating over seed y. Each iteration gets us closer to the solution, and it has some nice properties: it's simple and cheap gas-wise, and it converges to the solution quickly if we start close enough. Here's Newton's method:</p>
+<pre><code>yₙ₊₁ = (yₙ + x / yₙ) / 2
+</code></pre>
+<p>Each iteration takes the current estimate <code>yₙ</code>, averages it with <code>x / yₙ</code>, and produces a better estimate <code>yₙ₊₁</code>. Convergence is quadratic — the number of correct digits roughly doubles with every step. It is extremely efficient, especially if the seed is close to true y. In Solidity, we implement each step like this:</p>
+<pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">add</span><span style="color:#E1E4E8">(y, </span><span style="color:#B392F0">div</span><span style="color:#E1E4E8">(x, y)))</span></span></code></pre>
+<p>We use shift right to divide by 2, because shr is cheaper than div. This line is measured to cost 20 gas, so 5 Newton iterations cost around 100 gas. Also, an important note here is that x is already in 1e36 base, while y is in 1e18, so when we do div(x, y), we are back to 1e18 base. Scaling x once to 1e36 at the beginning helps us lower the cost of Newton's method, allowing us to avoid costly muldiv by using div only.</p>
+<h1>Seed Algorithm</h1>
+<p>I am using clz opcode extensively throughout DeFiMath to approximate the scale of a number, as I wrote in <a href="/blog/clz-opcode-solidity/">Counting Leading Zeros In Solidity Using CLZ Opcode</a>. For sqrt specifically, clz gives us a seed y that is close enough to the actual solution.</p>
+<p>The best way to understand how seed y is generated is to analyze this line (the shipped code uses an equivalent form — I'll explain why at the end):</p>
+<pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">   y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shl</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">sub</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">256</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">clz</span><span style="color:#E1E4E8">(x))), </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<p>Seeding works like this:</p>
+<ol>
+<li>we find the scale of x by counting leading zeros, and then we subtract leading zeros from 256 to get the scale of the number (most significant bit or msb).</li>
+<li>once we find msb, we divide it by 2, using the shr opcode</li>
+<li>then we generate the seed: seed = 2^(msb/2), using the shl opcode</li>
+</ol>
+<p>With this simple method our seed y is always close to real y — it's never off by more than a factor of √2. And that is important to know when choosing the number of iterations that come after seeding: 5 iterations are more than enough for the worst case seed. Here's the table showing how the worst case seed (for example x = 2048) with max relative error of 0.41 (41%) converges to real y:</p>
+<div class="my-6 rounded-md border border-dark_border border-opacity-60 overflow-x-auto">
+  <table class="w-full text-base">
+    <thead>
+      <tr class="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Iteration</th>
+        <th class="py-3 px-4 font-medium whitespace-nowrap">y</th>
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Relative error</th>
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Accurate bits</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b border-dark_border border-opacity-20">
+        <td class="py-2 px-4 font-mono text-primary whitespace-nowrap">seed</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">64</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">4.1e-1 (41%)</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">1.3</td>
+      </tr>
+      <tr class="border-b border-dark_border border-opacity-20">
+        <td class="py-2 px-4 font-mono text-primary whitespace-nowrap">1</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">48</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">6.1e-2</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">4.0</td>
+      </tr>
+      <tr class="border-b border-dark_border border-opacity-20">
+        <td class="py-2 px-4 font-mono text-primary whitespace-nowrap">2</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">45.33333333333333</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">1.7e-3</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">9.2</td>
+      </tr>
+      <tr class="border-b border-dark_border border-opacity-20">
+        <td class="py-2 px-4 font-mono text-primary whitespace-nowrap">3</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">45.25490196078431</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">1.5e-6</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">19.3</td>
+      </tr>
+      <tr class="border-b border-dark_border border-opacity-20">
+        <td class="py-2 px-4 font-mono text-primary whitespace-nowrap">4</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">45.25483399599008</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">1.1e-12</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">39.7</td>
+      </tr>
+      <tr>
+        <td class="py-2 px-4 font-mono text-primary whitespace-nowrap">5</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">45.25483399593904</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">6.4e-25</td>
+        <td class="py-2 px-4 font-mono text-muted text-opacity-95 whitespace-nowrap">80.4</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>We see that 5 Newton iterations are enough to get to 80 bits of precision for the worst case seed. 80 bits is more than enough for 18-decimal fixed-point format. It gives us bit-exact y when sqrt(x) &#x3C; 1, and max relative error below 2e-18 when sqrt(x) >= 1.</p>
+<h1>Final Optimization</h1>
+<p>I tried using different seed methods to get closer to true y so that we can reduce Newton iterations to 4 and shave off 20 gas. The simplest and cheapest way I found was to use minimax linear approximation of y on the narrow range of x in [1, 4], but that was costing more in gas. I also tried quadratic interpolation, but that was even more expensive.</p>
+<p>In the end, I tried to tweak parameters in this line:</p>
+<pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8" tabindex="0"><code><span class="line"><span style="color:#E1E4E8">   y </span><span style="color:#F97583">:=</span><span style="color:#B392F0"> shl</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">shr</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">sub</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">256</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">clz</span><span style="color:#E1E4E8">(x))), </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<p>I tried changing that last shift-left value to something other than 1, together with reducing the 256. I printed everything so we could see whether we were getting closer to true y with different seeding parameters:</p>
+<p><img src="/images/blog/sqrt-seeding-algorithm-comparison.webp" alt="Sqrt seeding algorithm comparison"></p>
+<p>The table shows 3 different versions of seed generation, using y1, y2, and y3, each with different last number and adjusted second number. We can notice that y1 and y2 were producing exactly the same seed, while y3 was producing a slightly higher seed with a higher max relative error.</p>
+<p>After analyzing a lot of versions, I decided to write the seed as (254, 2) instead of (256, 1) because it shaves one byte off the bytecode (254 is a single-byte PUSH), and in this version the optimizer happens to schedule it one gas cheaper — though that last gas is a stack-scheduling artifact, not a property of the seed itself.</p>
+<p>The else branch is used for large inputs, and works almost identically to the if branch, but with one scaling trick — post-scaling instead of pre-scaling, for 2 reasons:</p>
+<ul>
+<li>x is large enough that we don't need to scale to preserve information through the algorithm, and</li>
+<li>pre-scaling would overflow for inputs close to uint256.max</li>
+</ul>
+<p>Finally, I measured the sqrt function to cost 197 gas in a sweep where x is in [1e-6, 1e6], with bit-exact results when sqrt(x) &#x3C; 1, and max relative error below 2e-18 when sqrt(x) >= 1. My conclusion after spending a full week on implementing it is that simplicity wins by a wide margin in Solidity if the goal is gas-optimized primitives such as the square root function.</p>
+<h2>Try it</h2>
+<pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8" tabindex="0"><code><span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> install</span><span style="color:#9ECBFF"> defimath-lib</span></span></code></pre>
+<p>This <code>sqrt</code> is one of dozens of primitives in DeFiMath, a <a href="/">gas-optimized fixed-point math library for Solidity</a> — exp, ln, pow, cbrt, the standard normal CDF, and a full Black-Scholes options suite, each built with the same obsession over gas and precision. It's MIT-licensed, pure Solidity, with zero runtime dependencies. Source is on <a href="https://github.com/MerkleBlue/defimath">GitHub</a>, with reference benchmarks against PRBMath, ABDK, and Solady in <a href="https://github.com/MerkleBlue/defimath-compare">defimath-compare</a>.</p>0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"children":[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"$2"}}],["$","section",null,{"className":"relative md:pt-40 md:pb-28 pt-32 pb-20 overflow-hidden z-1","id":"main-banner","children":["$","div",null,{"className":"container mx-auto lg:max-w-screen-md px-4","children":[["$","$L3",null,{"href":"/blog/","className":"text-primary text-base font-medium underline","children":"← Back to blog"}],["$","div",null,{"className":"flex flex-wrap items-center gap-3 mt-8 mb-3","children":[["$","span",null,{"className":"text-sm font-medium text-muted text-opacity-60","children":"Jul 19, 2026"}],["$","span",null,{"className":"text-sm font-medium text-muted text-opacity-60","children":["·"," ",["$","a",null,{"href":"https://x.com/defi_math","target":"_blank","rel":"noopener noreferrer","className":"text-primary underline","children":"DeFiMath"}]]}]]}],["$","h1",null,{"className":"font-medium lg:text-54 md:text-44 text-40 text-white mb-8","children":"How I Wrote A Fixed-Point Solidity Sqrt That Runs In 197 Gas"}],"$undefined",["$","$L4",null,{"className":"markdown-content","html":"$5"}]]}]}]]}],["$L6"],"$L7"]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"QIgXX5BJEFhCAzT4Tpp1F"}
+6:["$","script","script-0",{"src":"/_next/static/chunks/14hje02.ex7vy.js","async":true}]
+7:["$","$L8",null,{"children":["$","$9",null,{"name":"Next.MetadataOutlet","children":"$@a"}]}]
+a:null
