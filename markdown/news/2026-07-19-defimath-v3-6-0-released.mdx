@@ -1,6 +1,6 @@
 ---
 title: "DeFiMath v3.6.0: sqrt and cbrt handle full uint256"
-date: 2026-07-10
+date: 2026-07-19
 version: "3.6.0"
 excerpt: sqrt and cbrt rewritten to handle the full uint256 domain — no more SqrtUpperBoundError or CbrtUpperBoundError. sqrt drops from 245 to 197 gas (−20%), cbrt from 368 to 340 (−8%). sqrtTime also gets a new CLZ-derived seed algorithm. Plus a pow overflow bugfix, and cascading savings across Options, Binary options, Rates, and Statistics.
 metaDescription: DeFiMath v3.6.0 — sqrt and cbrt handle full uint256 (no revert), sqrt 245→197 gas, cbrt 368→340 gas, sqrtTime 184→163 gas. Pow overflow bugfix. Savings propagate to Options, Binary options, Rates, and Statistics.
