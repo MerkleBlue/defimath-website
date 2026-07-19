@@ -16,7 +16,7 @@ author: DeFiMath
 authorUrl: https://x.com/defi_math
 ---
 
-I live by a simple rule: if a function is on your pocket calculator, I want it in Solidity — as fast as possible, and precise enough that you never have to think about it. Square root is exactly that kind of workhorse, so I'll skip the introduction and jump to the result: DeFiMath's `sqrt` takes any `uint256`, returns an 18-decimal fixed-point value, and does it in **197 gas** — bit-exact when the answer is below 1, and within 2e-18 relative error above it.
+I live by a simple rule: if a function is on your pocket calculator, I want it in Solidity — as fast as possible, and precise enough that you never have to think about it. Square root is exactly that kind of workhorse, so I'll skip the introduction and jump to the result: DeFiMath's [`sqrt`](/docs/math/sqrt/) takes any `uint256`, returns an 18-decimal fixed-point value, and does it in **197 gas** — bit-exact when the result is below 1, and within 2e-18 relative error above it.
 
 That efficiency matters because `sqrt` is everywhere. This started as part of optimizing Black-Scholes — one call per option price — but `sqrt` also shows up in every Greek, several times over inside an implied-volatility solve, and buried in almost every derivative, DeFi protocol, and serious piece of on-chain math.
 
