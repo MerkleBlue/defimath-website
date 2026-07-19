@@ -17,13 +17,13 @@ type NavSection = {
 };
 
 const DocsNav: NavSection[] = [
-  { id: 1, label: "Introduction", hash: "introduction", topHref: "/docs" },
+  { id: 1, label: "Introduction", hash: "introduction", topHref: "/docs/" },
   {
     id: 3,
     label: "Math",
     hash: "math",
-    topHref: "/docs/math",
-    basePath: "/docs/math",
+    topHref: "/docs/math/",
+    basePath: "/docs/math/",
     functions: [
       { name: "exp", href: "/docs/math/exp/" },
       { name: "expm1", href: "/docs/math/expm1/" },
@@ -42,8 +42,8 @@ const DocsNav: NavSection[] = [
     id: 4,
     label: "Options",
     hash: "options",
-    topHref: "/docs/options",
-    basePath: "/docs/options",
+    topHref: "/docs/options/",
+    basePath: "/docs/options/",
     functions: [
       { name: "callOptionPrice", href: "/docs/options/calloptionprice/" },
       { name: "putOptionPrice", href: "/docs/options/putoptionprice/" },
@@ -54,14 +54,14 @@ const DocsNav: NavSection[] = [
       { name: "impliedVolatility", href: null },
     ],
   },
-  { id: 5, label: "Binary options", hash: "binary", topHref: "/docs/binary", basePath: "/docs/binary" },
-  { id: 6, label: "Futures", hash: "futures", topHref: "/docs/futures", basePath: "/docs/futures" },
-  { id: 7, label: "Rates", hash: "rates", topHref: "/docs/rates", basePath: "/docs/rates" },
-  { id: 8, label: "Statistics", hash: "statistics", topHref: "/docs/statistics", basePath: "/docs/statistics" },
+  { id: 5, label: "Binary options", hash: "binary", topHref: "/docs/binary/", basePath: "/docs/binary/" },
+  { id: 6, label: "Futures", hash: "futures", topHref: "/docs/futures/", basePath: "/docs/futures/" },
+  { id: 7, label: "Rates", hash: "rates", topHref: "/docs/rates/", basePath: "/docs/rates/" },
+  { id: 8, label: "Statistics", hash: "statistics", topHref: "/docs/statistics/", basePath: "/docs/statistics/" },
 ];
 
-function stripTrailingSlash(p: string) {
-  return p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p;
+function withTrailingSlash(p: string) {
+  return p.endsWith("/") ? p : p + "/";
 }
 
 const ChevronIcon = ({ open }: { open: boolean }) => (
@@ -78,10 +78,12 @@ const ChevronIcon = ({ open }: { open: boolean }) => (
 );
 
 export const DocNavigation = () => {
-  const pathname = stripTrailingSlash(usePathname() ?? "/docs");
-  const isIndex = pathname === "/docs";
+  const pathname = withTrailingSlash(usePathname() ?? "/docs/");
+  const isIndex = pathname === "/docs/";
 
-  // Match the current section from the URL:
+  // Match the current section from the URL. Every href/basePath below carries a
+  // trailing slash (the site's canonical form), and pathname is normalized to
+  // match, so comparisons are exact:
   // 1. exact function URL → activeFunctionName set, parent section expands.
   // 2. exact module page → section active at top level.
   const activeFromPath = DocsNav.find((s) => {
@@ -92,16 +94,16 @@ export const DocNavigation = () => {
   const activeFunctionName = activeFromPath?.functions?.find(
     (f) => f.href === pathname
   )?.name;
-  const isOnModulePage = !!activeFromPath && !activeFunctionName;
 
   const [scrollActive, setScrollActive] = useState("introduction");
   const visibleRef = useRef<Set<string>>(new Set());
-  // Top-level highlight: on index, scroll-spy section; on module page, that section.
-  // On function pages, the function sub-link is highlighted instead.
+  // Top-level highlight: on index, scroll-spy section; on a module page, that
+  // section. On a function page only the function sub-link is highlighted, so
+  // the module name stays un-highlighted here.
   const topLevelActive = isIndex
     ? scrollActive
-    : isOnModulePage
-      ? activeFromPath!.hash
+    : activeFromPath && !activeFunctionName
+      ? activeFromPath.hash
       : null;
 
   // Scroll-spy — only when on the index page
