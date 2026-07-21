@@ -29,44 +29,44 @@ Let's take a look at the Solidity code directly, then analyze it, line by line.
 ```solidity
 /// @notice Computes square root of x in 18-decimal fixed-point. 
 /// @dev Accepts the full uint256 domain, never reverts.
-///      Max relative error: < 2e-18 for any x >= 1e18.
-///      Max absolute error: bit-exact for any x < 1e18.
+///      Max relative error: < 2e-18 for any y >= 1e18.
+///      Max absolute error: bit-exact for any y < 1e18.
 /// @param x Input in 18-decimal fixed-point format.
 /// @return y Square root in 18-decimal fixed-point format.
 function sqrt(uint256 x) internal pure returns (uint256 y) {
-   unchecked {
-      if (x <= type(uint128).max) {
+    unchecked {
+        if (x <= type(uint128).max) {
             assembly ("memory-safe") {
-               // pre-scale x to 1e36 base (because x can be small)
-               x := mul(x, 1000000000000000000)
+                // pre-scale x to 1e36 base (because x can be small)
+                x := mul(x, 1000000000000000000)
 
-               // generate seed y using clz
-               y := shl(shr(1, sub(254, clz(x))), 2)
+                // generate seed y using clz
+                y := shl(shr(1, sub(254, clz(x))), 2)
 
-               // refine y using 5x Newton's method
-               y := shr(1, add(y, div(x, y)))
-               y := shr(1, add(y, div(x, y)))
-               y := shr(1, add(y, div(x, y)))
-               y := shr(1, add(y, div(x, y)))
-               y := shr(1, add(y, div(x, y)))
+                // refine y using 5 iterations of Newton's method
+                y := shr(1, add(y, div(x, y)))
+                y := shr(1, add(y, div(x, y)))
+                y := shr(1, add(y, div(x, y)))
+                y := shr(1, add(y, div(x, y)))
+                y := shr(1, add(y, div(x, y)))
             }
-      } else {
+        } else {
             assembly ("memory-safe") {
-               // generate seed y using clz
-               y := shl(shr(1, sub(254, clz(x))), 2)
+                // generate seed y using clz
+                y := shl(shr(1, sub(254, clz(x))), 2)
 
-               // refine y using 5x Newton's method
-               y := shr(1, add(y, div(x, y)))
-               y := shr(1, add(y, div(x, y)))
-               y := shr(1, add(y, div(x, y)))
-               y := shr(1, add(y, div(x, y)))
-               y := shr(1, add(y, div(x, y)))
+                // refine y using 5 iterations of Newton's method
+                y := shr(1, add(y, div(x, y)))
+                y := shr(1, add(y, div(x, y)))
+                y := shr(1, add(y, div(x, y)))
+                y := shr(1, add(y, div(x, y)))
+                y := shr(1, add(y, div(x, y)))
 
-               // post-scale y to 1e18 base
-               y := mul(y, 1000000000)
+                // post-scale y to 1e18 base
+                y := mul(y, 1000000000)
             }
-      }
-   }
+        }
+    }
 }
 ```
 As we can see, the whole function is wrapped inside of unchecked block, which helps keep gas cost low. But we must be careful not to overflow or underflow anywhere. We can also see that the function is divided into 2 parts, each in almost identical assembly blocks. We are using assembly here because it's cheaper. The first half of the function calculates sqrt of x that is ≤ uint128 max, which probably covers 99% of usage in DeFi. Let's analyze the if branch.
