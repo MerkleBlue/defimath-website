@@ -68,7 +68,7 @@ export const Rates = async () => {
       <ul className="list-disc list-inside space-y-3 text-base font-medium text-muted text-opacity-95">
         <li>
           <span className="text-white font-semibold"><code className="text-primary">compoundInterest</code> and <code className="text-primary">presentValue</code> are exact inverses.</span>{" "}
-          Round-tripping a value through both reconstructs the original up to the underlying <code className="text-primary">exp</code> precision (~5e-14).
+          Round-tripping a value through both reconstructs the original up to the underlying <code className="text-primary">exp</code> precision (~2e-14).
         </li>
         <li>
           <span className="text-white font-semibold">APR ↔ APY both use precision-preserving primitives.</span>{" "}

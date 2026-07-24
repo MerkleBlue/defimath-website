@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "pow — Math | DeFiMath docs",
-    description: "Solidity power x^a in 18-decimal fixed-point — 761 gas, 1.0e-11 max rel. error. Composed as exp(a · ln(x)) on DeFiMath's CLZ-optimized ln and Padé exp.",
+    description: "Solidity power x^a in 18-decimal fixed-point — 761 gas, 1.0e-12 max rel. / 1.0e-14 max abs. error. Composed as exp(a · ln(x)) on DeFiMath's CLZ-optimized ln and Padé exp.",
     alternates: { canonical: "/docs/math/pow/" },
 };
 
@@ -18,7 +18,8 @@ export default function Page() {
             name="pow"
             summary="Computes the power function x^a for an 18-decimal fixed-point base and signed exponent."
             gas="761"
-            relError="1.0e-11"
+            absError="1.0e-14"
+            relError="1.0e-12"
             signature={`function pow(uint256 x, int256 a) internal pure returns (uint256 y)`}
             parameters={[
                 { name: "x", type: "uint256", description: "Base in 18-decimal fixed-point format (1e18 = 1.0). When a == 0 the function fast-paths to 1 regardless of x." },

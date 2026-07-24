@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "expm1 — Math | DeFiMath docs",
-    description: "Solidity e^x − 1 in 18-decimal fixed-point — 295 gas, 1.0e-13 max rel. / 1.5e-13 max abs. error. Taylor branch for |x| < 0.01 preserves precision where naive exp(x) − 1 cancels.",
+    description: "Solidity e^x − 1 in 18-decimal fixed-point — 295 gas, 2.2e-14 max rel. / 5.0e-16 max abs. error. Taylor branch for |x| < 0.01 preserves precision where naive exp(x) − 1 cancels.",
     alternates: { canonical: "/docs/math/expm1/" },
 };
 
@@ -19,9 +19,9 @@ export default function Page() {
             name="expm1"
             summary="Computes e^x − 1 while preserving full 18-digit precision near zero, where the naive exp(x) − 1 formula catastrophically cancels."
             gas="295"
-            absError="1.5e-13"
+            absError="5.0e-16"
             absErrorWhen="when expm1(x) < 1"
-            relError="1.0e-13"
+            relError="2.2e-14"
             relErrorWhen="when expm1(x) ≥ 1"
             signature={`function expm1(int256 x) internal pure returns (int256 y)`}
             parameters={[
@@ -50,7 +50,7 @@ export default function Page() {
                         With 10 terms the truncation error at the interval boundary (<code className="text-primary">|x| = 0.01</code>) is on the order of <code className="text-primary">0.01¹¹ / 11!</code> ≈ <code className="text-primary">2.5e-30</code>, well below 18-digit precision. Every term is computed as an integer multiply-and-divide, no exponential machinery needed — and because each <code className="text-primary">x</code> in the small range stays well-conditioned, no digits are lost to cancellation.
                     </p>
                     <p>
-                        For <code className="text-primary">|x| ≥ 0.01</code> the cancellation problem disappears: <code className="text-primary">exp(x)</code> and <code className="text-primary">1</code> are no longer near-equal, so the function falls through to <code className="text-primary">int256(<Link href="/docs/math/exp/" className="text-primary underline">exp</Link>(x)) − 1e18</code> and inherits <code className="text-primary">exp</code>&apos;s ~5e-14 precision. The split point at <code className="text-primary">0.01</code> is where the two error profiles meet — below it the Taylor branch dominates, above it the <code className="text-primary">exp</code> branch does.
+                        For <code className="text-primary">|x| ≥ 0.01</code> the cancellation problem disappears: <code className="text-primary">exp(x)</code> and <code className="text-primary">1</code> are no longer near-equal, so the function falls through to <code className="text-primary">int256(<Link href="/docs/math/exp/" className="text-primary underline">exp</Link>(x)) − 1e18</code> and inherits <code className="text-primary">exp</code>&apos;s ~2e-14 precision. The split point at <code className="text-primary">0.01</code> is where the two error profiles meet — below it the Taylor branch dominates, above it the <code className="text-primary">exp</code> branch does.
                     </p>
                     <p>
                         Note the return type is <code className="text-primary">int256</code>, not <code className="text-primary">uint256</code> like <Link href="/docs/math/exp/" className="text-primary underline">exp</Link> — <code className="text-primary">expm1</code> returns negative values for <code className="text-primary">x &lt; 0</code> (e.g. <code className="text-primary">expm1(−1) ≈ −0.632</code>).

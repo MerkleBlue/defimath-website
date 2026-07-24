@@ -51,7 +51,7 @@ export default function Page() {
                         The multiplication by <code className="text-primary">1e18</code> before dividing keeps the result in 18-decimal fixed-point format. Total cost is one <Link href="/docs/math/ln/" className="text-primary underline">ln</Link> call (~390 gas) plus a 16-gas mul+div, hence the ~406 gas total.
                     </p>
                     <p>
-                        Because the implementation is a thin wrapper over <Link href="/docs/math/ln/" className="text-primary underline">ln</Link>, every guarantee <code className="text-primary">ln</code> provides — domain (<code className="text-primary">x &gt; 0</code>), precision, sign behavior — flows through directly. The only added error term is the rounding of <code className="text-primary">ln(10)</code> to 18 decimals, which is dwarfed by <code className="text-primary">ln</code>&apos;s own ~1e-14 error.
+                        Because the implementation is a thin wrapper over <Link href="/docs/math/ln/" className="text-primary underline">ln</Link>, every guarantee <code className="text-primary">ln</code> provides — domain (<code className="text-primary">x &gt; 0</code>), precision, sign behavior — flows through directly. The only added error term is the rounding of <code className="text-primary">ln(10)</code> to 18 decimals, which is dwarfed by <code className="text-primary">ln</code>&apos;s own ~2e-15 error.
                     </p>
                 </>
             )}

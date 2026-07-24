@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "exp — Math | DeFiMath docs",
-    description: "Solidity e^x in 18-decimal fixed-point — 289 gas, 7.2e-14 max rel. / 5.0e-14 max abs. error. Range reduction plus Padé approximant in pure Yul assembly.",
+    description: "Solidity e^x in 18-decimal fixed-point — 289 gas, 2.2e-14 max rel. / 3.0e-16 max abs. error. Range reduction plus Padé approximant in pure Yul assembly.",
     alternates: { canonical: "/docs/math/exp/" },
 };
 
@@ -18,9 +18,9 @@ export default function Page() {
             name="exp"
             summary="Computes the exponential function e^x for a signed 18-decimal fixed-point input."
             gas="289"
-            absError="5.0e-14"
+            absError="3.0e-16"
             absErrorWhen="when exp(x) < 1"
-            relError="7.2e-14"
+            relError="2.2e-14"
             relErrorWhen="when exp(x) ≥ 1"
             signature={`function exp(int256 x) internal pure returns (uint256 y)`}
             parameters={[
