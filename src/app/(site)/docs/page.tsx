@@ -41,15 +41,15 @@ contract Confidence {
 
 type BenchmarkRow = { fn: string; defimath: string; nextBest: string; nextLib: string; multiple: string; highlight: boolean };
 const BENCHMARKS: BenchmarkRow[] = [
-    { fn: "callOptionPrice", defimath: "2,708", nextBest: "13,360", nextLib: "Derivexyz", multiple: "4.9×", highlight: true },
-    { fn: "putOptionPrice",  defimath: "2,718", nextBest: "13,363", nextLib: "Derivexyz", multiple: "4.9×", highlight: true },
-    { fn: "binaryCallPrice", defimath: "1,997", nextBest: "16,218", nextLib: "Haptic",    multiple: "8.1×", highlight: true },
-    { fn: "delta",           defimath: "1,703", nextBest: "8,621",  nextLib: "Derivexyz", multiple: "5.1×", highlight: true },
-    { fn: "vega",            defimath: "1,415", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.3×", highlight: true },
-    { fn: "ln",              defimath: "373",   nextBest: "518",    nextLib: "Solady",    multiple: "1.4×", highlight: false },
+    { fn: "callOptionPrice", defimath: "2,582", nextBest: "13,360", nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
+    { fn: "putOptionPrice",  defimath: "2,592", nextBest: "13,363", nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
+    { fn: "binaryCallPrice", defimath: "1,913", nextBest: "16,218", nextLib: "Haptic",    multiple: "8.5×", highlight: true },
+    { fn: "delta",           defimath: "1,661", nextBest: "8,621",  nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
+    { fn: "vega",            defimath: "1,373", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.5×", highlight: true },
+    { fn: "ln",              defimath: "390",   nextBest: "518",    nextLib: "Solady",    multiple: "1.3×", highlight: false },
     { fn: "sqrt",            defimath: "197",   nextBest: "384",    nextLib: "Solady",    multiple: "1.9×", highlight: false },
     { fn: "cbrt",            defimath: "340",   nextBest: "550",    nextLib: "Solady",    multiple: "1.6×", highlight: false },
-    { fn: "stdNormCDF",      defimath: "660",   nextBest: "2,794",  nextLib: "SolStat",   multiple: "4.2×", highlight: true },
+    { fn: "stdNormCDF",      defimath: "618",   nextBest: "3,103",  nextLib: "SolStat",   multiple: "5.0×", highlight: true },
 ];
 
 export default async function Page() {

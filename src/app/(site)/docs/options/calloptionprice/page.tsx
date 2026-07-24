@@ -5,7 +5,7 @@ import { MathBlock } from "@/components/Documentation/Formula";
 
 export const metadata: Metadata = {
     title: "callOptionPrice — Options | DeFiMath docs",
-    description: "Solidity Black-Scholes European call pricing, 18-decimal fixed-point — 2,708 gas, 1.3e-10 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
+    description: "Solidity Black-Scholes European call pricing, 18-decimal fixed-point — 2,582 gas, 1.3e-10 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
     alternates: { canonical: "/docs/options/calloptionprice/" },
 };
 
@@ -18,8 +18,8 @@ export default function Page() {
             ]}
             module="Options"
             name="callOptionPrice"
-            summary="Computes the Black-Scholes price of a European call option in 18-decimal fixed-point, at ~2,708 gas."
-            gas="2,708"
+            summary="Computes the Black-Scholes price of a European call option in 18-decimal fixed-point, at ~2,582 gas."
+            gas="2,582"
             absError="1.3e-10"
             signature={`function callOptionPrice(
     uint128 spot,

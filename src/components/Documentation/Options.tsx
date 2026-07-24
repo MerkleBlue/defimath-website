@@ -37,13 +37,13 @@ export const Options = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "callOptionPrice", gas: "2,708", description: "European call price (Black-Scholes)", href: "/docs/options/calloptionprice/" },
-          { name: "putOptionPrice", gas: "2,718", description: "European put price (Black-Scholes)", href: "/docs/options/putoptionprice/" },
-          { name: "delta", gas: "1,703", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
-          { name: "gamma", gas: "1,475", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)" },
-          { name: "theta", gas: "3,269", description: "Time decay, per day — returns (Θcall, Θput)" },
-          { name: "vega", gas: "1,415", description: "Sensitivity per 1% vol (νcall = νput under put-call parity)" },
-          { name: "impliedVolatility", gas: "~12,334", description: "IV solver via Newton-Raphson" },
+          { name: "callOptionPrice", gas: "2,582", description: "European call price (Black-Scholes)", href: "/docs/options/calloptionprice/" },
+          { name: "putOptionPrice", gas: "2,592", description: "European put price (Black-Scholes)", href: "/docs/options/putoptionprice/" },
+          { name: "delta", gas: "1,661", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
+          { name: "gamma", gas: "1,433", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)" },
+          { name: "theta", gas: "3,101", description: "Time decay, per day — returns (Θcall, Θput)" },
+          { name: "vega", gas: "1,373", description: "Sensitivity per 1% vol (νcall = νput under put-call parity)" },
+          { name: "impliedVolatility", gas: "11,668 / 11,743", description: "IV solver via Newton-Raphson (call / put)" },
         ]}
       />
       <InstallCommand className="mt-6" />

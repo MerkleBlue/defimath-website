@@ -1,23 +1,23 @@
 # DeFiMath
 
-> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 623 Hardhat correctness tests + 92 Foundry property-based fuzz tests (2.94M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,708 gas (~4.9× cheaper than Derivexyz), binary call in 1,997 gas (~8× cheaper than Haptic), cube root in 340 gas (~37% cheaper than Solady's cbrtWad), and natural log in 390 gas at 18-decimal fixed-point precision.
+> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 623 Hardhat correctness tests + 92 Foundry property-based fuzz tests (2.94M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,582 gas (~5.2× cheaper than Derivexyz), binary call in 1,913 gas (~8.5× cheaper than Haptic), cube root in 340 gas (~37% cheaper than Solady's cbrtWad), and natural log in 390 gas at 18-decimal fixed-point precision.
 
 Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install defimath-lib`.
 
 ## Math primitives
 
 - [Math overview](https://defimath.com/docs/math/): `exp`, `ln`, `log2`, `log10`, `pow`, `sqrt`, `cbrt`, `stdNormCDF`, `erf`, `expm1`, `log1p` — all 18-decimal fixed-point
-- [exp](https://defimath.com/docs/math/exp/): Exponential `e^x`, 327 gas, max rel error 7.2e-14 / max abs error 5.0e-14, three-stage range reduction + [2,2] Padé approximant
+- [exp](https://defimath.com/docs/math/exp/): Exponential `e^x`, 289 gas, max rel error 7.2e-14 / max abs error 5.0e-14, three-stage range reduction + [2,2] Padé approximant
 - [ln](https://defimath.com/docs/math/ln/): Natural logarithm, 390 gas, max rel error 1.6e-15 / max abs error 1.0e-15, CLZ range reduction + 10-term Mercator series
 - [sqrt](https://defimath.com/docs/math/sqrt/): Square root, 197 gas, max rel error 2.0e-18, CLZ-derived power-of-two seed (2^floor(bits/2)) + 5 Newton iterations, full uint256 domain (no revert)
 - [cbrt](https://defimath.com/docs/math/cbrt/): Cube root, 340 gas, max rel error 2.0e-13 / max abs error 3.0e-16, CLZ-derived initial guess + 6 Newton iterations, full uint256 domain (no revert)
-- [erf](https://defimath.com/docs/math/erf/): Error function, 691 gas, max abs error 2.0e-14, West's rational approximation
-- [stdNormCDF](https://defimath.com/docs/math/stdnormcdf/): Standard normal CDF Φ(x), 660 gas, max abs error 6.4e-15, same kernel as `erf` via `x/√2` substitution
+- [erf](https://defimath.com/docs/math/erf/): Error function, 649 gas, max abs error 2.0e-14, West's rational approximation
+- [stdNormCDF](https://defimath.com/docs/math/stdnormcdf/): Standard normal CDF Φ(x), 618 gas, max abs error 6.4e-15, same kernel as `erf` via `x/√2` substitution
 
 ## DeFi modules
 
-- [Options](https://defimath.com/docs/options/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,708 gas, `putOptionPrice` 2,718 gas, `delta` 1,703 gas, `vega` 1,415 gas
-- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `binaryCallPrice` 1,997 gas, `binaryPutPrice` 2,002 gas (~8× cheaper than Haptic 16,218)
+- [Options](https://defimath.com/docs/options/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,582 gas, `putOptionPrice` 2,592 gas, `delta` 1,661 gas, `vega` 1,373 gas
+- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `binaryCallPrice` 1,913 gas, `binaryPutPrice` 1,918 gas (~8.5× cheaper than Haptic 16,218)
 - [Futures](https://defimath.com/docs/futures/): Continuous-compounding futures pricing
 - [Rates](https://defimath.com/docs/rates/): Compound interest, present value, log returns, APR↔APY conversions, yield to maturity, IRR. `internalRateOfReturn` solves Σ Cᵢ·e^(−r·tᵢ)=0 via Newton-Raphson
 - [Statistics](https://defimath.com/docs/statistics/): `mean`, `stdDev`, `weightedAverage`, `historicalVolatility`, `sharpeRatio`, `maxDrawdown`, `valueAtRisk`, `conditionalValueAtRisk` (CVaR / expected shortfall)
@@ -30,14 +30,14 @@ Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install def
 
 DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 
-- `exp`: 331 / 372 / 2,820 / 5,840 / —
-- `ln`: 373 / 518 / 6,910 / 12,667 / —
-- `sqrt`: 197 / 384 / 944 / 808 / —
+- `exp`: 289 / 372 / 2,815 / 5,857 / —
+- `ln`: 390 / 518 / 6,914 / 12,826 / —
+- `sqrt`: 197 / 384 / 974 / 808 / —
 - `cbrt`: 340 / 550 / — / — / —
-- `stdNormCDF`: 660 / — / — / — / 2,794
-- `erf`: 685 / — / — / — / 1,732
-- `callOptionPrice`: 2,708 / — / — / — / — (vs Derivexyz 13,360 — 4.9× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
-- `binaryCallPrice`: 1,997 (vs Haptic 16,218 — 8.1× cheaper)
+- `stdNormCDF`: 618 / — / — / — / 3,103
+- `erf`: 649 / — / — / — / 2,876
+- `callOptionPrice`: 2,582 / — / — / — / — (vs Derivexyz 13,360 — 5.2× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
+- `binaryCallPrice`: 1,913 (vs Haptic 16,218 — 8.5× cheaper)
 
 ## Blog
 

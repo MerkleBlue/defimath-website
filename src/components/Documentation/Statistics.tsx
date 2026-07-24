@@ -45,7 +45,7 @@ export const Statistics = async () => {
         rows={[
           { name: "geometricMean", gas: "284", description: "sqrt(a · b) — Uniswap V2 invariant" },
           { name: "mean", gas: "6,980 @ 30", description: "Arithmetic mean" },
-          { name: "stdDev", gas: "15,298 @ 30", description: "Sample standard deviation (Bessel-corrected)" },
+          { name: "stdDev", gas: "15,252 @ 30", description: "Sample standard deviation (Bessel-corrected)" },
           { name: "weightedAverage", gas: "15,687 @ 30", description: "Σ(v · w) / Σ(w)" },
           { name: "historicalVolatility", gas: "25,820 @ 30", description: "Annualized volatility from log returns" },
           { name: "sharpeRatio", gas: "25,958 @ 30", description: "Risk-adjusted return" },

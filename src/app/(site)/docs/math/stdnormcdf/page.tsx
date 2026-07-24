@@ -3,7 +3,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "stdNormCDF — Math | DeFiMath docs",
-    description: "Solidity standard normal CDF Φ(x) in 18-decimal fixed-point — 660 gas, 6.4e-15 max abs. error. West's rational approximation, same kernel as DeFiMath's erf.",
+    description: "Solidity standard normal CDF Φ(x) in 18-decimal fixed-point — 618 gas, 6.4e-15 max abs. error. West's rational approximation, same kernel as DeFiMath's erf.",
     alternates: { canonical: "/docs/math/stdnormcdf/" },
 };
 
@@ -17,7 +17,7 @@ export default function Page() {
             module="Math"
             name="stdNormCDF"
             summary="Computes the standard normal cumulative distribution function Φ(x) — the probability that a standard normal random variable is ≤ x."
-            gas="660"
+            gas="618"
             absError="6.4e-15"
             signature={`function stdNormCDF(int256 x) internal pure returns (uint256 y)`}
             parameters={[
@@ -45,7 +45,7 @@ export default function Page() {
                         Each branch writes the result straight to <code className="text-primary">y</code> in assembly. For <code className="text-primary">x ≥ 0</code> the kernel returns <code className="text-primary">res = 1 − Φ(x)</code>, so we emit <code className="text-primary">y = 1e18 − res</code>. For <code className="text-primary">x &lt; 0</code> we exploit <code className="text-primary">Φ(−x) = 1 − Φ(x)</code> — the same <code className="text-primary">res</code> computed at <code className="text-primary">|x|</code> is already <code className="text-primary">Φ(x)</code>, so we emit it directly. No flag variable, no post-processing.
                     </p>
                     <p>
-                        Saturation handles the tails: at <code className="text-primary">x = ±16.447</code> the true Φ is within <code className="text-primary">1e-60</code> of <code className="text-primary">0</code> or <code className="text-primary">1</code>, well below 1e-18 representational precision, so the function short-circuits to the boundary and skips the kernel. Net cost on the hot path: ~660 gas — the cheapest on-chain Φ we've measured by a wide margin.
+                        Saturation handles the tails: at <code className="text-primary">x = ±16.447</code> the true Φ is within <code className="text-primary">1e-60</code> of <code className="text-primary">0</code> or <code className="text-primary">1</code>, well below 1e-18 representational precision, so the function short-circuits to the boundary and skips the kernel. Net cost on the hot path: ~618 gas — the cheapest on-chain Φ we've measured by a wide margin.
                     </p>
                 </>
             )}

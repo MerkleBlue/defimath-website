@@ -40,13 +40,13 @@ export const Rates = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "compoundInterest", gas: "467", description: "Continuous compounding: P · e^(r·t)" },
-          { name: "presentValue", gas: "519", description: "Discounting: FV · e^(−r·t)" },
+          { name: "compoundInterest", gas: "425", description: "Continuous compounding: P · e^(r·t)" },
+          { name: "presentValue", gas: "477", description: "Discounting: FV · e^(−r·t)" },
           { name: "logReturn", gas: "600", description: "ln(currentPrice / previousPrice)" },
-          { name: "continuousToDiscrete", gas: "491", description: "e^apr − 1 (APR → APY)" },
+          { name: "continuousToDiscrete", gas: "375", description: "e^apr − 1 (APR → APY)" },
           { name: "discreteToContinuous", gas: "574", description: "ln(1 + apy) (APY → APR)" },
           { name: "yieldToMaturity", gas: "736", description: "Zero-coupon YTM (closed form)" },
-          { name: "internalRateOfReturn", gas: "17k–49k", description: "IRR via Newton-Raphson (scales with cashflow count)" },
+          { name: "internalRateOfReturn", gas: "16k–47k", description: "IRR via Newton-Raphson (scales with cashflow count)" },
         ]}
       />
       <InstallCommand className="mt-6" />
@@ -76,7 +76,7 @@ export const Rates = async () => {
         </li>
         <li>
           <span className="text-white font-semibold"><code className="text-primary">yieldToMaturity</code> is closed-form and cheap; <code className="text-primary">internalRateOfReturn</code> is iterative.</span>{" "}
-          Use YTM for zero-coupon bonds (a single <code className="text-primary">ln</code>). Use IRR for arbitrary cashflow schedules — but expect 17k–49k gas depending on cashflow count, and supply a reasonable <code className="text-primary">guess</code> to stay within the iteration budget.
+          Use YTM for zero-coupon bonds (a single <code className="text-primary">ln</code>). Use IRR for arbitrary cashflow schedules — but expect 16k–47k gas depending on cashflow count, and supply a reasonable <code className="text-primary">guess</code> to stay within the iteration budget.
         </li>
         <li>
           <span className="text-white font-semibold">IRR can fail to converge.</span>{" "}

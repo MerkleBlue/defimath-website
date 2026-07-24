@@ -5,7 +5,7 @@ import { MathBlock } from "@/components/Documentation/Formula";
 
 export const metadata: Metadata = {
     title: "putOptionPrice — Options | DeFiMath docs",
-    description: "Solidity Black-Scholes European put pricing, 18-decimal fixed-point — 2,718 gas, 1.3e-10 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
+    description: "Solidity Black-Scholes European put pricing, 18-decimal fixed-point — 2,592 gas, 1.3e-10 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
     alternates: { canonical: "/docs/options/putoptionprice/" },
 };
 
@@ -18,8 +18,8 @@ export default function Page() {
             ]}
             module="Options"
             name="putOptionPrice"
-            summary="Computes the Black-Scholes price of a European put option in 18-decimal fixed-point, at ~2,718 gas."
-            gas="2,718"
+            summary="Computes the Black-Scholes price of a European put option in 18-decimal fixed-point, at ~2,592 gas."
+            gas="2,592"
             absError="1.3e-10"
             signature={`function putOptionPrice(
     uint128 spot,
