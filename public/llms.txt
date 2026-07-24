@@ -1,6 +1,6 @@
 # DeFiMath
 
-> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 623 Hardhat correctness tests + 92 Foundry property-based fuzz tests (2.94M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,582 gas (~5.2× cheaper than Derivexyz), binary call in 1,913 gas (~8.5× cheaper than Haptic), cube root in 340 gas (~37% cheaper than Solady's cbrtWad), and natural log in 390 gas at 18-decimal fixed-point precision.
+> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 640 Hardhat correctness tests + 92 Foundry property-based fuzz tests (2.94M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,582 gas (~5.2× cheaper than Derivexyz), binary call in 1,913 gas (~8.5× cheaper than Haptic), cube root in 340 gas (~37% cheaper than Solady's cbrtWad), and natural log in 390 gas at 18-decimal fixed-point precision.
 
 Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install defimath-lib`.
 
@@ -24,7 +24,7 @@ Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install def
 
 ## Testing
 
-- [Testing approach](https://defimath.com/docs/#testing): Two independent test layers. Hardhat: 623 tests validating against external JS references (`Math`, `math-erf`, `black-scholes`, `greeks`, `simple-statistics`) with strict-equality gas-regression gates. Foundry: 92 mathematical properties organized into round-trips, monotonicity, identities, output bounds, and symmetries; 32,000 fuzz runs per property = 2.94M random executions per CI run, with automatic counterexample shrinking.
+- [Testing approach](https://defimath.com/docs/#testing): Two independent test layers. Hardhat: 640 tests validating against external JS references (`Math`, `math-erf`, `black-scholes`, `greeks`, `simple-statistics`) with strict-equality gas-regression gates. Foundry: 92 mathematical properties organized into round-trips, monotonicity, identities, output bounds, and symmetries; 32,000 fuzz runs per property = 2.94M random executions per CI run, with automatic counterexample shrinking.
 
 ## Gas comparison vs other libraries
 
