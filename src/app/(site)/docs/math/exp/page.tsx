@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
-    title: "exp — Math | DeFiMath docs",
+    title: "Solidity Exp Function - 289 Gas Fixed-Point - DeFiMath Docs",
     description: "Solidity e^x in 18-decimal fixed-point — 289 gas, 2.2e-14 max rel. / 3.0e-16 max abs. error. Range reduction plus Padé approximant in pure Yul assembly.",
     alternates: { canonical: "/docs/math/exp/" },
 };

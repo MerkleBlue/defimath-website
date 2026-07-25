@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
-    title: "log10 — Math | DeFiMath docs",
+    title: "Solidity Log10 Function - 406 Gas Fixed-Point - DeFiMath Docs",
     description: "Solidity base-10 logarithm in 18-decimal fixed-point — 406 gas, 1.6e-15 max rel. / 1.0e-15 max abs. error. Change-of-base log₁₀(x) = ln(x) / ln(10) on DeFiMath's 390-gas ln.",
     alternates: { canonical: "/docs/math/log10/" },
 };

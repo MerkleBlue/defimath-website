@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
-    title: "log1p — Math | DeFiMath docs",
+    title: "Solidity Log1p Function - 494 Gas Fixed-Point - DeFiMath Docs",
     description: "Solidity ln(1 + x) in 18-decimal fixed-point — 494 gas, 3.0e-15 max rel. / 1.0e-15 max abs. error. Taylor branch for small x preserves precision where forming 1 + x would lose it.",
     alternates: { canonical: "/docs/math/log1p/" },
 };

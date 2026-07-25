@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
-    title: "cbrt — Math | DeFiMath docs",
+    title: "Solidity Cbrt Function - 340 Gas Fixed-Point - DeFiMath Docs",
     description: "Solidity cube root in 18-decimal fixed-point — 340 gas, 2.0e-13 max rel. / 1.0e-16 max abs. error. CLZ-derived seed + 6 Newton iterations. Full uint256 domain, no revert.",
     alternates: { canonical: "/docs/math/cbrt/" },
 };

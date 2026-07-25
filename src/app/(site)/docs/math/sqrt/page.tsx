@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
-    title: "sqrt — Math | DeFiMath docs",
+    title: "Solidity Sqrt Function - 197 Gas Fixed-Point - DeFiMath Docs",
     description: "Solidity square root in 18-decimal fixed-point — 197 gas, 2.0e-18 max rel. error. CLZ-derived power-of-two seed (2^floor(bits/2)) + 5 Newton iterations. Full uint256 domain, no revert.",
     alternates: { canonical: "/docs/math/sqrt/" },
 };

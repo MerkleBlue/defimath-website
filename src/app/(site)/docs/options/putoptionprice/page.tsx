@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 import { MathBlock } from "@/components/Documentation/Formula";
 
 export const metadata: Metadata = {
-    title: "putOptionPrice — Options | DeFiMath docs",
+    title: "Solidity PutOptionPrice Function - 2592 Gas Fixed-Point - DeFiMath Docs",
     description: "Solidity Black-Scholes European put pricing, 18-decimal fixed-point — 2,592 gas, 1.3e-10 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
     alternates: { canonical: "/docs/options/putoptionprice/" },
 };

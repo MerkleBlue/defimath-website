@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
-    title: "expm1 — Math | DeFiMath docs",
+    title: "Solidity Expm1 Function - 295 Gas Fixed-Point - DeFiMath Docs",
     description: "Solidity e^x − 1 in 18-decimal fixed-point — 295 gas, 2.2e-14 max rel. / 5.0e-16 max abs. error. Taylor branch for |x| < 0.01 preserves precision where naive exp(x) − 1 cancels.",
     alternates: { canonical: "/docs/math/expm1/" },
 };

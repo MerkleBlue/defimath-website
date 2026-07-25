@@ -7,7 +7,7 @@ import Connect from "@/components/Home/connect";
 import { JsonLd } from "@/components/JsonLd";
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "DeFiMath - Optimized DeFi & Math Solidity Primitives",
+  title: "DeFiMath - Gas-Optimized Solidity Math & Derivatives Library",
   description:
     "DeFiMath is an open-source Solidity library offering optimized math and DeFi primitives, designed for precision and efficiency in financial calculations.",
   alternates: { canonical: "/" },

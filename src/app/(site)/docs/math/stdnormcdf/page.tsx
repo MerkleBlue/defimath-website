@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
-    title: "stdNormCDF — Math | DeFiMath docs",
+    title: "Solidity StdNormCDF Function - 618 Gas Fixed-Point - DeFiMath Docs",
     description: "Solidity standard normal CDF Φ(x) in 18-decimal fixed-point — 618 gas, 3.0e-15 max abs. error. West's rational approximation, same kernel as DeFiMath's erf.",
     alternates: { canonical: "/docs/math/stdnormcdf/" },
 };
