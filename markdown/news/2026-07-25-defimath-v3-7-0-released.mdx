@@ -1,0 +1,98 @@
+---
+title: "DeFiMath v3.7.0: a rebuilt exp cascades across the library"
+date: 2026-07-25
+version: "3.7.0"
+excerpt: exp is rebuilt on a two-stage range reduction plus a [3,3] Padé approximant — 327 → 289 gas with a tighter error bound. Because exp underpins Black-Scholes pricing, the Greeks, the IV solver, futures, and rate math, the savings cascade — callOptionPrice −126, continuousToDiscrete −116, expm1 −112. Error bounds tightened across primitives, and all gas + precision figures now live in a single Constants.mjs asserted in CI.
+metaDescription: DeFiMath v3.7.0 — exp rebuilt with a [3,3] Padé approximant (327→289 gas), cascading gas savings across options, binaries, futures, and rates. Tighter error bounds, pow gains an absolute bound, 640 Hardhat tests.
+metaKeywords:
+  - defimath v3.7.0
+  - solidity exp gas
+  - pade approximant solidity
+  - solidity fixed-point math
+  - black-scholes gas optimization
+  - solidity math library
+---
+
+v3.7.0 is a gas-and-precision release built on one change: [`exp`](/docs/math/exp/)
+was rebuilt. A two-stage range reduction feeding a **[3,3] Padé approximant**
+takes it from **327 to 289 gas** while tightening its error bound. Because `exp`
+sits under Black-Scholes pricing, the Greeks, the implied-volatility solver,
+futures, and continuous-compounding rate math, that saving cascades through the
+whole library — `callOptionPrice` drops 126 gas, `continuousToDiscrete` 116,
+and every `exp`-dependent function gets cheaper.
+
+[`expm1`](/docs/math/expm1/) was separately simplified: now that `exp` is
+precise enough, the non-Taylor branch is just `exp(x) − 1`, shedding 112 gas.
+
+## Gas changes
+
+A representative slice — the savings reach every function that touches `exp`,
+directly or transitively (all six European Greeks, both binary prices and their
+Greeks, `impliedVolatility` ≈ −650, `presentValue` −42):
+
+<div class="rounded-md border border-dark_border border-opacity-60 overflow-x-auto my-4">
+  <table class="w-full text-base">
+    <thead>
+      <tr class="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Function</th>
+        <th class="py-3 px-4 font-medium text-right">v3.6.0 gas</th>
+        <th class="py-3 px-4 font-medium text-right">v3.7.0 gas</th>
+        <th class="py-3 px-4 font-medium text-right">Saved</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">exp</td><td class="py-2 px-4 text-right text-muted text-opacity-95">327</td><td class="py-2 px-4 text-right font-semibold text-white">289</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−38 (−12%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">expm1</td><td class="py-2 px-4 text-right text-muted text-opacity-95">407</td><td class="py-2 px-4 text-right font-semibold text-white">295</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−112 (−28%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">pow</td><td class="py-2 px-4 text-right text-muted text-opacity-95">803</td><td class="py-2 px-4 text-right font-semibold text-white">761</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−42 (−5%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">stdNormCDF</td><td class="py-2 px-4 text-right text-muted text-opacity-95">660</td><td class="py-2 px-4 text-right font-semibold text-white">618</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−42 (−6%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">erf</td><td class="py-2 px-4 text-right text-muted text-opacity-95">691</td><td class="py-2 px-4 text-right font-semibold text-white">649</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−42 (−6%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">futurePrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">442</td><td class="py-2 px-4 text-right font-semibold text-white">400</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−42 (−10%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">compoundInterest</td><td class="py-2 px-4 text-right text-muted text-opacity-95">467</td><td class="py-2 px-4 text-right font-semibold text-white">425</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−42 (−9%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">continuousToDiscrete</td><td class="py-2 px-4 text-right text-muted text-opacity-95">491</td><td class="py-2 px-4 text-right font-semibold text-white">375</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−116 (−24%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">callOptionPrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">2,708</td><td class="py-2 px-4 text-right font-semibold text-white">2,582</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−126 (−5%)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">putOptionPrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">2,718</td><td class="py-2 px-4 text-right font-semibold text-white">2,592</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−126 (−5%)</td></tr>
+      <tr><td class="py-2 px-4 font-mono text-primary whitespace-nowrap">binaryCallPrice</td><td class="py-2 px-4 text-right text-muted text-opacity-95">1,997</td><td class="py-2 px-4 text-right font-semibold text-white">1,913</td><td class="py-2 px-4 text-right text-muted text-opacity-95">−84 (−4%)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+## Precision
+
+Error bounds were tightened alongside the speedups, and every math primitive now
+carries an explicit, enforced bound (asserted in CI against the JS / decimal.js
+references over full-domain sweeps):
+
+- [`exp`](/docs/math/exp/) — `2.2e-14` rel / `3.0e-16` abs
+- [`expm1`](/docs/math/expm1/) — `2.2e-14` rel / `5.0e-16` abs
+- [`pow`](/docs/math/pow/) — `1.0e-12` rel, plus a **new absolute bound of `1.0e-14`** (previously relative-only)
+- [`cbrt`](/docs/math/cbrt/) — `1.0e-16` abs
+- [`erf`](/docs/math/erf/) — `2.0e-15` abs
+- [`stdNormCDF`](/docs/math/stdnormcdf/) — `3.0e-15` abs
+
+## Testing & benchmarks
+
+Error tolerances and gas benchmarks now live in a single source of truth —
+`Constants.mjs`, holding the `MAX_*_ERROR_*` and `AVG_GAS_*` constants — so every
+published figure is asserted in CI. Gas is pinned to exact values (a test fails
+on both regression **and** improvement, so any change surfaces in the PR diff);
+behaviour tests sweep each function's full valid domain, and gas is measured over
+1,000-sample sweeps balanced across the relative- and absolute-error regimes. The
+Hardhat suite grew from 623 to **640 tests**; the Foundry property layer is
+unchanged at 92 properties × 32,000 runs (2.94M executions per CI run).
+
+## Behavior change
+
+`exp`'s upper bound is now a round `135e18` (previously `135.305999…e18`) and
+typed `int256`. Inputs in the narrow `(135e18, 135.306e18]` window that used to
+succeed now revert with `ExpUpperBoundError`. Since `e^135` is already ~4×10⁵⁸,
+this is far beyond any realistic financial exponent and affects no practical
+caller. There are no other API changes — v3.7.0 is a drop-in upgrade.
+
+## Get it
+
+```
+npm install defimath-lib
+```
+
+- Release notes: [github.com/MerkleBlue/defimath/releases/tag/v3.7.0](https://github.com/MerkleBlue/defimath/releases/tag/v3.7.0)
+- Package: [npmjs.com/package/defimath-lib](https://www.npmjs.com/package/defimath-lib)
