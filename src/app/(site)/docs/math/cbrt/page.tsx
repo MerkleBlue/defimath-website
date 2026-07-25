@@ -32,7 +32,7 @@ export default function Page() {
             behaviorItems={[
                 <>Returns <code className="text-primary">0</code> when <code className="text-primary">x == 0</code> — handled by the algorithm&apos;s natural underflow via EVM&apos;s <code className="text-primary">div(0, 0) = 0</code> semantic, no explicit guard.</>,
                 <>Never reverts. Handles the full <code className="text-primary">[0, uint256.max]</code> range via a two-branch split at <code className="text-primary">type(uint128).max</code>.</>,
-                <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) for a near-optimal initial guess; see <a className="text-primary underline" href="https://eips.ethereum.org/EIPS/eip-7939" target="_blank" rel="noopener noreferrer">EIP-7939</a>.</>,
+                <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) for a near-optimal initial guess; see <a className="text-primary underline" href="/blog/clz-opcode-solidity/">Counting leading zeros in Solidity using CLZ opcode</a>.</>,
                 <>Pure assembly hot path; no external calls or storage.</>,
             ]}
             howItWorks={(

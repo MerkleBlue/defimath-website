@@ -32,7 +32,7 @@ export default function Page() {
             behaviorItems={[
                 <>Supports inputs both above and below 1 — the result is signed accordingly.</>,
                 <>Reverts with <code className="text-primary">LnLowerBoundError()</code> when <code className="text-primary">x == 0</code>.</>,
-                <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) for fast integer-part extraction; see <a className="text-primary underline" href="https://eips.ethereum.org/EIPS/eip-7939" target="_blank" rel="noopener noreferrer">EIP-7939</a>.</>,
+                <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) for fast integer-part extraction; see <a className="text-primary underline" href="/blog/clz-opcode-solidity/">Counting leading zeros in Solidity using CLZ opcode</a>.</>,
                 <>Pure assembly hot path; no external calls or storage.</>,
             ]}
             howItWorks={(
