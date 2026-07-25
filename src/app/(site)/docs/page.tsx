@@ -6,7 +6,7 @@ import { Overview } from "@/components/Documentation/Overview";
 import { InstallCommand } from "@/components/InstallCommand";
 
 export const metadata: Metadata = {
-    title: "Docs | DefiMath",
+    title: "DeFiMath Docs - Solidity DeFi Math Library Reference",
     description: "Documentation for DefiMath — a gas-optimized Solidity library of DeFi math, derivatives, rates and statistics primitives.",
     alternates: { canonical: "/docs/" },
 };

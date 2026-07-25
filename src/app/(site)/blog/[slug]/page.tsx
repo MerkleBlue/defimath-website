@@ -19,9 +19,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
     const { slug } = await params;
     const post = getBlogPost(slug);
-    if (!post) return { title: "Blog | DefiMath" };
+    if (!post) return { title: "Blog - DeFiMath" };
     return {
-        title: `${post.title} | DefiMath`,
+        title: `${post.title} - DeFiMath`,
         description: post.metaDescription ?? post.excerpt ?? `DefiMath blog — ${post.title}`,
         keywords: post.metaKeywords,
         alternates: { canonical: `/blog/${slug}/` },

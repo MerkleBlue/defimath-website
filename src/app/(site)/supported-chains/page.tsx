@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Supported chains | DefiMath",
+    title: "Supported Chains - DeFiMath",
     description: "Ethereum L1 and EVM-compatible L2s where DeFiMath can be deployed. The library requires the CLZ opcode (EIP-7939) introduced in EVM Osaka.",
     alternates: { canonical: "/supported-chains/" },
 };

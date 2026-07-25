@@ -3,7 +3,7 @@ import { Breadcrumb } from "@/components/Documentation/Breadcrumb";
 import { Statistics } from "@/components/Documentation/Statistics";
 
 export const metadata: Metadata = {
-    title: "Statistics — DeFiMath docs",
+    title: "Solidity Statistics & Risk Metrics - DeFiMath Docs",
     description: "Solidity portfolio and performance analytics — mean, std dev, historical volatility, Sharpe ratio, max drawdown, VaR, CVaR.",
     alternates: { canonical: "/docs/statistics/" },
 };

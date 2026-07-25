@@ -1,7 +1,7 @@
 
 import { Metadata } from "next";
 export const metadata: Metadata = {
-    title: "Privacy Policy | DefiMath",
+    title: "Privacy Policy - DeFiMath",
     description: "DeFiMath Privacy Policy from MerkleBlue: what we collect (analytics, optional mailing list), cookies, your rights, data retention, and how to contact us.",
     alternates: { canonical: "/privacy/" },
 };

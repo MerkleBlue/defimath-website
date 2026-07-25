@@ -129,7 +129,7 @@ export const FunctionDetail = async ({
               : "grid-cols-2 max-w-md"
           }`}
         >
-          {gas && <Stat label="Gas" value={gas} />}
+          {gas && <Stat label="Avg. gas" value={gas} />}
           {absError && <Stat label="Max abs. error" value={absError} note={absErrorWhen} />}
           {relError && <Stat label="Max rel. error" value={relError} note={relErrorWhen} />}
         </div>
