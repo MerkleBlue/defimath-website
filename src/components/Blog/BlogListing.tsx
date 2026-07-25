@@ -57,7 +57,7 @@ export function BlogListing({ posts, currentPage, totalPages }: Props) {
                                 </p>
                             )}
                             <span className="text-primary text-base font-medium mt-1">
-                                Read more
+                                Read more →
                             </span>
                         </div>
                     </Link>

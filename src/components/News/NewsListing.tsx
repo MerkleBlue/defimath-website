@@ -51,7 +51,7 @@ export function NewsListing({ items, currentPage, totalPages }: Props) {
                             </p>
                         )}
                         <span className="text-primary text-base font-medium">
-                            Read more
+                            Read more →
                         </span>
                     </Link>
                 ))}

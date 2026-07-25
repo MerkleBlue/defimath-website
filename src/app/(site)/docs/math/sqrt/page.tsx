@@ -32,31 +32,25 @@ export default function Page() {
             behaviorItems={[
                 <>Returns <code className="text-primary">0</code> when <code className="text-primary">x == 0</code> — handled by the algorithm's natural underflow via EVM&apos;s <code className="text-primary">div(0, 0) = 0</code> semantic, no explicit guard.</>,
                 <>Never reverts. Handles the full <code className="text-primary">[0, uint256.max]</code> range via a two-branch split at <code className="text-primary">type(uint128).max</code>.</>,
-                <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) inside the range reduction; see <a className="text-primary underline" href="https://eips.ethereum.org/EIPS/eip-7939" target="_blank" rel="noopener noreferrer">EIP-7939</a>.</>,
+                <>Uses the <code className="text-primary">CLZ</code> opcode (Osaka) inside the range reduction; see <a className="text-primary underline" href="/blog/clz-opcode-solidity/">Counting leading zeros in Solidity using CLZ opcode</a>.</>,
                 <>Pure assembly hot path; no external calls or storage.</>,
             ]}
             howItWorks={(
                 <>
                     <p>
-                        Square root in fixed-point reduces to two steps: pick a cheap seed close to <code className="text-primary">√x</code>, then refine with Newton&apos;s iteration. DeFiMath picks the seed from a single CLZ computation, then runs 5 Newton steps.
+                        Pre-scale, seed, refine — all in assembly:
                     </p>
-                    <pre>{`// CLZ-derived power-of-two seed:  y = 2^floor(bits/2),  bits = 256 − clz(x)
-// Compact form: shl(shr(1, sub(254, clz(x))), 2)
-y := 2 << ((254 − clz(x)) / 2)
+                    <pre>{`// 1. Pre-scale x to 1e36 base so div(x, y) lands in 1e18 — cheap div, no muldiv
+x := mul(x, 1e18)
 
-// 5 Newton iterations — quadratic convergence to bit-perfect FP18
-y ← (y + x/y) / 2`}</pre>
+// 2. CLZ seed:  y = 2^floor(msb/2),  msb = 256 − clz(x)   — within √2 of √x
+y := shl(shr(1, sub(254, clz(x))), 2)
+
+// 3. Five Newton steps — shr halves; quadratic convergence to bit-perfect FP18
+y := shr(1, add(y, div(x, y)))             // ×5,  ~20 gas each`}</pre>
                     <p>
-                        The seed is simply the largest power of two at or below <code className="text-primary">√x</code>&apos;s magnitude: halving the bit length is one shift, so the estimate costs a single <code className="text-primary">CLZ</code>, a subtract and a shift — no multiply. Since <code className="text-primary">x</code> lies in <code className="text-primary">[2^(bits−1), 2^bits)</code>, the seed is always within a factor of <code className="text-primary">√2</code> of the true root: it overshoots by at most 41% at even bit lengths and undershoots by at most 29% at odd ones, so the worst-case initial error is ~41%.
-                    </p>
-                    <p>
-                        From a ~41% initial error, Newton&apos;s quadratic convergence (<code className="text-primary">e → e²/2</code>) reaches FP18 in 5 steps with room to spare: 0.41 → 0.084 → 3.5e-3 → 6.1e-6 → 1.9e-11 → 1.8e-22. Five iterations lands well past FP18&apos;s ~60-bit precision ceiling with margin for input variance.
-                    </p>
-                    <p>
-                        <strong>Two branches</strong> handle the full <code className="text-primary">uint256</code> domain. For <code className="text-primary">x ≤ type(uint128).max</code>, the input is pre-scaled by <code className="text-primary">1e18</code> so Newton converges to FP18 directly — bit-perfect. For <code className="text-primary">x &gt; type(uint128).max</code> (where <code className="text-primary">x · 1e18</code> would overflow), Newton runs on raw <code className="text-primary">x</code> and the result is post-scaled by <code className="text-primary">1e9</code>. Both branches are bit-perfect; the split is chosen so integer sqrt still has enough significant digits at the boundary.
-                    </p>
-                    <p>
-                        Total: ~197 gas for typical inputs — the cheapest sqrt of any on-chain library we&apos;ve measured — over the full <code className="text-primary">uint256</code> domain, without reverting.
+                        The seed lands within a factor of <code className="text-primary">√2</code> of the root (~41% worst case); five Newton steps drive that to ~80 bits — bit-exact when <code className="text-primary">√x &lt; 1</code>, under <code className="text-primary">2e-18</code> relative error above. A second branch post-scales instead of pre-scaling for <code className="text-primary">x &gt; type(uint128).max</code>, where <code className="text-primary">x · 1e18</code> would overflow. Full derivation in the walkthrough:{" "}
+                        <a className="text-primary underline" href="/blog/how-i-wrote-a-fixed-point-solidity-sqrt-that-runs-in-197-gas/">How I wrote a fixed-point Solidity sqrt that runs in 197 gas</a>.
                     </p>
                 </>
             )}
