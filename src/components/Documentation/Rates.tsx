@@ -6,13 +6,13 @@ import { DocPageNav } from "./DocPageNav";
 const RATES_EXAMPLE = `import "defimath-lib/contracts/finance/Rates.sol";
 
 // Continuous compounding: how much does principal grow in 1 year at 5%?
-uint256 fv = DeFiMathRates.compoundInterest(1_000e18, 0.05e18, 365 days);
+uint256 fv = Rates.compoundInterest(1_000e18, 0.05e18, 365 days);
 
 // Discount a future cashflow back to today.
-uint256 pv = DeFiMathRates.presentValue(fv, 0.05e18, 365 days);
+uint256 pv = Rates.presentValue(fv, 0.05e18, 365 days);
 
 // Convert continuous APR (5%) to effective APY.
-int256 apy = DeFiMathRates.continuousToDiscrete(int256(0.05e18));`;
+int256 apy = Rates.continuousToDiscrete(int256(0.05e18));`;
 
 export const Rates = async () => {
   return (

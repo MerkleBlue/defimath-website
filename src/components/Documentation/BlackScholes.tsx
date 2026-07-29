@@ -5,14 +5,14 @@ import { DocPageNav } from "./DocPageNav";
 
 const OPTIONS_EXAMPLE = `import "defimath-lib/contracts/derivatives/BlackScholes.sol";
 
-uint256 callPx = DeFiMathBlackScholes.callOptionPrice(spot, strike, timeToExp, vol, rate);
-uint256 putPx  = DeFiMathBlackScholes.putOptionPrice (spot, strike, timeToExp, vol, rate);
+uint256 callPx = BlackScholes.callOptionPrice(spot, strike, timeToExp, vol, rate);
+uint256 putPx  = BlackScholes.putOptionPrice (spot, strike, timeToExp, vol, rate);
 
 // delta and theta return (call, put) tuples.
-(int128 dC, int128 dP) = DeFiMathBlackScholes.delta(spot, strike, timeToExp, vol, rate);
+(int128 dC, int128 dP) = BlackScholes.delta(spot, strike, timeToExp, vol, rate);
 
 // gamma and vega return a single value (equal for call and put under put-call parity).
-uint256 g = DeFiMathBlackScholes.gamma(spot, strike, timeToExp, vol, rate);`;
+uint256 g = BlackScholes.gamma(spot, strike, timeToExp, vol, rate);`;
 
 export const BlackScholes = async () => {
   return (

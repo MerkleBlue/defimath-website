@@ -5,7 +5,7 @@ import { DocPageNav } from "./DocPageNav";
 
 const FUTURES_EXAMPLE = `import "defimath-lib/contracts/derivatives/Futures.sol";
 
-uint256 fwd = DeFiMathFutures.futurePrice(spot, timeToExp, rate);`;
+uint256 fwd = Futures.futurePrice(spot, timeToExp, rate);`;
 
 export const Futures = async () => {
   return (

@@ -84,7 +84,7 @@ export default function Page() {
             }}
             example={`import "defimath-lib/contracts/derivatives/BlackScholes.sol";
 
-uint256 price = DeFiMathBlackScholes.callOptionPrice(
+uint256 price = BlackScholes.callOptionPrice(
     1000e18,         // spot = $1,000
     980e18,          // strike = $980
     60 days,         // 60 days to expiry

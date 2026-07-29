@@ -9,14 +9,14 @@ const STATS_EXAMPLE = `import "defimath-lib/contracts/finance/Stats.sol";
 uint256[] memory prices = loadPriceSeries();
 
 // Sample mean and std dev of the raw values.
-uint256 mu    = DeFiMathStats.mean(prices);
-uint256 sigma = DeFiMathStats.stdDev(prices);
+uint256 mu    = Stats.mean(prices);
+uint256 sigma = Stats.stdDev(prices);
 
 // Annualized volatility from log returns (1-day interval).
-uint256 vol = DeFiMathStats.historicalVolatility(prices, 1 days);
+uint256 vol = Stats.historicalVolatility(prices, 1 days);
 
 // Sharpe ratio at a 2% risk-free rate.
-int256 sharpe = DeFiMathStats.sharpeRatio(prices, 1 days, 0.02e18);`;
+int256 sharpe = Stats.sharpeRatio(prices, 1 days, 0.02e18);`;
 
 export const Statistics = async () => {
   return (

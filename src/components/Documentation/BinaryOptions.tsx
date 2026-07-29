@@ -3,13 +3,13 @@ import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
 import { DocPageNav } from "./DocPageNav";
 
-const BINARY_EXAMPLE = `import "defimath-lib/contracts/derivatives/Binary.sol";
+const BINARY_EXAMPLE = `import "defimath-lib/contracts/derivatives/BinaryOptions.sol";
 
-uint256 binCall = DeFiMathBinary.binaryCallPrice(spot, strike, timeToExp, vol, rate);
-uint256 binPut  = DeFiMathBinary.binaryPutPrice (spot, strike, timeToExp, vol, rate);
+uint256 binCall = BinaryOptions.binaryCallPrice(spot, strike, timeToExp, vol, rate);
+uint256 binPut  = BinaryOptions.binaryPutPrice (spot, strike, timeToExp, vol, rate);
 
 // All binary Greeks return (call, put) tuples.
-(int128 dC, int128 dP) = DeFiMathBinary.binaryDelta(spot, strike, timeToExp, vol, rate);`;
+(int128 dC, int128 dP) = BinaryOptions.binaryDelta(spot, strike, timeToExp, vol, rate);`;
 
 export const BinaryOptions = async () => {
   return (
@@ -23,12 +23,12 @@ export const BinaryOptions = async () => {
       <p className="text-sm font-medium text-muted text-opacity-60 mt-3">
         Contract:{" "}
         <a
-          href="https://github.com/MerkleBlue/defimath/blob/master/contracts/derivatives/Binary.sol"
+          href="https://github.com/MerkleBlue/defimath/blob/master/contracts/derivatives/BinaryOptions.sol"
           target="_blank"
           rel="noopener noreferrer"
           className="text-primary underline"
         >
-          Binary.sol
+          BinaryOptions.sol
         </a>
       </p>
 
@@ -129,7 +129,7 @@ export const BinaryOptions = async () => {
         </table>
       </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Binary.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Binary.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Binary.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Binary.t.sol</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/BinaryOptions.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/BinaryOptions.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/BinaryOptions.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/BinaryOptions.t.sol</a>
       </p>
       <DocPageNav />
     </div>

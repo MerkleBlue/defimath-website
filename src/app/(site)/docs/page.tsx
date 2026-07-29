@@ -21,7 +21,7 @@ contract OptionsPricer {
         uint128 spot, uint128 strike, uint32 timeToExp,
         uint64 vol, uint64 rate
     ) external pure returns (uint256) {
-        return DeFiMathBlackScholes.callOptionPrice(spot, strike, timeToExp, vol, rate);
+        return BlackScholes.callOptionPrice(spot, strike, timeToExp, vol, rate);
     }
 }`;
 
