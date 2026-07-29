@@ -3,7 +3,7 @@ import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
 import { DocPageNav } from "./DocPageNav";
 
-const RATES_EXAMPLE = `import "defimath-lib/contracts/finance/Rates.sol";
+const RATES_EXAMPLE = `import "defimath-lib/contracts/rates/Rates.sol";
 
 // Continuous compounding: how much does principal grow in 1 year at 5%?
 uint256 fv = Rates.compoundInterest(1_000e18, 0.05e18, 365 days);
@@ -28,7 +28,7 @@ export const Rates = async () => {
       <p className="text-sm font-medium text-muted text-opacity-60 mt-3">
         Contract:{" "}
         <a
-          href="https://github.com/MerkleBlue/defimath/blob/master/contracts/finance/Rates.sol"
+          href="https://github.com/MerkleBlue/defimath/blob/master/contracts/rates/Rates.sol"
           target="_blank"
           rel="noopener noreferrer"
           className="text-primary underline"

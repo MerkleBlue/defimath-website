@@ -3,20 +3,20 @@ import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
 import { DocPageNav } from "./DocPageNav";
 
-const STATS_EXAMPLE = `import "defimath-lib/contracts/finance/Stats.sol";
+const STATS_EXAMPLE = `import "defimath-lib/contracts/statistics/Statistics.sol";
 
 // 30 daily closing prices, 18-decimal fixed-point.
 uint256[] memory prices = loadPriceSeries();
 
 // Sample mean and std dev of the raw values.
-uint256 mu    = Stats.mean(prices);
-uint256 sigma = Stats.stdDev(prices);
+uint256 mu    = Statistics.mean(prices);
+uint256 sigma = Statistics.stdDev(prices);
 
 // Annualized volatility from log returns (1-day interval).
-uint256 vol = Stats.historicalVolatility(prices, 1 days);
+uint256 vol = Statistics.historicalVolatility(prices, 1 days);
 
 // Sharpe ratio at a 2% risk-free rate.
-int256 sharpe = Stats.sharpeRatio(prices, 1 days, 0.02e18);`;
+int256 sharpe = Statistics.sharpeRatio(prices, 1 days, 0.02e18);`;
 
 export const Statistics = async () => {
   return (
@@ -31,12 +31,12 @@ export const Statistics = async () => {
       <p className="text-sm font-medium text-muted text-opacity-60 mt-3">
         Contract:{" "}
         <a
-          href="https://github.com/MerkleBlue/defimath/blob/master/contracts/finance/Stats.sol"
+          href="https://github.com/MerkleBlue/defimath/blob/master/contracts/statistics/Statistics.sol"
           target="_blank"
           rel="noopener noreferrer"
           className="text-primary underline"
         >
-          Stats.sol
+          Statistics.sol
         </a>
       </p>
 
@@ -145,7 +145,7 @@ export const Statistics = async () => {
         </table>
       </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Stats.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Stats.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Stats.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Stats.t.sol</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Statistics.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Statistics.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Statistics.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Statistics.t.sol</a>
       </p>
       <DocPageNav />
     </div>

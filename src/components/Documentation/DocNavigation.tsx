@@ -74,7 +74,7 @@ const DocsNav: NavNode[] = [
     ],
   },
   { id: 7, label: "Rates", hash: "rates", topHref: "/docs/rates/", basePath: "/docs/rates/" },
-  { id: 8, label: "Stats", hash: "statistics", topHref: "/docs/statistics/", basePath: "/docs/statistics/" },
+  { id: 8, label: "Statistics", hash: "statistics", topHref: "/docs/statistics/", basePath: "/docs/statistics/" },
 ];
 
 function withTrailingSlash(p: string) {
