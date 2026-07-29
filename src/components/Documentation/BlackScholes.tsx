@@ -3,21 +3,21 @@ import { FunctionTable } from "./FunctionTable";
 import { InstallCommand } from "../InstallCommand";
 import { DocPageNav } from "./DocPageNav";
 
-const OPTIONS_EXAMPLE = `import "defimath-lib/contracts/derivatives/Options.sol";
+const OPTIONS_EXAMPLE = `import "defimath-lib/contracts/derivatives/BlackScholes.sol";
 
-uint256 callPx = DeFiMathOptions.callOptionPrice(spot, strike, timeToExp, vol, rate);
-uint256 putPx  = DeFiMathOptions.putOptionPrice (spot, strike, timeToExp, vol, rate);
+uint256 callPx = DeFiMathBlackScholes.callOptionPrice(spot, strike, timeToExp, vol, rate);
+uint256 putPx  = DeFiMathBlackScholes.putOptionPrice (spot, strike, timeToExp, vol, rate);
 
 // delta and theta return (call, put) tuples.
-(int128 dC, int128 dP) = DeFiMathOptions.delta(spot, strike, timeToExp, vol, rate);
+(int128 dC, int128 dP) = DeFiMathBlackScholes.delta(spot, strike, timeToExp, vol, rate);
 
 // gamma and vega return a single value (equal for call and put under put-call parity).
-uint256 g = DeFiMathOptions.gamma(spot, strike, timeToExp, vol, rate);`;
+uint256 g = DeFiMathBlackScholes.gamma(spot, strike, timeToExp, vol, rate);`;
 
-export const Options = async () => {
+export const BlackScholes = async () => {
   return (
     <div className="pb-10">
-      <h1 id="options" className="text-40 md:text-44 lg:text-54 font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Options</h1>
+      <h1 id="blackscholes" className="text-40 md:text-44 lg:text-54 font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Black-Scholes</h1>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         Black-Scholes pricing for European options, the full Greek set, and
         an iterative implied-volatility solver.
@@ -25,20 +25,20 @@ export const Options = async () => {
       <p className="text-sm font-medium text-muted text-opacity-60 mt-3">
         Contract:{" "}
         <a
-          href="https://github.com/MerkleBlue/defimath/blob/master/contracts/derivatives/Options.sol"
+          href="https://github.com/MerkleBlue/defimath/blob/master/contracts/derivatives/BlackScholes.sol"
           target="_blank"
           rel="noopener noreferrer"
           className="text-primary underline"
         >
-          Options.sol
+          BlackScholes.sol
         </a>
       </p>
 
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "callOptionPrice", gas: "2,582", description: "European call price (Black-Scholes)", href: "/docs/options/calloptionprice/" },
-          { name: "putOptionPrice", gas: "2,592", description: "European put price (Black-Scholes)", href: "/docs/options/putoptionprice/" },
+          { name: "callOptionPrice", gas: "2,582", description: "European call price (Black-Scholes)", href: "/docs/black-scholes/calloptionprice/" },
+          { name: "putOptionPrice", gas: "2,592", description: "European put price (Black-Scholes)", href: "/docs/black-scholes/putoptionprice/" },
           { name: "delta", gas: "1,661", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
           { name: "gamma", gas: "1,433", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)" },
           { name: "theta", gas: "3,101", description: "Time decay, per day — returns (Θcall, Θput)" },
@@ -123,7 +123,7 @@ export const Options = async () => {
         </table>
       </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Options.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Options.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Options.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Options.t.sol</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/BlackScholes.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/BlackScholes.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/BlackScholes.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/BlackScholes.t.sol</a>
       </p>
 
       <DocPageNav />

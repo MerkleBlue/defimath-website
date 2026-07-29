@@ -65,7 +65,7 @@ y := shr(1, add(y, div(x, y)))             // ×5,  ~20 gas each`}</pre>
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 uint256 x = 2e18;             // x = 2.0
-uint256 y = DeFiMath.sqrt(x); // y ≈ 1.41421356e18`}
+uint256 y = Math.sqrt(x); // y ≈ 1.41421356e18`}
             parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />

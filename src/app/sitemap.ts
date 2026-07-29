@@ -30,7 +30,7 @@ const STATIC_PAGES: Entry[] = [
   // Docs landing + module overviews
   { path: "/docs/", changeFrequency: "weekly", priority: 0.9 },
   { path: "/docs/math/", changeFrequency: "monthly", priority: 0.9 },
-  { path: "/docs/options/", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/docs/black-scholes/", changeFrequency: "monthly", priority: 0.9 },
   { path: "/docs/binary/", changeFrequency: "monthly", priority: 0.9 },
   { path: "/docs/futures/", changeFrequency: "monthly", priority: 0.9 },
   { path: "/docs/rates/", changeFrequency: "monthly", priority: 0.9 },
@@ -49,9 +49,9 @@ const STATIC_PAGES: Entry[] = [
   { path: "/docs/math/erf/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/math/stdnormcdf/", changeFrequency: "monthly", priority: 0.8 },
 
-  // Per-function pages — Options
-  { path: "/docs/options/calloptionprice/", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/docs/options/putoptionprice/", changeFrequency: "monthly", priority: 0.8 },
+  // Per-function pages — Black-Scholes (derivatives)
+  { path: "/docs/black-scholes/calloptionprice/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-scholes/putoptionprice/", changeFrequency: "monthly", priority: 0.8 },
 
   // Blog + news index
   { path: "/blog/", changeFrequency: "weekly", priority: 0.7 },

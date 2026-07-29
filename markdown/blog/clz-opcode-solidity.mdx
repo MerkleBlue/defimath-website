@@ -156,7 +156,7 @@ The two functions where Solady stays competitive are exactly the ones with the c
 
 ## Compounding effects
 
-The savings don't stop at the primitives. `sqrt` and `ln` are the building blocks of Black-Scholes option pricing: both `callOptionPrice` and `putOptionPrice` call `ln(spot / strike)` once and a sqrt-based time-adjusted volatility once per evaluation. Swapping in the CLZ-powered versions of those two primitives drops [`callOptionPrice`](/docs/options/) from ~3,100 gas to **2,876 gas** — roughly 10% cheaper, with zero change to the option-pricing math itself.
+The savings don't stop at the primitives. `sqrt` and `ln` are the building blocks of Black-Scholes option pricing: both `callOptionPrice` and `putOptionPrice` call `ln(spot / strike)` once and a sqrt-based time-adjusted volatility once per evaluation. Swapping in the CLZ-powered versions of those two primitives drops [`callOptionPrice`](/docs/black-scholes/) from ~3,100 gas to **2,876 gas** — roughly 10% cheaper, with zero change to the option-pricing math itself.
 
 The pattern repeats across the library. Every function that touches a root or a logarithm — IV solving, futures, log returns, historical volatility, Sharpe ratio — gets a free discount the moment its inner primitives switch to CLZ-based versions. The opcode doesn't just save ~150 gas on one `log2` call; it saves that ~150 gas everywhere `log2` lives.
 

@@ -69,10 +69,10 @@ export default function Page() {
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 int256 x      = 1e15;                  // x = 0.001  (small input — Taylor branch)
-int256 result = DeFiMath.expm1(x);     // result ≈ 1.0005e15
+int256 result = Math.expm1(x);     // result ≈ 1.0005e15
 
 int256 y      = 1e18;                  // y = 1.0    (exp fallback branch)
-int256 ey     = DeFiMath.expm1(y);     // ey     ≈ 1.71828e18`}
+int256 ey     = Math.expm1(y);     // ey     ≈ 1.71828e18`}
             parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />

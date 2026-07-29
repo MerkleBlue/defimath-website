@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 const MODULES = [
-  { href: "/docs/math/", title: "Math", blurb: "Exp, log, sqrt, pow, standard normal CDF, error function, and more." },
-  { href: "/docs/options/", title: "Options", blurb: "Black-Scholes pricing, full Greeks, and an iterative implied-volatility solver." },
-  { href: "/docs/binary/", title: "Binary options", blurb: "Cash-or-nothing call and put pricing with full Greeks." },
-  { href: "/docs/futures/", title: "Futures", blurb: "Continuous-compounding futures price." },
-  { href: "/docs/rates/", title: "Rates", blurb: "Compound interest, present value, log returns, YTM, IRR." },
-  { href: "/docs/statistics/", title: "Statistics", blurb: "Mean, std dev, historical volatility, Sharpe, max drawdown, VaR, CVaR." },
+  { href: "/docs/math/", title: "Math", category: "Math", blurb: "Exp, log, sqrt, pow, standard normal CDF, error function, and more." },
+  { href: "/docs/black-scholes/", title: "Black-Scholes", category: "Derivatives", blurb: "Black-Scholes pricing, full Greeks, and an iterative implied-volatility solver." },
+  { href: "/docs/binary/", title: "Binary options", category: "Derivatives", blurb: "Cash-or-nothing call and put pricing with full Greeks." },
+  { href: "/docs/futures/", title: "Futures", category: "Derivatives", blurb: "Continuous-compounding futures price." },
+  { href: "/docs/rates/", title: "Rates", category: "Rates", blurb: "Compound interest, present value, log returns, YTM, IRR." },
+  { href: "/docs/statistics/", title: "Statistics", category: "Statistics", blurb: "Mean, std dev, historical volatility, Sharpe, max drawdown, VaR, CVaR." },
 ];
 
 export const Overview = () => {
@@ -20,8 +20,8 @@ export const Overview = () => {
       </div>
       <p className="text-base font-medium text-muted text-opacity-95 mt-3">
         DeFiMath is a pure-Solidity library of gas-optimized 18-decimal
-        fixed-point math primitives — 40+ functions spanning six modules:
-        math, options, binary options, futures, rates, and statistics.
+        fixed-point math primitives — 40+ functions spanning math, derivatives
+        (Black-Scholes, binary options, futures), rates, and statistics.
       </p>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
         <div className="p-5 rounded-md border border-dark_border border-opacity-60">
@@ -60,9 +60,16 @@ export const Overview = () => {
             href={m.href}
             className="group p-5 rounded-md border border-dark_border border-opacity-60 hover:border-primary duration-200"
           >
-            <h5 className="text-lg font-semibold text-white group-hover:text-primary duration-200">
-              {m.title}
-            </h5>
+            <div className="flex items-center gap-2">
+              <h5 className="text-lg font-semibold text-white group-hover:text-primary duration-200">
+                {m.title}
+              </h5>
+              {m.category !== m.title && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted text-opacity-40">
+                  {m.category}
+                </span>
+              )}
+            </div>
             <p className="text-sm font-medium text-muted text-opacity-60 mt-1">
               {m.blurb}
             </p>

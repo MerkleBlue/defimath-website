@@ -14,14 +14,14 @@ export const metadata: Metadata = {
 const IMPORT_USE = `// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.31;
 
-import "defimath-lib/contracts/derivatives/Options.sol";
+import "defimath-lib/contracts/derivatives/BlackScholes.sol";
 
 contract OptionsPricer {
     function priceCall(
         uint128 spot, uint128 strike, uint32 timeToExp,
         uint64 vol, uint64 rate
     ) external pure returns (uint256) {
-        return DeFiMathOptions.callOptionPrice(spot, strike, timeToExp, vol, rate);
+        return DeFiMathBlackScholes.callOptionPrice(spot, strike, timeToExp, vol, rate);
     }
 }`;
 
@@ -35,7 +35,7 @@ contract Confidence {
     // value falls within k standard deviations of the mean (e.g., k=1 → ~68%,
     // k=2 → ~95%, k=3 → ~99.7%). The 68-95-99.7 rule on-chain.
     function withinKStdevs(int256 k) external pure returns (uint256) {
-        return 2 * DeFiMath.stdNormCDF(k) - 1e18;
+        return 2 * Math.stdNormCDF(k) - 1e18;
     }
 }`;
 

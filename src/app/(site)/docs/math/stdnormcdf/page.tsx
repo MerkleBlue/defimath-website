@@ -60,7 +60,7 @@ export default function Page() {
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 int256  x = 1.96e18;                  // the canonical 95% confidence cutoff
-uint256 y = DeFiMath.stdNormCDF(x);   // y ≈ 0.97500210e18`}
+uint256 y = Math.stdNormCDF(x);   // y ≈ 0.97500210e18`}
             parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />

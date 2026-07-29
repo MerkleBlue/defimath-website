@@ -68,7 +68,7 @@ export default function Page() {
 
 uint256 x = 2e18;                // x = 2.0
 int256  a = 10e18;               // a = 10
-uint256 y = DeFiMath.pow(x, a);  // y = 1024e18 (2^10)`}
+uint256 y = Math.pow(x, a);  // y = 1024e18 (2^10)`}
             parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />

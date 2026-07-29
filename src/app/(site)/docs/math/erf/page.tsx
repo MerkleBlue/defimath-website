@@ -60,7 +60,7 @@ export default function Page() {
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 int256 x = 1e18;             // x = 1.0
-int256 y = DeFiMath.erf(x);  // y ≈ 0.84270079e18`}
+int256 y = Math.erf(x);  // y ≈ 0.84270079e18`}
             parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />

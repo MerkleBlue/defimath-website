@@ -16,7 +16,7 @@ Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install def
 
 ## DeFi modules
 
-- [Options](https://defimath.com/docs/options/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,582 gas, `putOptionPrice` 2,592 gas, `delta` 1,661 gas, `vega` 1,373 gas
+- [Black-Scholes](https://defimath.com/docs/black-scholes/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,582 gas, `putOptionPrice` 2,592 gas, `delta` 1,661 gas, `vega` 1,373 gas
 - [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `binaryCallPrice` 1,913 gas, `binaryPutPrice` 1,918 gas (~8.5× cheaper than Haptic 16,218)
 - [Futures](https://defimath.com/docs/futures/): Continuous-compounding futures pricing
 - [Rates](https://defimath.com/docs/rates/): Compound interest, present value, log returns, APR↔APY conversions, yield to maturity, IRR. `internalRateOfReturn` solves Σ Cᵢ·e^(−r·tᵢ)=0 via Newton-Raphson

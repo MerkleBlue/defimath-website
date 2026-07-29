@@ -14,7 +14,7 @@ const FAQ = async () => {
   // Pre-render the install-snippet import line with shiki (same VS Code "github-dark"
   // theme the docs CodeBlock uses) so it appears in proper Solidity colors.
   const importHtml = await codeToHtml(
-    'import "defimath-lib/contracts/derivatives/Options.sol";',
+    'import "defimath-lib/contracts/derivatives/BlackScholes.sol";',
     { lang: "solidity", theme: "github-dark" }
   );
 
@@ -147,7 +147,7 @@ const FAQ = async () => {
         </>
       ),
       answerText:
-        'npm install defimath-lib, then import the module you need: import "defimath-lib/contracts/derivatives/Options.sol"; See getting started at /docs#getting-started.',
+        'npm install defimath-lib, then import the module you need: import "defimath-lib/contracts/derivatives/BlackScholes.sol"; See getting started at /docs#getting-started.',
     },
   ];
 

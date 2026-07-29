@@ -66,7 +66,7 @@ export default function Page() {
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 uint256 x = 8e18;             // x = 8.0
-uint256 y = DeFiMath.cbrt(x); // y = 2e18`}
+uint256 y = Math.cbrt(x); // y = 2e18`}
             parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />

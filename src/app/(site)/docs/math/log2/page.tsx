@@ -66,10 +66,10 @@ export default function Page() {
             example={`import "defimath-lib/contracts/math/Math.sol";
 
 uint256 x  = 8e18;                  // x = 8.0
-int256  l2 = DeFiMath.log2(x);      // l2 ≈ 3e18  (= log₂(8))
+int256  l2 = Math.log2(x);      // l2 ≈ 3e18  (= log₂(8))
 
 uint256 y  = 0.5e18;                // y = 0.5
-int256  ly = DeFiMath.log2(y);      // ly ≈ −1e18 (= log₂(0.5))`}
+int256  ly = Math.log2(y);      // ly ≈ −1e18 (= log₂(0.5))`}
             parentSectionHref="/docs/math"
             parentSectionLabel="Back to Math overview"
         />
