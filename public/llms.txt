@@ -16,8 +16,8 @@ Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install def
 
 ## DeFi modules
 
-- [Black-Scholes](https://defimath.com/docs/black-scholes/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,582 gas, `putOptionPrice` 2,592 gas, `delta` 1,661 gas, `vega` 1,373 gas
-- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `binaryCallPrice` 1,913 gas, `binaryPutPrice` 1,918 gas (~8.5× cheaper than Haptic 16,218)
+- [Black-Scholes](https://defimath.com/docs/black-scholes/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `call` 2,582 gas, `put` 2,592 gas, `delta` 1,661 gas, `vega` 1,373 gas
+- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `call` 1,913 gas, `put` 1,918 gas (~8.5× cheaper than Haptic 16,218)
 - [Futures](https://defimath.com/docs/futures/): Continuous-compounding futures pricing
 - [Rates](https://defimath.com/docs/rates/): Compound interest, present value, log returns, APR↔APY conversions, yield to maturity, IRR. `internalRateOfReturn` solves Σ Cᵢ·e^(−r·tᵢ)=0 via Newton-Raphson
 - [Statistics](https://defimath.com/docs/statistics/): `mean`, `stdDev`, `weightedAverage`, `historicalVolatility`, `sharpeRatio`, `maxDrawdown`, `valueAtRisk`, `conditionalValueAtRisk` (CVaR / expected shortfall)
@@ -36,8 +36,8 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 - `cbrt`: 340 / 550 / — / — / —
 - `stdNormCDF`: 618 / — / — / — / 3,103
 - `erf`: 649 / — / — / — / 2,876
-- `callOptionPrice`: 2,582 / — / — / — / — (vs Derivexyz 13,360 — 5.2× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
-- `binaryCallPrice`: 1,913 (vs Haptic 16,218 — 8.5× cheaper)
+- Black-Scholes `call`: 2,582 / — / — / — / — (vs Derivexyz 13,360 — 5.2× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
+- binary `call`: 1,913 (vs Haptic 16,218 — 8.5× cheaper)
 
 ## Blog
 

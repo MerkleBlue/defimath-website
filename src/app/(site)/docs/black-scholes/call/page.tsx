@@ -4,9 +4,9 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 import { MathBlock } from "@/components/Documentation/Formula";
 
 export const metadata: Metadata = {
-    title: "Solidity PutOptionPrice Function - 2592 Gas Fixed-Point - DeFiMath Docs",
-    description: "Solidity Black-Scholes European put pricing, 18-decimal fixed-point — 2,592 gas, 1.3e-10 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
-    alternates: { canonical: "/docs/black-scholes/putoptionprice/" },
+    title: "Solidity Black-Scholes Call Pricing - 2582 Gas Fixed-Point - DeFiMath Docs",
+    description: "Solidity Black-Scholes European call pricing, 18-decimal fixed-point — 2,582 gas, 1.3e-10 max abs. error at $1,000 spot. Built from ln, sqrtTime, exp, and Φ.",
+    alternates: { canonical: "/docs/black-scholes/call/" },
 };
 
 export default function Page() {
@@ -15,14 +15,14 @@ export default function Page() {
             breadcrumb={[
                 { label: "Derivatives" },
                 { label: "Black-Scholes", href: "/docs/black-scholes/" },
-                { label: "putOptionPrice" },
+                { label: "call" },
             ]}
             module="Black-Scholes"
-            name="putOptionPrice"
-            summary="Computes the Black-Scholes price of a European put option in 18-decimal fixed-point, at ~2,592 gas."
-            gas="2,592"
+            name="call"
+            summary="Computes the Black-Scholes price of a European call option in 18-decimal fixed-point, at ~2,582 gas."
+            gas="2,582"
             absError="1.3e-10"
-            signature={`function putOptionPrice(
+            signature={`function call(
     uint128 spot,
     uint128 strike,
     uint32  timeToExp,
@@ -37,31 +37,31 @@ export default function Page() {
                 { name: "rate", type: "uint64", description: "Annualized risk-free rate, 18-decimal fixed-point." },
             ]}
             returns={[
-                { name: "price", type: "uint256", description: "Put option price in 18-decimal fixed-point. Always ≥ 0." },
+                { name: "price", type: "uint256", description: "Call option price in 18-decimal fixed-point. Always ≥ 0." },
             ]}
             behaviorItems={[
                 <>Validates all five inputs against module-wide constants and reverts with a typed error on any violation.</>,
                 <>Volatility has no explicit revert — it&apos;s bounded only by its <code className="text-primary">uint64</code> type (max ≈ <code className="text-primary">1.84e19</code>, i.e. ~1840% annualized). Practical inputs stay well below that ceiling; the <code className="text-primary">MIN_VOL_IV</code> / <code className="text-primary">MAX_VOL_IV</code> constants in the source apply only to the <Link href="/docs/black-scholes/" className="text-primary underline">impliedVolatility</Link> solver, not the pricer.</>,
-                <>Fast-path on expiration: when <code className="text-primary">timeToExp == 0</code>, returns intrinsic value <code className="text-primary">max(strike − spot, 0)</code> without running the pricer.</>,
+                <>Fast-path on expiration: when <code className="text-primary">timeToExp == 0</code>, returns intrinsic value <code className="text-primary">max(spot − strike, 0)</code> without running the pricer.</>,
                 <>Composes four DeFiMath primitives — <Link href="/docs/math/ln/" className="text-primary underline">ln</Link>, <code className="text-primary">sqrtTime</code> (specialized <Link href="/docs/math/sqrt/" className="text-primary underline">sqrt</Link> for years), <code className="text-primary">expPositive</code> (rate is non-negative by validation), and <Link href="/docs/math/stdnormcdf/" className="text-primary underline">stdNormCDF</Link> — each independently gas-tuned and validated.</>,
                 <>Pure <code className="text-primary">internal</code> function; no external calls, no storage. Inlined into the caller&apos;s bytecode at compile time.</>,
-                <>Symmetric counterpart: <Link href="/docs/black-scholes/calloptionprice/" className="text-primary underline">callOptionPrice</Link> uses identical input validation and the same d₁/d₂ machinery — substituting <code className="text-primary">Φ(d₁)</code>/<code className="text-primary">Φ(d₂)</code> for the put&apos;s <code className="text-primary">Φ(−d₁)</code>/<code className="text-primary">Φ(−d₂)</code>.</>,
+                <>Symmetric counterpart: <Link href="/docs/black-scholes/put/" className="text-primary underline">put</Link> uses identical input validation and the same d₁/d₂ machinery — substituting <code className="text-primary">Φ(−d₁)</code>/<code className="text-primary">Φ(−d₂)</code> for the call&apos;s <code className="text-primary">Φ(d₁)</code>/<code className="text-primary">Φ(d₂)</code>.</>,
             ]}
             howItWorks={(
                 <>
                     <p>
-                        <code className="text-primary">putOptionPrice</code> implements the closed-form Black-Scholes formula for a European put:
+                        <code className="text-primary">call</code> implements the closed-form Black-Scholes formula for a European call:
                     </p>
-                    <MathBlock>{String.raw`P = K \, e^{-rT} \cdot \Phi(-d_2) - S \cdot \Phi(-d_1)`}</MathBlock>
+                    <MathBlock>{String.raw`C = S \cdot \Phi(d_1) - K \, e^{-rT} \cdot \Phi(d_2)`}</MathBlock>
                     <MathBlock>{String.raw`d_1 = \frac{\ln(S/K) + \left(r + \tfrac{\sigma^2}{2}\right) T}{\sigma \sqrt{T}}, \qquad d_2 = d_1 - \sigma \sqrt{T}`}</MathBlock>
                     <p>
-                        The intermediate values <code className="text-primary">d₁</code> and <code className="text-primary">d₂</code> are computed exactly as in <Link href="/docs/black-scholes/calloptionprice/" className="text-primary underline">callOptionPrice</Link>; the put&apos;s only structural difference is evaluating <code className="text-primary">Φ</code> at <code className="text-primary">−d₁</code>/<code className="text-primary">−d₂</code> instead of <code className="text-primary">d₁</code>/<code className="text-primary">d₂</code>, then reversing the order of the two terms in the final difference. Put-call parity guarantees the two prices stay consistent with each other to within the combined rounding of the underlying primitives.
+                        Every transcendental in the formula maps to a DeFiMath primitive: <code className="text-primary">σ·√T</code> uses <code className="text-primary">Math.sqrtTime</code> (a specialized square root tuned for time-in-years inputs), <code className="text-primary">ln(spot/strike)</code> uses <Link href="/docs/math/ln/" className="text-primary underline">Math.ln</Link>, the discount factor <code className="text-primary">e^(−rT)</code> is computed as <code className="text-primary">1 / Math.expPositive(rT)</code> (since the input bounds guarantee <code className="text-primary">rT ≥ 0</code>, we skip the negative-input reciprocal branch), and the two normal CDFs use <Link href="/docs/math/stdnormcdf/" className="text-primary underline">Math.stdNormCDF</Link>.
                     </p>
                     <p>
-                        Every transcendental maps to a DeFiMath primitive: <code className="text-primary">σ·√T</code> uses <code className="text-primary">Math.sqrtTime</code> (specialized for time-in-years inputs), <code className="text-primary">ln(spot/strike)</code> uses <Link href="/docs/math/ln/" className="text-primary underline">Math.ln</Link>, the discount factor <code className="text-primary">e^(−rT)</code> is computed as <code className="text-primary">1 / Math.expPositive(rT)</code> (positive-input branch, since the input bounds guarantee <code className="text-primary">rT ≥ 0</code>), and the two normal CDFs use <Link href="/docs/math/stdnormcdf/" className="text-primary underline">Math.stdNormCDF</Link>.
+                        The annualization step converts <code className="text-primary">timeToExp</code> (seconds) to a year fraction by dividing by <code className="text-primary">SECONDS_IN_YEAR</code>, then scales volatility by <code className="text-primary">√T</code> once and reuses the result through <code className="text-primary">d₁</code>, <code className="text-primary">d₂</code>, and the integral bounds. The <code className="text-primary">+1</code> on <code className="text-primary">scaledVol</code> is a defensive bump to keep the division in <code className="text-primary">d₁</code> well-defined even for zero-vol edge cases.
                     </p>
                     <p>
-                        The annualization step converts <code className="text-primary">timeToExp</code> (seconds) to a year fraction by dividing by <code className="text-primary">SECONDS_IN_YEAR</code>, then scales volatility by <code className="text-primary">√T</code> once and reuses the result throughout. The <code className="text-primary">+1</code> on <code className="text-primary">scaledVol</code> keeps the division in <code className="text-primary">d₁</code> well-defined even for zero-vol edge cases. The final assembly computes <code className="text-primary">discountedStrike · Φ(−d₂) − spot · Φ(−d₁)</code> and clamps at zero — Black-Scholes can produce slightly negative values (on the order of <code className="text-primary">10⁻¹²</code>) due to rounding in the underlying primitives when the option is far out of the money. The 1.3e-10 max absolute error is the bound the test suite enforces at <code className="text-primary">spot = $1,000</code> across a full sweep of strike, time, vol, and rate — head-to-head measurements against other libraries live in <a href="https://github.com/MerkleBlue/defimath-compare" target="_blank" rel="noopener noreferrer" className="text-primary underline">defimath-compare</a>.
+                        The final assembly computes <code className="text-primary">spot · Φ(d₁) − discountedStrike · Φ(d₂)</code> and clamps the result at zero — Black-Scholes can produce slightly negative values (on the order of <code className="text-primary">10⁻¹²</code>) due to rounding in the rounded primitives when the option is far out of the money. The clamp guarantees the function never returns a nonsensical negative price. The 1.3e-10 max absolute error is the bound the test suite enforces at <code className="text-primary">spot = $1,000</code> across a full sweep of strike, time, vol, and rate — head-to-head measurements against other libraries live in <a href="https://github.com/MerkleBlue/defimath-compare" target="_blank" rel="noopener noreferrer" className="text-primary underline">defimath-compare</a>.
                     </p>
                 </>
             )}
@@ -84,14 +84,14 @@ export default function Page() {
             }}
             example={`import "defimath-lib/contracts/derivatives/BlackScholes.sol";
 
-uint256 price = BlackScholes.putOptionPrice(
+uint256 price = BlackScholes.call(
     1000e18,         // spot = $1,000
     980e18,          // strike = $980
     60 days,         // 60 days to expiry
     0.60e18,         // 60% annualized vol
     0.05e18          // 5% risk-free rate
 );
-// price ≈ 71.4e18  (about $71.40 per option)`}
+// price ≈ 99.4e18  (about $99.40 per option)`}
             parentSectionHref="/docs/black-scholes"
             parentSectionLabel="Back to Black-Scholes overview"
         />

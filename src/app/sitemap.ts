@@ -50,8 +50,8 @@ const STATIC_PAGES: Entry[] = [
   { path: "/docs/math/stdnormcdf/", changeFrequency: "monthly", priority: 0.8 },
 
   // Per-function pages — Black-Scholes (derivatives)
-  { path: "/docs/black-scholes/calloptionprice/", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/docs/black-scholes/putoptionprice/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-scholes/call/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-scholes/put/", changeFrequency: "monthly", priority: 0.8 },
 
   // Blog + news index
   { path: "/blog/", changeFrequency: "weekly", priority: 0.7 },

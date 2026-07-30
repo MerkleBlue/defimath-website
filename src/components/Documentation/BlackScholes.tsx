@@ -5,8 +5,8 @@ import { DocPageNav } from "./DocPageNav";
 
 const OPTIONS_EXAMPLE = `import "defimath-lib/contracts/derivatives/BlackScholes.sol";
 
-uint256 callPx = BlackScholes.callOptionPrice(spot, strike, timeToExp, vol, rate);
-uint256 putPx  = BlackScholes.putOptionPrice (spot, strike, timeToExp, vol, rate);
+uint256 callPx = BlackScholes.call(spot, strike, timeToExp, vol, rate);
+uint256 putPx  = BlackScholes.put (spot, strike, timeToExp, vol, rate);
 
 // delta and theta return (call, put) tuples.
 (int128 dC, int128 dP) = BlackScholes.delta(spot, strike, timeToExp, vol, rate);
@@ -37,8 +37,8 @@ export const BlackScholes = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "callOptionPrice", gas: "2,582", description: "European call price (Black-Scholes)", href: "/docs/black-scholes/calloptionprice/" },
-          { name: "putOptionPrice", gas: "2,592", description: "European put price (Black-Scholes)", href: "/docs/black-scholes/putoptionprice/" },
+          { name: "call", gas: "2,582", description: "European call price (Black-Scholes)", href: "/docs/black-scholes/call/" },
+          { name: "put", gas: "2,592", description: "European put price (Black-Scholes)", href: "/docs/black-scholes/put/" },
           { name: "delta", gas: "1,661", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
           { name: "gamma", gas: "1,433", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)" },
           { name: "theta", gas: "3,101", description: "Time decay, per day — returns (Θcall, Θput)" },

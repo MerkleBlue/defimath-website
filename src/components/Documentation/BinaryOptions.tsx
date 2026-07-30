@@ -5,11 +5,11 @@ import { DocPageNav } from "./DocPageNav";
 
 const BINARY_EXAMPLE = `import "defimath-lib/contracts/derivatives/BinaryOptions.sol";
 
-uint256 binCall = BinaryOptions.binaryCallPrice(spot, strike, timeToExp, vol, rate);
-uint256 binPut  = BinaryOptions.binaryPutPrice (spot, strike, timeToExp, vol, rate);
+uint256 binCall = BinaryOptions.call(spot, strike, timeToExp, vol, rate);
+uint256 binPut  = BinaryOptions.put (spot, strike, timeToExp, vol, rate);
 
 // All binary Greeks return (call, put) tuples.
-(int128 dC, int128 dP) = BinaryOptions.binaryDelta(spot, strike, timeToExp, vol, rate);`;
+(int128 dC, int128 dP) = BinaryOptions.delta(spot, strike, timeToExp, vol, rate);`;
 
 export const BinaryOptions = async () => {
   return (
@@ -35,12 +35,12 @@ export const BinaryOptions = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "binaryCallPrice", gas: "1,913", description: "Cash-or-nothing call: e^(−r·τ) · Φ(d₂)" },
-          { name: "binaryPutPrice", gas: "1,918", description: "Cash-or-nothing put" },
-          { name: "binaryDelta", gas: "1,717", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
-          { name: "binaryGamma", gas: "1,859", description: "Second derivative w.r.t. spot — returns (Γcall, Γput)" },
-          { name: "binaryTheta", gas: "3,161", description: "Time decay, per day — returns (Θcall, Θput)" },
-          { name: "binaryVega", gas: "1,805", description: "Sensitivity per 1% vol — returns (νcall, νput)" },
+          { name: "call", gas: "1,913", description: "Cash-or-nothing call: e^(−r·τ) · Φ(d₂)" },
+          { name: "put", gas: "1,918", description: "Cash-or-nothing put" },
+          { name: "delta", gas: "1,717", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
+          { name: "gamma", gas: "1,859", description: "Second derivative w.r.t. spot — returns (Γcall, Γput)" },
+          { name: "theta", gas: "3,161", description: "Time decay, per day — returns (Θcall, Θput)" },
+          { name: "vega", gas: "1,805", description: "Sensitivity per 1% vol — returns (νcall, νput)" },
         ]}
       />
       <InstallCommand className="mt-6" />
@@ -62,18 +62,18 @@ export const BinaryOptions = async () => {
       <ul className="list-disc list-inside space-y-3 text-base font-medium text-muted text-opacity-95">
         <li>
           <span className="text-white font-semibold">All four Greeks return tuples.</span>{" "}
-          Unlike vanilla options (where <code className="text-primary">gamma</code> and <code className="text-primary">vega</code> are equal for call and put under put-call parity), binary call and put have different second-order sensitivities — so all of <code className="text-primary">binaryDelta</code>, <code className="text-primary">binaryGamma</code>, <code className="text-primary">binaryTheta</code>, and <code className="text-primary">binaryVega</code> return <code className="text-primary">(call, put)</code>.
+          Unlike vanilla options (where <code className="text-primary">gamma</code> and <code className="text-primary">vega</code> are equal for call and put under put-call parity), binary call and put have different second-order sensitivities — so all of <code className="text-primary">delta</code>, <code className="text-primary">gamma</code>, <code className="text-primary">theta</code>, and <code className="text-primary">vega</code> return <code className="text-primary">(call, put)</code>.
         </li>
         <li>
           <span className="text-white font-semibold">Unit payout — scale externally.</span>{" "}
           To price a digital with payout <code className="text-primary">Q</code>, compute the unit-payout price and multiply by <code className="text-primary">Q</code> on the call site.
         </li>
         <li>
-          <span className="text-white font-semibold"><code className="text-primary">binaryTheta</code> is per day.</span>{" "}
+          <span className="text-white font-semibold"><code className="text-primary">theta</code> is per day.</span>{" "}
           The result is the price change for a one-day decrease in time to expiration.
         </li>
         <li>
-          <span className="text-white font-semibold"><code className="text-primary">binaryVega</code> is per 1% vol.</span>{" "}
+          <span className="text-white font-semibold"><code className="text-primary">vega</code> is per 1% vol.</span>{" "}
           The result is the price change for a 1-percentage-point change in volatility.
         </li>
         <li>

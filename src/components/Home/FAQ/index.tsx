@@ -78,7 +78,7 @@ const FAQ = async () => {
       question: "How does it compare to PRBMath, ABDK, Solady?",
       answer: (
         <>
-          <code className="text-primary">callOptionPrice</code> 2,582 vs Derivexyz 13,360 (~5.2×
+          <code className="text-primary">call</code> 2,582 vs Derivexyz 13,360 (~5.2×
           cheaper); <code className="text-primary">sqrt</code> 197 vs Solady 384;{" "}
           <code className="text-primary">ln</code> 390 vs Solady 518, PRBMath 6,914. Precision
           matches Solady within 1 ulp on the shared functions. Full reproducible benchmarks at{" "}
@@ -94,7 +94,7 @@ const FAQ = async () => {
         </>
       ),
       answerText:
-        "callOptionPrice 2,582 vs Derivexyz 13,360 (~5.2× cheaper); sqrt 197 vs Solady 384; ln 390 vs Solady 518, PRBMath 6,914. Precision matches Solady within 1 ulp on the shared functions. Full reproducible benchmarks at github.com/MerkleBlue/defimath-compare.",
+        "call 2,582 vs Derivexyz 13,360 (~5.2× cheaper); sqrt 197 vs Solady 384; ln 390 vs Solady 518, PRBMath 6,914. Precision matches Solady within 1 ulp on the shared functions. Full reproducible benchmarks at github.com/MerkleBlue/defimath-compare.",
     },
     {
       question: "Will it work on Ethereum L2s?",

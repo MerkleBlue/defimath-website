@@ -21,7 +21,7 @@ contract OptionsPricer {
         uint128 spot, uint128 strike, uint32 timeToExp,
         uint64 vol, uint64 rate
     ) external pure returns (uint256) {
-        return BlackScholes.callOptionPrice(spot, strike, timeToExp, vol, rate);
+        return BlackScholes.call(spot, strike, timeToExp, vol, rate);
     }
 }`;
 
@@ -41,15 +41,15 @@ contract Confidence {
 
 type BenchmarkRow = { fn: string; defimath: string; nextBest: string; nextLib: string; multiple: string; highlight: boolean };
 const BENCHMARKS: BenchmarkRow[] = [
-    { fn: "callOptionPrice", defimath: "2,582", nextBest: "13,360", nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
-    { fn: "putOptionPrice",  defimath: "2,592", nextBest: "13,363", nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
-    { fn: "binaryCallPrice", defimath: "1,913", nextBest: "16,218", nextLib: "Haptic",    multiple: "8.5×", highlight: true },
-    { fn: "delta",           defimath: "1,661", nextBest: "8,621",  nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
-    { fn: "vega",            defimath: "1,373", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.5×", highlight: true },
-    { fn: "ln",              defimath: "390",   nextBest: "518",    nextLib: "Solady",    multiple: "1.3×", highlight: false },
-    { fn: "sqrt",            defimath: "197",   nextBest: "384",    nextLib: "Solady",    multiple: "1.9×", highlight: false },
-    { fn: "cbrt",            defimath: "340",   nextBest: "550",    nextLib: "Solady",    multiple: "1.6×", highlight: false },
-    { fn: "stdNormCDF",      defimath: "618",   nextBest: "3,103",  nextLib: "SolStat",   multiple: "5.0×", highlight: true },
+    { fn: "BlackScholes.call",  defimath: "2,582", nextBest: "13,360", nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
+    { fn: "BlackScholes.put",   defimath: "2,592", nextBest: "13,363", nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
+    { fn: "BinaryOptions.call", defimath: "1,913", nextBest: "16,218", nextLib: "Haptic",    multiple: "8.5×", highlight: true },
+    { fn: "BlackScholes.delta", defimath: "1,661", nextBest: "8,621",  nextLib: "Derivexyz", multiple: "5.2×", highlight: true },
+    { fn: "BlackScholes.vega",  defimath: "1,373", nextBest: "7,490",  nextLib: "Derivexyz", multiple: "5.5×", highlight: true },
+    { fn: "Math.ln",            defimath: "390",   nextBest: "518",    nextLib: "Solady",    multiple: "1.3×", highlight: false },
+    { fn: "Math.sqrt",          defimath: "197",   nextBest: "384",    nextLib: "Solady",    multiple: "1.9×", highlight: false },
+    { fn: "Math.cbrt",          defimath: "340",   nextBest: "550",    nextLib: "Solady",    multiple: "1.6×", highlight: false },
+    { fn: "Math.stdNormCDF",    defimath: "618",   nextBest: "3,103",  nextLib: "SolStat",   multiple: "5.0×", highlight: true },
 ];
 
 export default async function Page() {

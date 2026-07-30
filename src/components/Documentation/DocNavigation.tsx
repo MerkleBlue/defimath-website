@@ -60,8 +60,8 @@ const DocsNav: NavNode[] = [
         topHref: "/docs/black-scholes/",
         basePath: "/docs/black-scholes/",
         functions: [
-          { name: "callOptionPrice", href: "/docs/black-scholes/calloptionprice/" },
-          { name: "putOptionPrice", href: "/docs/black-scholes/putoptionprice/" },
+          { name: "call", href: "/docs/black-scholes/call/" },
+          { name: "put", href: "/docs/black-scholes/put/" },
           { name: "delta", href: null },
           { name: "gamma", href: null },
           { name: "theta", href: null },
