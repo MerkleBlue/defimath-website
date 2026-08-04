@@ -19,7 +19,7 @@ export default function Page() {
             ]}
             module="Black-Scholes"
             name="put"
-            summary="Computes the Black-Scholes price of a European put option in 18-decimal fixed-point, at ~2,592 gas."
+            summary="Computes the price of a European put option using the Black-Scholes model."
             gas="2,592"
             absError="1.3e-10"
             signature={`function put(

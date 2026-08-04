@@ -19,7 +19,7 @@ export default function Page() {
             ]}
             module="Black-Scholes"
             name="call"
-            summary="Computes the Black-Scholes price of a European call option in 18-decimal fixed-point, at ~2,582 gas."
+            summary="Computes the price of a European call option using the Black-Scholes model."
             gas="2,582"
             absError="1.3e-10"
             signature={`function call(

@@ -17,7 +17,7 @@ export default function Page() {
             ]}
             module="Math"
             name="log2"
-            summary="Computes the base-2 logarithm of a positive 18-decimal fixed-point input via the change-of-base identity log₂(x) = ln(x) / ln(2)."
+            summary="Computes the base-2 logarithm of x in 18-decimal fixed-point."
             gas="406"
             absError="1.0e-15"
             absErrorWhen="when |log2(x)| < 1"

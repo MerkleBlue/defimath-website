@@ -16,7 +16,7 @@ export default function Page() {
             ]}
             module="Math"
             name="sqrt"
-            summary="Computes the principal square root of an 18-decimal fixed-point input. Accepts the full uint256 domain without reverting."
+            summary="Computes square root of x in 18-decimal fixed-point."
             gas="197"
             absError="1.0e-18"
             absErrorWhen="when sqrt(x) < 1"

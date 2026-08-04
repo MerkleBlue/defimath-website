@@ -16,7 +16,7 @@ export default function Page() {
             ]}
             module="Math"
             name="erf"
-            summary="Computes the Gauss error function erf(x) using West's rational approximation."
+            summary="Computes the error function of x in 18-decimal fixed-point."
             gas="649"
             absError="2.0e-15"
             signature={`function erf(int256 x) internal pure returns (int256 y)`}

@@ -16,7 +16,7 @@ export default function Page() {
             ]}
             module="Math"
             name="cbrt"
-            summary="Computes the real cube root of an 18-decimal fixed-point input. Accepts the full uint256 domain without reverting."
+            summary="Computes cube root of x in 18-decimal fixed-point."
             gas="340"
             absError="1.0e-16"
             absErrorWhen="when cbrt(x) < 1"

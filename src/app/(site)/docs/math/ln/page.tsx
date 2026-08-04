@@ -16,7 +16,7 @@ export default function Page() {
             ]}
             module="Math"
             name="ln"
-            summary="Computes the natural logarithm ln(x) for a 18-decimal fixed-point input."
+            summary="Computes the natural logarithm of x in 18-decimal fixed-point."
             gas="390"
             absError="1.0e-15"
             absErrorWhen="when |ln(x)| < 1"

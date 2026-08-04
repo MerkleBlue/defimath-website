@@ -16,7 +16,7 @@ export default function Page() {
             ]}
             module="Math"
             name="pow"
-            summary="Computes the power function x^a for an 18-decimal fixed-point base and signed exponent."
+            summary="Computes x raised to the power a in 18-decimal fixed-point."
             gas="761"
             absError="1.0e-14"
             relError="1.0e-12"

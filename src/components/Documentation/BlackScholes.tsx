@@ -39,10 +39,10 @@ export const BlackScholes = async () => {
         rows={[
           { name: "call", gas: "2,582", description: "European call price (Black-Scholes)", href: "/docs/black-scholes/call/" },
           { name: "put", gas: "2,592", description: "European put price (Black-Scholes)", href: "/docs/black-scholes/put/" },
-          { name: "delta", gas: "1,661", description: "First derivative w.r.t. spot — returns (Δcall, Δput)" },
-          { name: "gamma", gas: "1,433", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)" },
-          { name: "theta", gas: "3,101", description: "Time decay, per day — returns (Θcall, Θput)" },
-          { name: "vega", gas: "1,373", description: "Sensitivity per 1% vol (νcall = νput under put-call parity)" },
+          { name: "delta", gas: "1,661", description: "First derivative w.r.t. spot — returns (Δcall, Δput)", href: "/docs/black-scholes/delta/" },
+          { name: "gamma", gas: "1,433", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)", href: "/docs/black-scholes/gamma/" },
+          { name: "theta", gas: "3,101", description: "Time decay, per day — returns (Θcall, Θput)", href: "/docs/black-scholes/theta/" },
+          { name: "vega", gas: "1,373", description: "Sensitivity per 1% vol (νcall = νput under put-call parity)", href: "/docs/black-scholes/vega/" },
           { name: "impliedVolatility", gas: "11,668 / 11,743", description: "IV solver via Newton-Raphson (call / put)" },
         ]}
       />

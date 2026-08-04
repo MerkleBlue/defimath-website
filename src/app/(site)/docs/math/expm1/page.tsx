@@ -17,7 +17,7 @@ export default function Page() {
             ]}
             module="Math"
             name="expm1"
-            summary="Computes e^x − 1 while preserving full 18-digit precision near zero, where the naive exp(x) − 1 formula catastrophically cancels."
+            summary="Computes exp(x) - 1 in 18-decimal fixed-point."
             gas="295"
             absError="5.0e-16"
             absErrorWhen="when expm1(x) < 1"

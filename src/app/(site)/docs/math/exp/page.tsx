@@ -16,7 +16,7 @@ export default function Page() {
             ]}
             module="Math"
             name="exp"
-            summary="Computes the exponential function e^x for a signed 18-decimal fixed-point input."
+            summary="Computes the natural exponential of x in 18-decimal fixed-point."
             gas="289"
             absError="3.0e-16"
             absErrorWhen="when exp(x) < 1"

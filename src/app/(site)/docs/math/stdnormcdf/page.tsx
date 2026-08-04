@@ -16,7 +16,7 @@ export default function Page() {
             ]}
             module="Math"
             name="stdNormCDF"
-            summary="Computes the standard normal cumulative distribution function Φ(x) — the probability that a standard normal random variable is ≤ x."
+            summary="Computes the standard normal cumulative distribution function of x in 18-decimal fixed-point."
             gas="618"
             absError="3.0e-15"
             signature={`function stdNormCDF(int256 x) internal pure returns (uint256 y)`}

@@ -17,7 +17,7 @@ export default function Page() {
             ]}
             module="Math"
             name="log1p"
-            summary="Computes ln(1 + x) while preserving full 18-digit precision near zero, where forming 1 + x for tiny x would lose most of x's significant digits."
+            summary="Computes the natural logarithm of (1 + x) in 18-decimal fixed-point."
             gas="494"
             absError="1.0e-15"
             absErrorWhen="when |log1p(x)| < 1"
