@@ -37,6 +37,7 @@ const PAGES: DocPage[] = [
   { href: "/docs/binary/theta/", title: "theta" },
   { href: "/docs/binary/vega/", title: "vega" },
   { href: "/docs/futures/", title: "Futures" },
+  { href: "/docs/futures/futureprice/", title: "futurePrice" },
   { href: "/docs/rates/", title: "Rates" },
   { href: "/docs/statistics/", title: "Statistics" },
 ];

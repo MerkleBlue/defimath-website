@@ -33,7 +33,7 @@ export const Futures = async () => {
       <h3 id="functions" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Functions</h3>
       <FunctionTable
         rows={[
-          { name: "futurePrice", gas: "400", description: "Forward price: spot · e^(r·t)" },
+          { name: "futurePrice", gas: "400", description: "Forward price: spot · e^(r·t)", href: "/docs/futures/futureprice/" },
         ]}
       />
       <InstallCommand className="mt-6" />

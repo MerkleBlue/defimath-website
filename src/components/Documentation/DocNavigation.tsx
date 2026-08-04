@@ -84,7 +84,16 @@ const DocsNav: NavNode[] = [
           { name: "vega", href: "/docs/binary/vega/" },
         ],
       },
-      { id: 43, label: "Futures", hash: "futures", topHref: "/docs/futures/", basePath: "/docs/futures/" },
+      {
+        id: 43,
+        label: "Futures",
+        hash: "futures",
+        topHref: "/docs/futures/",
+        basePath: "/docs/futures/",
+        functions: [
+          { name: "futurePrice", href: "/docs/futures/futureprice/" },
+        ],
+      },
     ],
   },
   { id: 7, label: "Rates", hash: "rates", topHref: "/docs/rates/", basePath: "/docs/rates/" },
