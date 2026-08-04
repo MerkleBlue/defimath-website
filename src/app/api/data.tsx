@@ -105,8 +105,8 @@ export const featuresData: {
   description: string;
   link?: { href: string; label: string };
 }[] = [
-  { value: "2,582 gas", description: "full Black-Scholes option pricing (call or put)" },
-  { value: "< 1e-12 error", description: "verified against off-chain reference implementations" },
+  { value: "2,582 gas", description: "full Black-Scholes option pricing (call or put) at < 5e-12 rel. error" },
+  { value: "< 1e-12 rel. error", description: "on math primitives, verified against reference implementations" },
   {
     value: "40+ primitives",
     description: "Black-Scholes, binaries, Greeks, IV solver, futures, rates, statistics",
