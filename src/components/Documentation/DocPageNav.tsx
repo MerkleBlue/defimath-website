@@ -28,6 +28,7 @@ const PAGES: DocPage[] = [
   { href: "/docs/black-scholes/gamma/", title: "gamma" },
   { href: "/docs/black-scholes/theta/", title: "theta" },
   { href: "/docs/black-scholes/vega/", title: "vega" },
+  { href: "/docs/black-scholes/impliedvolatility/", title: "impliedVolatility" },
   { href: "/docs/binary/", title: "Binary options" },
   { href: "/docs/futures/", title: "Futures" },
   { href: "/docs/rates/", title: "Rates" },

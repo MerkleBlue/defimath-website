@@ -66,7 +66,7 @@ const DocsNav: NavNode[] = [
           { name: "gamma", href: "/docs/black-scholes/gamma/" },
           { name: "theta", href: "/docs/black-scholes/theta/" },
           { name: "vega", href: "/docs/black-scholes/vega/" },
-          { name: "impliedVolatility", href: null },
+          { name: "impliedVolatility", href: "/docs/black-scholes/impliedvolatility/" },
         ],
       },
       { id: 42, label: "Binary options", hash: "binary", topHref: "/docs/binary/", basePath: "/docs/binary/" },

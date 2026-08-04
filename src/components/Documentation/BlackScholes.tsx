@@ -43,7 +43,7 @@ export const BlackScholes = async () => {
           { name: "gamma", gas: "1,433", description: "Second derivative w.r.t. spot (Γcall = Γput under put-call parity)", href: "/docs/black-scholes/gamma/" },
           { name: "theta", gas: "3,101", description: "Time decay, per day — returns (Θcall, Θput)", href: "/docs/black-scholes/theta/" },
           { name: "vega", gas: "1,373", description: "Sensitivity per 1% vol (νcall = νput under put-call parity)", href: "/docs/black-scholes/vega/" },
-          { name: "impliedVolatility", gas: "11,668 / 11,743", description: "IV solver via Newton-Raphson (call / put)" },
+          { name: "impliedVolatility", gas: "11,668 / 11,743", description: "IV solver via Newton-Raphson (call / put)", href: "/docs/black-scholes/impliedvolatility/" },
         ]}
       />
       <InstallCommand className="mt-6" />
