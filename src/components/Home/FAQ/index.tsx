@@ -116,7 +116,7 @@ const FAQ = async () => {
       answer: (
         <>
           Max relative error below <code className="text-primary">1e-12</code> on all math
-          primitives, below <code className="text-primary">1e-10</code> on Black-Scholes option
+          primitives, below <code className="text-primary">5e-12</code> on Black-Scholes option
           pricing. Every function is validated continuously against{" "}
           <code className="text-primary">simple-statistics</code>,{" "}
           <code className="text-primary">black-scholes</code>,{" "}
@@ -126,7 +126,7 @@ const FAQ = async () => {
         </>
       ),
       answerText:
-        "Max relative error below 1e-12 on all math primitives, below 1e-10 on Black-Scholes option pricing. Every function is validated continuously against simple-statistics, black-scholes, greeks, and math-erf reference libraries. 100% test branch coverage.",
+        "Max relative error below 1e-12 on all math primitives, below 5e-12 on Black-Scholes option pricing. Every function is validated continuously against simple-statistics, black-scholes, greeks, and math-erf reference libraries. 100% test branch coverage.",
     },
     {
       question: "How do I install it?",

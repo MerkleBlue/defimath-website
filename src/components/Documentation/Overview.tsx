@@ -31,9 +31,9 @@ export const Overview = () => {
           </p>
         </div>
         <div className="p-5 rounded-md border border-dark_border border-opacity-60">
-          <p className="text-primary text-2xl font-semibold">&lt; 1e-12</p>
+          <p className="text-primary text-2xl font-semibold">&lt; 5e-12</p>
           <p className="text-sm text-muted text-opacity-60 mt-1">
-            Max abs. error on options pricing
+            Max rel. error on options pricing
           </p>
         </div>
         <div className="p-5 rounded-md border border-dark_border border-opacity-60">
