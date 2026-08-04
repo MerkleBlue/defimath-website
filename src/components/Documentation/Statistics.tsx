@@ -145,7 +145,7 @@ export const Statistics = async () => {
         </table>
       </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Statistics.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Statistics.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Statistics.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Statistics.t.sol</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Statistics.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/hardhat/Statistics.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Statistics.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Statistics.t.sol</a>
       </p>
       <DocPageNav />
     </div>

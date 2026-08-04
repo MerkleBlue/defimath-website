@@ -104,7 +104,7 @@ export const Futures = async () => {
         </table>
       </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Futures.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/Futures.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Futures.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Futures.t.sol</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/Futures.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/hardhat/Futures.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/Futures.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/Futures.t.sol</a>
       </p>
       <DocPageNav />
     </div>

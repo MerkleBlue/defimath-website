@@ -123,7 +123,7 @@ export const BlackScholes = async () => {
         </table>
       </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/BlackScholes.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/BlackScholes.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/BlackScholes.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/BlackScholes.t.sol</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/BlackScholes.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/hardhat/BlackScholes.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/BlackScholes.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/BlackScholes.t.sol</a>
       </p>
 
       <DocPageNav />

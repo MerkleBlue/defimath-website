@@ -129,7 +129,7 @@ export const BinaryOptions = async () => {
         </table>
       </div>
       <p className="text-sm text-muted text-opacity-60 mt-3">
-        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/BinaryOptions.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/BinaryOptions.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/BinaryOptions.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/BinaryOptions.t.sol</a>
+        Sources: <a href="https://github.com/MerkleBlue/defimath/blob/master/test/hardhat/BinaryOptions.test.mjs" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/hardhat/BinaryOptions.test.mjs</a> · <a href="https://github.com/MerkleBlue/defimath/blob/master/test/foundry/BinaryOptions.t.sol" target="_blank" rel="noopener noreferrer" className="text-primary underline">test/foundry/BinaryOptions.t.sol</a>
       </p>
       <DocPageNav />
     </div>
