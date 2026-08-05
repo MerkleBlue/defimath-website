@@ -114,7 +114,7 @@ export default async function Page() {
 
             <h3 id="testing-hardhat" className="text-xl font-semibold text-white mt-8 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Hardhat correctness layer</h3>
             <p className="text-base font-medium text-muted text-opacity-95">
-                640 tests validating against external JavaScript references (JS <code className="text-primary">Math</code>, <code className="text-primary">math-erf</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain. Every function in every module follows the same five-category taxonomy:
+                740 tests validating against external JavaScript references (JS <code className="text-primary">Math</code>, <code className="text-primary">math-erf</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain. Every function in every module follows the same five-category taxonomy:
             </p>
             <ul className="list-disc list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
                 <li><span className="text-white font-semibold">behaviour</span> — dense sweeps across each function&apos;s full valid domain, partitioned along branch boundaries (hundreds of samples), validated point-by-point against the JS reference</li>
@@ -126,7 +126,7 @@ export default async function Page() {
 
             <h3 id="testing-foundry" className="text-xl font-semibold text-white mt-8 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Foundry property-fuzz layer</h3>
             <p className="text-base font-medium text-muted text-opacity-95">
-                92 mathematical properties × 32,000 random runs each = <span className="text-white font-semibold">2,944,000 random executions per CI run</span>. Validates the algebraic structure of the library, not just concrete points. Foundry automatically shrinks counterexamples on failure. Properties are organized into five categories:
+                114 mathematical properties × 32,000 random runs each = <span className="text-white font-semibold">3,648,000 random executions per CI run</span>. Validates the algebraic structure of the library, not just concrete points. Foundry automatically shrinks counterexamples on failure. Properties are organized into five categories:
             </p>
             <ul className="list-disc list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
                 <li><span className="text-white font-semibold">Round-trips</span> — composing a function with its inverse recovers the input within tolerance</li>
@@ -138,11 +138,11 @@ export default async function Page() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
                 <div className="p-5 rounded-md border border-dark_border border-opacity-60">
-                    <p className="text-primary text-2xl font-semibold">681</p>
+                    <p className="text-primary text-2xl font-semibold">854</p>
                     <p className="text-sm text-muted text-opacity-60 mt-1">Total tests (Hardhat + Foundry)</p>
                 </div>
                 <div className="p-5 rounded-md border border-dark_border border-opacity-60">
-                    <p className="text-primary text-2xl font-semibold">2,944,000</p>
+                    <p className="text-primary text-2xl font-semibold">3,648,000</p>
                     <p className="text-sm text-muted text-opacity-60 mt-1">Random executions per CI run</p>
                 </div>
                 <div className="p-5 rounded-md border border-dark_border border-opacity-60">

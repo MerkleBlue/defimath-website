@@ -104,7 +104,7 @@ export const Math = async () => {
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-4">
         <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}
-        28 mathematical properties, each fuzzed with 32,000 random inputs per CI run (= <span className="text-white font-semibold">896,000 random executions</span>). Counterexamples are automatically shrunk on failure.
+        33 mathematical properties, each fuzzed with 32,000 random inputs per CI run (= <span className="text-white font-semibold">1,056,000 random executions</span>). Counterexamples are automatically shrunk on failure.
       </p>
       <div className="rounded-md border border-dark_border border-opacity-60 overflow-x-auto mt-4">
         <table className="w-full text-base">
