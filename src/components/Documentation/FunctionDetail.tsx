@@ -17,17 +17,17 @@ type Props = {
   summary: ReactNode;
   /** Gas cost label (e.g. "333") */
   gas?: string;
-  /** Max ABSOLUTE error — copied verbatim from defimath's `Tolerances.test.mjs`
+  /** Max ABSOLUTE error — copied verbatim from defimath's `Constants.mjs`
    *  constants, never a measured value (e.g. "1.0e-15"). Omit entirely when the
    *  suite defines no absolute bound for this function — the card is then hidden. */
   absError?: string;
   /** Condition under which `absError` applies, mirroring that constant's comment in
-   *  `Tolerances.test.mjs` (e.g. "when |ln(x)| < 1"). Omit for an unconditional bound. */
+   *  `Constants.mjs` (e.g. "when |ln(x)| < 1"). Omit for an unconditional bound. */
   absErrorWhen?: string;
-  /** Max RELATIVE error — verbatim from `Tolerances.test.mjs` (e.g. "1.6e-15").
+  /** Max RELATIVE error — verbatim from `Constants.mjs` (e.g. "1.6e-15").
    *  Omit when the suite defines no relative bound — the card is then hidden. */
   relError?: string;
-  /** Condition under which `relError` applies, mirroring the Tolerances comment
+  /** Condition under which `relError` applies, mirroring the Constants.mjs comment
    *  (e.g. "when |ln(x)| ≥ 1"). Omit for an unconditional bound. */
   relErrorWhen?: string;
   /** Full Solidity signature, shown verbatim in a code block */
