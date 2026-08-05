@@ -3,6 +3,7 @@ import Link from "next/link";
 const MODULES = [
   { href: "/docs/math/", title: "Math", category: "Math", blurb: "Exp, log, sqrt, pow, standard normal CDF, error function, and more." },
   { href: "/docs/black-scholes/", title: "Black-Scholes", category: "Derivatives", blurb: "Black-Scholes pricing, full Greeks, and an iterative implied-volatility solver." },
+  { href: "/docs/black-76/", title: "Black-76", category: "Derivatives", blurb: "Black-76 pricing for European options on a future, full Greeks, and an IV solver." },
   { href: "/docs/binary/", title: "Binary options", category: "Derivatives", blurb: "Cash-or-nothing call and put pricing with full Greeks." },
   { href: "/docs/futures/", title: "Futures", category: "Derivatives", blurb: "Continuous-compounding futures price." },
   { href: "/docs/rates/", title: "Rates", category: "Rates", blurb: "Compound interest, present value, log returns, YTM, IRR." },

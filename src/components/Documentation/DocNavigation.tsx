@@ -70,6 +70,22 @@ const DocsNav: NavNode[] = [
         ],
       },
       {
+        id: 44,
+        label: "Black-76",
+        hash: "black76",
+        topHref: "/docs/black-76/",
+        basePath: "/docs/black-76/",
+        functions: [
+          { name: "call", href: "/docs/black-76/call/" },
+          { name: "put", href: "/docs/black-76/put/" },
+          { name: "delta", href: "/docs/black-76/delta/" },
+          { name: "gamma", href: "/docs/black-76/gamma/" },
+          { name: "theta", href: "/docs/black-76/theta/" },
+          { name: "vega", href: "/docs/black-76/vega/" },
+          { name: "impliedVolatility", href: "/docs/black-76/impliedvolatility/" },
+        ],
+      },
+      {
         id: 42,
         label: "Binary options",
         hash: "binary",
