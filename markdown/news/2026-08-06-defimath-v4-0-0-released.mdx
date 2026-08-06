@@ -1,0 +1,163 @@
+---
+title: "DeFiMath v4.0.0: Black-76 options on futures, and a cleaner API"
+date: 2026-08-06
+version: "4.0.0"
+excerpt: "The first major release since v3.0.0. A new Black-76 module prices European options on a future — call, put, the four Greeks, and a Newton-Raphson IV solver, from 2,552 gas. And every library is renamed for a cleaner API — DeFiMathOptions becomes BlackScholes, finance/ splits into rates/ and statistics/, and redundant function prefixes are gone. Plus an expired-put delta fix."
+metaDescription: DeFiMath v4.0.0 adds a Black-76 module — European options on futures with full Greeks and an IV solver from 2,552 gas — plus a cleaner, renamed library API.
+metaKeywords:
+  - defimath v4.0.0
+  - black-76 solidity
+  - options on futures pricing
+  - solidity options library
+  - black-scholes solidity
+  - solidity fixed-point math
+---
+
+v4.0.0 is the first major release since v3.0.0, and it earns the version bump two
+ways: a **new Black-76 module** for pricing European options on a future, and a
+**library reorganization** that gives every module a name that reads like its
+math. The reorg changes import paths and call sites, so upgrading is not
+drop-in — a short migration guide is at the bottom.
+
+## Black-76: European options on a future
+
+[Black-76](/docs/black-76/) prices dated European options whose underlying is a
+**future**, not a spot price — the standard model for options on commodity,
+rate, and crypto futures. It ships the same surface as Black-Scholes: `call`,
+`put`, the four Greeks (`delta`, `gamma`, `theta`, `vega`), and a
+Newton-Raphson `impliedVolatility` solver.
+
+<div class="rounded-md border border-dark_border border-opacity-60 overflow-x-auto my-4">
+  <table class="w-full text-base">
+    <thead>
+      <tr class="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Function</th>
+        <th class="py-3 px-4 font-medium text-right">Gas</th>
+        <th class="py-3 px-4 font-medium">Returns</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono whitespace-nowrap"><a href="/docs/black-76/call/" class="text-primary underline">call</a></td><td class="py-2 px-4 text-right font-semibold text-white">2,552</td><td class="py-2 px-4 text-muted text-opacity-95">call price</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono whitespace-nowrap"><a href="/docs/black-76/put/" class="text-primary underline">put</a></td><td class="py-2 px-4 text-right font-semibold text-white">2,565</td><td class="py-2 px-4 text-muted text-opacity-95">put price</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono whitespace-nowrap"><a href="/docs/black-76/delta/" class="text-primary underline">delta</a></td><td class="py-2 px-4 text-right font-semibold text-white">1,915</td><td class="py-2 px-4 text-muted text-opacity-95">(Δcall, Δput)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono whitespace-nowrap"><a href="/docs/black-76/gamma/" class="text-primary underline">gamma</a></td><td class="py-2 px-4 text-right font-semibold text-white">1,704</td><td class="py-2 px-4 text-muted text-opacity-95">Γ (call = put)</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono whitespace-nowrap"><a href="/docs/black-76/theta/" class="text-primary underline">theta</a></td><td class="py-2 px-4 text-right font-semibold text-white">3,255</td><td class="py-2 px-4 text-muted text-opacity-95">(Θcall, Θput), per day</td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 font-mono whitespace-nowrap"><a href="/docs/black-76/vega/" class="text-primary underline">vega</a></td><td class="py-2 px-4 text-right font-semibold text-white">1,659</td><td class="py-2 px-4 text-muted text-opacity-95">ν (call = put), per 1% vol</td></tr>
+      <tr><td class="py-2 px-4 font-mono whitespace-nowrap"><a href="/docs/black-76/impliedvolatility/" class="text-primary underline">impliedVolatility</a></td><td class="py-2 px-4 text-right font-semibold text-white">11,760 / 11,802</td><td class="py-2 px-4 text-muted text-opacity-95">IV from call / put price</td></tr>
+    </tbody>
+  </table>
+</div>
+
+Under the hood Black-76 is Black-Scholes with the underlying set to the future
+`F` and the rate zeroed inside `d₁`, with the whole payoff discounted by
+`e^(−rT)`:
+
+```
+price = e^(−rT) · [ F·Φ(d₁) − K·Φ(d₂) ]        (call)
+d₁ = [ ln(F/K) + σ²T/2 ] / (σ√T),   d₂ = d₁ − σ√T
+```
+
+That structure is reused verbatim from the [Black-Scholes](/docs/black-scholes/)
+kernel — the same `stdNormCDF`, `exp`, and `ln` primitives — so it inherits the
+same precision and the same gas discipline. Prices hold to **`5e-12` relative
+error** (`1.3e-10` absolute deep out-of-the-money), verified in CI against a
+`black-scholes`/`greeks` reference driven through the discounting identity.
+
+## A cleaner API — and why this is v4.0.0
+
+Every library dropped its `DeFiMath*` prefix, and the two derivative modules got
+names that say what they are. The library namespace now carries the context, so
+functions shed their redundant prefixes too — `DeFiMathOptions.callOptionPrice`
+is just `BlackScholes.call`. The old `contracts/finance/` folder split into
+`contracts/rates/` and `contracts/statistics/`.
+
+<div class="rounded-md border border-dark_border border-opacity-60 overflow-x-auto my-4">
+  <table class="w-full text-base">
+    <thead>
+      <tr class="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+        <th class="py-3 px-4 font-medium whitespace-nowrap">v3.x</th>
+        <th class="py-3 px-4 font-medium whitespace-nowrap">v4.0.0</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 text-muted text-opacity-95"><code class="text-primary">DeFiMath</code> · <code>math/Math.sol</code></td><td class="py-2 px-4 font-semibold text-white"><code class="text-primary">Math</code> · <code>math/Math.sol</code></td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 text-muted text-opacity-95"><code class="text-primary">DeFiMathOptions</code> · <code>derivatives/Options.sol</code></td><td class="py-2 px-4 font-semibold text-white"><code class="text-primary">BlackScholes</code> · <code>derivatives/BlackScholes.sol</code></td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 text-muted text-opacity-95"><code class="text-primary">DeFiMathBinary</code> · <code>derivatives/Binary.sol</code></td><td class="py-2 px-4 font-semibold text-white"><code class="text-primary">BinaryOptions</code> · <code>derivatives/BinaryOptions.sol</code></td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 text-muted text-opacity-95"><code class="text-primary">DeFiMathFutures</code> · <code>derivatives/Futures.sol</code></td><td class="py-2 px-4 font-semibold text-white"><code class="text-primary">Futures</code> · <code>derivatives/Futures.sol</code></td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 text-muted text-opacity-95"><code class="text-primary">DeFiMathRates</code> · <code>finance/Rates.sol</code></td><td class="py-2 px-4 font-semibold text-white"><code class="text-primary">Rates</code> · <code>rates/Rates.sol</code></td></tr>
+      <tr class="border-b border-dark_border border-opacity-20"><td class="py-2 px-4 text-muted text-opacity-95"><code class="text-primary">DeFiMathStats</code> · <code>finance/Stats.sol</code></td><td class="py-2 px-4 font-semibold text-white"><code class="text-primary">Statistics</code> · <code>statistics/Statistics.sol</code></td></tr>
+      <tr><td class="py-2 px-4 text-muted text-opacity-60">—</td><td class="py-2 px-4 font-semibold text-white"><code class="text-primary">Black76</code> · <code>derivatives/Black76.sol</code> (new)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+Two function families were also renamed now that the library name carries the
+context:
+
+- **Black-Scholes** — `callOptionPrice → call`, `putOptionPrice → put`. The
+  Greeks (`delta`, `gamma`, `theta`, `vega`, `impliedVolatility`) keep their
+  names.
+- **Binary options** — the `binary` prefix is gone: `binaryCallPrice → call`,
+  `binaryPutPrice → put`, `binaryDelta → delta`, `binaryGamma → gamma`,
+  `binaryTheta → theta`, `binaryVega → vega`.
+
+No formula, precision, or gas number changed in the rename — only the names and
+import paths.
+
+## Bugfix: expired put delta
+
+`BlackScholes.delta` returned `+1` for the put leg of an in-the-money option at
+expiry (`timeToExp == 0`); the correct value is `−1`. Fixed, with a regression
+test that fuzzes moneyness at expiry and asserts the delta bounds and put-call
+delta parity. The call leg and every non-expiry case were already correct. The
+new [Black-76](/docs/black-76/) module handles this case correctly from the
+start.
+
+## Precision & docs
+
+Every derivative function now carries full NatSpec — parameter semantics, the
+error metric, and the enforced bound — matching the format already on the math
+primitives. Where a function has both a relative and an absolute guarantee
+(price-like outputs near zero), both are documented and published: relative
+error where `|result| ≥ 1`, absolute where `|result| < 1`.
+
+## Testing
+
+Black-76 ships with the same two-layer coverage as the rest of the library —
+100 Hardhat correctness tests (validated against the discounting identity) and
+16 Foundry properties (put-call parity, delta parity `δcall − δput = e^(−rT)`,
+discounted bounds, monotonicity, IV round-trips). The suite totals grow to
+**740 Hardhat tests** and **114 Foundry properties × 32,000 runs = 3,648,000
+random executions per CI run**.
+
+## Migrating from v3.x
+
+Update imports and call sites per the table above. A minimal example:
+
+```solidity
+// v3.x
+import "defimath-lib/contracts/derivatives/Options.sol";
+import "defimath-lib/contracts/finance/Stats.sol";
+
+uint256 px = DeFiMathOptions.callOptionPrice(spot, strike, timeToExp, vol, rate);
+uint256 sd = DeFiMathStats.stdDev(data);
+
+// v4.0.0
+import "defimath-lib/contracts/derivatives/BlackScholes.sol";
+import "defimath-lib/contracts/statistics/Statistics.sol";
+
+uint256 px = BlackScholes.call(spot, strike, timeToExp, vol, rate);
+uint256 sd = Statistics.stdDev(data);
+```
+
+Signatures, return types, and every numeric result are unchanged — the upgrade
+is a find-and-replace on names and paths, nothing more.
+
+## Get it
+
+```
+npm install defimath-lib
+```
+
+- Release notes: [github.com/MerkleBlue/defimath/releases/tag/v4.0.0](https://github.com/MerkleBlue/defimath/releases/tag/v4.0.0)
+- Package: [npmjs.com/package/defimath-lib](https://www.npmjs.com/package/defimath-lib)

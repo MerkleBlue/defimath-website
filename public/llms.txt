@@ -48,11 +48,12 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 
 - [GitHub: defimath](https://github.com/MerkleBlue/defimath): Library source, tests, full docs
 - [GitHub: defimath-compare](https://github.com/MerkleBlue/defimath-compare): Reproducible gas + precision benchmarks against PRBMath, ABDK, Solady, SolStat, Derivexyz, Premia, Party1983, Dopex, Haptic
-- [npm: defimath-lib](https://www.npmjs.com/package/defimath-lib): Latest published package (currently v3.7.0)
+- [npm: defimath-lib](https://www.npmjs.com/package/defimath-lib): Latest published package (currently v4.0.0)
 
 ## Optional
 
 - [News](https://defimath.com/news/): Release notes and announcements
+- [v4.0.0 release notes](https://defimath.com/news/2026-08-06-defimath-v4-0-0-released/): new Black-76 module prices European options on a future — call/put, four Greeks, and a Newton-Raphson IV solver, from 2,552 gas. Libraries renamed for a cleaner API (DeFiMathOptions→BlackScholes, DeFiMathBinary→BinaryOptions, finance/ split into rates/ + statistics/, callOptionPrice→call). Expired-put delta sign bug fixed. 740 Hardhat tests, 114 Foundry properties (3.65M executions per CI run).
 - [v3.7.0 release notes](https://defimath.com/news/2026-07-25-defimath-v3-7-0-released/): exp rebuilt on a two-stage range reduction + [3,3] Padé approximant (327→289 gas); the saving cascades across options, binaries, futures, and rates (callOptionPrice 2,708→2,582, continuousToDiscrete 491→375, expm1 407→295). Tighter, explicitly-enforced error bounds across primitives — pow gains an absolute bound (1e-14). Gas + precision figures consolidated into Constants.mjs; 640 Hardhat tests. EXP_UPPER_BOUND tightened to 135e18.
 - [v3.6.0 release notes](https://defimath.com/news/2026-07-19-defimath-v3-6-0-released/): sqrt and cbrt handle the full uint256 domain (no more SqrtUpperBoundError / CbrtUpperBoundError). sqrt 245→197 gas (−20%), cbrt 368→340 gas (−8%) via a new CLZ-derived power-of-two seed (2^floor(bits/2)) + 5 Newton iterations for sqrt, and a two-branch structure for cbrt. Plus pow overflow bugfix (new MAX_POW_EXPONENT bound) and downstream savings in Rates and Statistics.
 - [v3.5.0 release notes](https://defimath.com/news/2026-06-27-defimath-v3-5-0-released/): Extended boundaries release. sqrt upper bound widened to the full FP18-safe uint256 range (~1.21e42 → ~1.158e59). Options & Binary MAX_EXPIRATION extended from 2 years to 32 years — admits long-dated insurance, RWA bond options, and other long-horizon products. Same precision, same gas, no API change.

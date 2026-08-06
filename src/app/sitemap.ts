@@ -31,6 +31,7 @@ const STATIC_PAGES: Entry[] = [
   { path: "/docs/", changeFrequency: "weekly", priority: 0.9 },
   { path: "/docs/math/", changeFrequency: "monthly", priority: 0.9 },
   { path: "/docs/black-scholes/", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/docs/black-76/", changeFrequency: "monthly", priority: 0.9 },
   { path: "/docs/binary/", changeFrequency: "monthly", priority: 0.9 },
   { path: "/docs/futures/", changeFrequency: "monthly", priority: 0.9 },
   { path: "/docs/rates/", changeFrequency: "monthly", priority: 0.9 },
@@ -52,6 +53,31 @@ const STATIC_PAGES: Entry[] = [
   // Per-function pages — Black-Scholes (derivatives)
   { path: "/docs/black-scholes/call/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/black-scholes/put/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-scholes/delta/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-scholes/gamma/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-scholes/theta/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-scholes/vega/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-scholes/impliedvolatility/", changeFrequency: "monthly", priority: 0.8 },
+
+  // Per-function pages — Black-76 (derivatives)
+  { path: "/docs/black-76/call/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-76/put/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-76/delta/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-76/gamma/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-76/theta/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-76/vega/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/black-76/impliedvolatility/", changeFrequency: "monthly", priority: 0.8 },
+
+  // Per-function pages — Binary options (derivatives)
+  { path: "/docs/binary/call/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/binary/put/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/binary/delta/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/binary/gamma/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/binary/theta/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/binary/vega/", changeFrequency: "monthly", priority: 0.8 },
+
+  // Per-function pages — Futures (derivatives)
+  { path: "/docs/futures/futureprice/", changeFrequency: "monthly", priority: 0.8 },
 
   // Blog + news index
   { path: "/blog/", changeFrequency: "weekly", priority: 0.7 },
