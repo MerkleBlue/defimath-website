@@ -1,6 +1,6 @@
 # DeFiMath
 
-> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 640 Hardhat correctness tests + 92 Foundry property-based fuzz tests (2.94M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,582 gas (~5.2× cheaper than Derivexyz), binary call in 1,913 gas (~8.5× cheaper than Haptic), cube root in 340 gas (~37% cheaper than Solady's cbrtWad), and natural log in 390 gas at 18-decimal fixed-point precision.
+> Gas-optimized Solidity library for DeFi math: options pricing, Greeks, implied-volatility solver, interest rates, and portfolio statistics. Pure Solidity, MIT-licensed, no runtime dependencies. Validated by a two-layer test suite: 740 Hardhat correctness tests + 114 Foundry property-based fuzz tests (3.65M random executions per CI run). Built on the new CLZ opcode (EIP-7939, EVM Osaka) for headline gas wins: Black-Scholes call pricing in 2,582 gas (~5.2× cheaper than Derivexyz), binary call in 1,913 gas (~8.5× cheaper than Haptic), cube root in 340 gas (~37% cheaper than Solady's cbrtWad), and natural log in 390 gas at 18-decimal fixed-point precision.
 
 Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install defimath-lib`.
 
@@ -16,15 +16,16 @@ Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install def
 
 ## DeFi modules
 
-- [Options](https://defimath.com/docs/options/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `callOptionPrice` 2,582 gas, `putOptionPrice` 2,592 gas, `delta` 1,661 gas, `vega` 1,373 gas
-- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `binaryCallPrice` 1,913 gas, `binaryPutPrice` 1,918 gas (~8.5× cheaper than Haptic 16,218)
+- [Black-Scholes](https://defimath.com/docs/black-scholes/): Black-Scholes European call/put pricing, full Greeks (delta, gamma, theta, vega), Newton-Raphson IV solver. `call` 2,582 gas, `put` 2,592 gas, `delta` 1,661 gas, `vega` 1,373 gas
+- [Black-76](https://defimath.com/docs/black-76/): Black-76 European call/put pricing on a future (dated futures options), full Greeks, Newton-Raphson IV solver. `call` 2,552 gas, `put` 2,565 gas, `delta` 1,915 gas, `vega` 1,659 gas
+- [Binary options](https://defimath.com/docs/binary/): Cash-or-nothing binary call/put + full Greeks. `call` 1,913 gas, `put` 1,918 gas (~8.5× cheaper than Haptic 16,218)
 - [Futures](https://defimath.com/docs/futures/): Continuous-compounding futures pricing
 - [Rates](https://defimath.com/docs/rates/): Compound interest, present value, log returns, APR↔APY conversions, yield to maturity, IRR. `internalRateOfReturn` solves Σ Cᵢ·e^(−r·tᵢ)=0 via Newton-Raphson
 - [Statistics](https://defimath.com/docs/statistics/): `mean`, `stdDev`, `weightedAverage`, `historicalVolatility`, `sharpeRatio`, `maxDrawdown`, `valueAtRisk`, `conditionalValueAtRisk` (CVaR / expected shortfall)
 
 ## Testing
 
-- [Testing approach](https://defimath.com/docs/#testing): Two independent test layers. Hardhat: 640 tests validating against external JS references (`Math`, `math-erf`, `black-scholes`, `greeks`, `simple-statistics`) with strict-equality gas-regression gates. Foundry: 92 mathematical properties organized into round-trips, monotonicity, identities, output bounds, and symmetries; 32,000 fuzz runs per property = 2.94M random executions per CI run, with automatic counterexample shrinking.
+- [Testing approach](https://defimath.com/docs/#testing): Two independent test layers. Hardhat: 740 tests validating against external JS references (`Math`, `math-erf`, `black-scholes`, `greeks`, `simple-statistics`) with strict-equality gas-regression gates. Foundry: 114 mathematical properties organized into round-trips, monotonicity, identities, output bounds, and symmetries; 32,000 fuzz runs per property = 3.65M random executions per CI run, with automatic counterexample shrinking.
 
 ## Gas comparison vs other libraries
 
@@ -36,8 +37,8 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 - `cbrt`: 340 / 550 / — / — / —
 - `stdNormCDF`: 618 / — / — / — / 3,103
 - `erf`: 649 / — / — / — / 2,876
-- `callOptionPrice`: 2,582 / — / — / — / — (vs Derivexyz 13,360 — 5.2× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
-- `binaryCallPrice`: 1,913 (vs Haptic 16,218 — 8.5× cheaper)
+- Black-Scholes `call`: 2,582 / — / — / — / — (vs Derivexyz 13,360 — 5.2× cheaper, Premia 20,623, Party1983 35,963, Dopex 88,969)
+- binary `call`: 1,913 (vs Haptic 16,218 — 8.5× cheaper)
 
 ## Blog
 
@@ -47,11 +48,12 @@ DeFiMath / Solady / PRBMath / ABDK / SolStat — lower is better:
 
 - [GitHub: defimath](https://github.com/MerkleBlue/defimath): Library source, tests, full docs
 - [GitHub: defimath-compare](https://github.com/MerkleBlue/defimath-compare): Reproducible gas + precision benchmarks against PRBMath, ABDK, Solady, SolStat, Derivexyz, Premia, Party1983, Dopex, Haptic
-- [npm: defimath-lib](https://www.npmjs.com/package/defimath-lib): Latest published package (currently v3.7.0)
+- [npm: defimath-lib](https://www.npmjs.com/package/defimath-lib): Latest published package (currently v4.0.0)
 
 ## Optional
 
 - [News](https://defimath.com/news/): Release notes and announcements
+- [v4.0.0 release notes](https://defimath.com/news/2026-08-06-defimath-v4-0-0-released/): new Black-76 module prices European options on a future — call/put, four Greeks, and a Newton-Raphson IV solver, from 2,552 gas. Libraries renamed for a cleaner API (DeFiMathOptions→BlackScholes, DeFiMathBinary→BinaryOptions, finance/ split into rates/ + statistics/, callOptionPrice→call). Expired-put delta sign bug fixed. 740 Hardhat tests, 114 Foundry properties (3.65M executions per CI run).
 - [v3.7.0 release notes](https://defimath.com/news/2026-07-25-defimath-v3-7-0-released/): exp rebuilt on a two-stage range reduction + [3,3] Padé approximant (327→289 gas); the saving cascades across options, binaries, futures, and rates (callOptionPrice 2,708→2,582, continuousToDiscrete 491→375, expm1 407→295). Tighter, explicitly-enforced error bounds across primitives — pow gains an absolute bound (1e-14). Gas + precision figures consolidated into Constants.mjs; 640 Hardhat tests. EXP_UPPER_BOUND tightened to 135e18.
 - [v3.6.0 release notes](https://defimath.com/news/2026-07-19-defimath-v3-6-0-released/): sqrt and cbrt handle the full uint256 domain (no more SqrtUpperBoundError / CbrtUpperBoundError). sqrt 245→197 gas (−20%), cbrt 368→340 gas (−8%) via a new CLZ-derived power-of-two seed (2^floor(bits/2)) + 5 Newton iterations for sqrt, and a two-branch structure for cbrt. Plus pow overflow bugfix (new MAX_POW_EXPONENT bound) and downstream savings in Rates and Statistics.
 - [v3.5.0 release notes](https://defimath.com/news/2026-06-27-defimath-v3-5-0-released/): Extended boundaries release. sqrt upper bound widened to the full FP18-safe uint256 range (~1.21e42 → ~1.158e59). Options & Binary MAX_EXPIRATION extended from 2 years to 32 years — admits long-dated insurance, RWA bond options, and other long-horizon products. Same precision, same gas, no API change.
