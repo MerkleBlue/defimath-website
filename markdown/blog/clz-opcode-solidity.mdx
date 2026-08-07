@@ -14,6 +14,7 @@ metaKeywords:
   - osaka evm
 author: DeFiMath
 authorUrl: https://x.com/defi_math
+coverImage: /images/blog/clz-opcode-solidity-cover.webp
 ---
 
 The CLZ opcode landed in EVM Osaka via [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939), exposed in Solidity 0.8.31 as the Yul builtin `clz`. It costs 3 gas, returns the number of leading zero bits in a 256-bit value, and replaces the loops and lookup tables every previous on-chain library used to compute the same thing. DeFiMath sits on top of it. This post walks through what CLZ actually does, the one-line idiom it enables, and the three places in the library where it's the hot path.
