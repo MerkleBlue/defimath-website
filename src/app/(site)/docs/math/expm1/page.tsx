@@ -4,7 +4,7 @@ import { FunctionDetail } from "@/components/Documentation/FunctionDetail";
 
 export const metadata: Metadata = {
     title: "Solidity Expm1 Function - 295 Gas Fixed-Point - DeFiMath Docs",
-    description: "Solidity e^x − 1 in 18-decimal fixed-point — 295 gas, 2.2e-14 max rel. / 5.0e-16 max abs. error. Taylor branch for |x| < 0.01 preserves precision where naive exp(x) − 1 cancels.",
+    description: "Solidity e^x − 1 in 18-decimal fixed-point — 295 gas, 2.2e-14 max rel. / 8.0e-16 max abs. error. Taylor branch for |x| < 0.01 preserves precision where naive exp(x) − 1 cancels.",
     alternates: { canonical: "/docs/math/expm1/" },
 };
 
@@ -19,7 +19,7 @@ export default function Page() {
             name="expm1"
             summary="Computes exp(x) - 1 in 18-decimal fixed-point."
             gas="295"
-            absError="5.0e-16"
+            absError="8.0e-16"
             absErrorWhen="when expm1(x) < 1"
             relError="2.2e-14"
             relErrorWhen="when expm1(x) ≥ 1"
