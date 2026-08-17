@@ -46,6 +46,7 @@ export const Math = async () => {
           { name: "cbrt", gas: "340", description: "Cube root", href: "/docs/math/cbrt/" },
           { name: "sqrtTime", gas: "163", description: "Specialized sqrt of time in years for Black-Scholes — no input validation" },
           { name: "stdNormCDF", gas: "618", description: "Standard normal CDF Φ(x)", href: "/docs/math/stdnormcdf/" },
+          { name: "stdNormPDF", gas: "320", description: "Standard normal PDF φ(x)", href: "/docs/math/stdnormpdf/" },
           { name: "erf", gas: "649", description: "Error function", href: "/docs/math/erf/" },
           { name: "mulDiv", gas: "155", description: "(a · b) / d with full 512-bit intermediate precision" },
           { name: "mul", gas: "130", description: "(a · b) / 1e18 — fixed-point multiply with denominator baked in" },
@@ -100,7 +101,7 @@ export const Math = async () => {
       <h3 id="testing" className="text-xl font-semibold text-white mt-10 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Testing</h3>
       <p className="text-base font-medium text-muted text-opacity-95">
         <span className="text-white font-semibold">Hardhat correctness layer.</span>{" "}
-        238 tests across 20 function groups. Each function is validated against the corresponding JavaScript reference (<code className="text-primary">Math.exp</code>, <code className="text-primary">Math.log</code>, <code className="text-primary">Math.sqrt</code>, <code className="text-primary">math-erf</code>) over ~200-sample sweeps that cover the full operational domain. Per-function precision thresholds match the table above. Limit tests pin behavior at min and max valid inputs; failure tests cover every documented revert path.
+        253 tests across 21 function groups. Each function is validated against the corresponding JavaScript reference (<code className="text-primary">Math.exp</code>, <code className="text-primary">Math.log</code>, <code className="text-primary">Math.sqrt</code>, <code className="text-primary">math-erf</code>) over ~200-sample sweeps that cover the full operational domain. Per-function precision thresholds match the table above. Limit tests pin behavior at min and max valid inputs; failure tests cover every documented revert path.
       </p>
       <p className="text-base font-medium text-muted text-opacity-95 mt-4">
         <span className="text-white font-semibold">Foundry property-fuzz layer.</span>{" "}

@@ -49,7 +49,8 @@ const BENCHMARKS: BenchmarkRow[] = [
     { fn: "Math.ln",            defimath: "390",   nextBest: "518",    nextLib: "Solady",    multiple: "1.3×", highlight: false },
     { fn: "Math.sqrt",          defimath: "197",   nextBest: "384",    nextLib: "Solady",    multiple: "1.9×", highlight: false },
     { fn: "Math.cbrt",          defimath: "340",   nextBest: "550",    nextLib: "Solady",    multiple: "1.6×", highlight: false },
-    { fn: "Math.stdNormCDF",    defimath: "618",   nextBest: "3,103",  nextLib: "SolStat",   multiple: "5.0×", highlight: true },
+    { fn: "Math.stdNormCDF",    defimath: "618",   nextBest: "3,115",  nextLib: "SolStat",   multiple: "5.0×", highlight: true },
+    { fn: "Math.stdNormPDF",    defimath: "320",   nextBest: "761",    nextLib: "SolStat",   multiple: "2.4×", highlight: false },
 ];
 
 export default async function Page() {
@@ -114,7 +115,7 @@ export default async function Page() {
 
             <h3 id="testing-hardhat" className="text-xl font-semibold text-white mt-8 mb-3 scroll-mt-28 md:scroll-mt-[180px]">Hardhat correctness layer</h3>
             <p className="text-base font-medium text-muted text-opacity-95">
-                740 tests validating against external JavaScript references (JS <code className="text-primary">Math</code>, <code className="text-primary">math-erf</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain. Every function in every module follows the same five-category taxonomy:
+                755 tests validating against external JavaScript references (JS <code className="text-primary">Math</code>, <code className="text-primary">math-erf</code>, <code className="text-primary">black-scholes</code>, <code className="text-primary">greeks</code>, <code className="text-primary">simple-statistics</code>) at concrete points across the operational domain. Every function in every module follows the same five-category taxonomy:
             </p>
             <ul className="list-disc list-inside space-y-2 mt-3 text-base font-medium text-muted text-opacity-95">
                 <li><span className="text-white font-semibold">behaviour</span> — dense sweeps across each function&apos;s full valid domain, partitioned along branch boundaries (hundreds of samples), validated point-by-point against the JS reference</li>
@@ -138,7 +139,7 @@ export default async function Page() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
                 <div className="p-5 rounded-md border border-dark_border border-opacity-60">
-                    <p className="text-primary text-2xl font-semibold">854</p>
+                    <p className="text-primary text-2xl font-semibold">869</p>
                     <p className="text-sm text-muted text-opacity-60 mt-1">Total tests (Hardhat + Foundry)</p>
                 </div>
                 <div className="p-5 rounded-md border border-dark_border border-opacity-60">
