@@ -20,6 +20,7 @@ const PAGES: DocPage[] = [
   { href: "/docs/math/sqrt/", title: "sqrt" },
   { href: "/docs/math/cbrt/", title: "cbrt" },
   { href: "/docs/math/stdnormcdf/", title: "stdNormCDF" },
+  { href: "/docs/math/stdnormpdf/", title: "stdNormPDF" },
   { href: "/docs/math/erf/", title: "erf" },
   { href: "/docs/black-scholes/", title: "Black-Scholes" },
   { href: "/docs/black-scholes/call/", title: "call" },

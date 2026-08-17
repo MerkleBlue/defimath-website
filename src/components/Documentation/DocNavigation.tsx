@@ -41,6 +41,7 @@ const DocsNav: NavNode[] = [
       { name: "sqrt", href: "/docs/math/sqrt/" },
       { name: "cbrt", href: "/docs/math/cbrt/" },
       { name: "stdNormCDF", href: "/docs/math/stdnormcdf/" },
+      { name: "stdNormPDF", href: "/docs/math/stdnormpdf/" },
       { name: "erf", href: "/docs/math/erf/" },
     ],
   },

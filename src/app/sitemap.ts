@@ -49,6 +49,7 @@ const STATIC_PAGES: Entry[] = [
   { path: "/docs/math/cbrt/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/math/erf/", changeFrequency: "monthly", priority: 0.8 },
   { path: "/docs/math/stdnormcdf/", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/docs/math/stdnormpdf/", changeFrequency: "monthly", priority: 0.8 },
 
   // Per-function pages — Black-Scholes (derivatives)
   { path: "/docs/black-scholes/call/", changeFrequency: "monthly", priority: 0.8 },

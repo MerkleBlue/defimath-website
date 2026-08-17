@@ -1,0 +1,73 @@
+---
+title: "DeFiMath v4.1.0: φ(x) joins Φ(x)"
+date: 2026-08-17
+version: "4.1.0"
+excerpt: "The normal CDF has been in DeFiMath for as long as it has priced options. v4.1.0 adds its derivative — stdNormPDF, the standard normal density — at 320 gas, completing the Gaussian pair. Drop-in from v4.0.0."
+metaDescription: DeFiMath v4.1.0 adds stdNormPDF, the standard normal density φ(x), in Solidity at 320 gas with 3.0e-16 max absolute error. Drop-in upgrade from v4.0.0.
+metaKeywords:
+  - defimath v4.1.0
+  - stdnormpdf solidity
+  - standard normal density solidity
+  - gaussian pdf solidity
+  - solidity math library
+  - solidity fixed-point math
+---
+
+The normal CDF has been in DeFiMath for as long as it has priced options.
+v4.1.0 adds its derivative — [`stdNormPDF`](/docs/math/stdnormpdf/) — so both
+halves of the Gaussian pair are now primitives you can call directly.
+
+<div class="rounded-md border border-dark_border border-opacity-60 overflow-x-auto my-4">
+  <table class="w-full text-base">
+    <thead>
+      <tr class="text-left text-muted text-opacity-60 border-b border-dark_border border-opacity-40">
+        <th class="py-3 px-4 font-medium whitespace-nowrap">Function</th>
+        <th class="py-3 px-4 font-medium text-right">DeFiMath</th>
+        <th class="py-3 px-4 font-medium text-right">Next best</th>
+        <th class="py-3 px-4 font-medium text-right">Max abs. error</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="py-2 px-4 font-mono whitespace-nowrap"><a href="/docs/math/stdnormpdf/" class="text-primary underline">stdNormPDF</a></td><td class="py-2 px-4 text-right font-semibold text-white">320</td><td class="py-2 px-4 text-right text-muted text-opacity-95">761 (SolStat)</td><td class="py-2 px-4 text-right text-muted text-opacity-95">3.0e-16</td></tr>
+    </tbody>
+  </table>
+</div>
+
+## What it's for
+
+The density sits under every curvature-flavoured risk number — gamma, vega,
+the decay half of theta — and outside options under maximum-likelihood fits,
+kernel estimators, and Bayesian updates on a Gaussian prior. Until now, callers
+who wanted `φ(x)` on its own hand-rolled it from `exp` and a pasted
+`0.39894…`, which is both slower than a purpose-built routine and easy to get
+subtly wrong at the rounding boundary.
+
+```solidity
+uint256 d = Math.stdNormPDF(x);   // φ(x) — density
+uint256 p = Math.stdNormCDF(x);   // Φ(x) — cumulative
+```
+
+At 320 gas it costs roughly half of [`stdNormCDF`](/docs/math/stdnormcdf/)'s
+618 — which tends to surprise people who assume the derivative is the harder of
+the two. The [function page](/docs/math/stdnormpdf/) explains why, with the
+assembly.
+
+## Upgrading
+
+Drop-in. v4.1.0 is v4.0.0 plus one function: no renames, no signature changes,
+and no gas or precision movement anywhere else. Suite totals move to 755
+Hardhat tests and 114 Foundry properties; the head-to-head is reproducible in
+[defimath-compare](https://github.com/MerkleBlue/defimath-compare#readme).
+
+## Get it
+
+```
+npm install defimath-lib
+```
+
+- Release notes: [github.com/MerkleBlue/defimath/releases/tag/v4.1.0](https://github.com/MerkleBlue/defimath/releases/tag/v4.1.0)
+- Package: [npmjs.com/package/defimath-lib](https://www.npmjs.com/package/defimath-lib)
+
+Building something that needs a [Solidity math library](/) — options, rates,
+risk, or just a fast `exp` — start with DeFiMath. Pure Solidity, MIT-licensed,
+zero runtime dependencies.
