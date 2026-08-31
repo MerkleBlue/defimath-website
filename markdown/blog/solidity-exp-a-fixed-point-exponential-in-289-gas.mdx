@@ -1,0 +1,118 @@
+---
+title: "Solidity exp(): A Fixed-Point Exponential in 289 Gas"
+date: 2026-08-31
+excerpt: How I wrote a fixed-point exponential in Solidity that runs in 289 gas — two-stage range reduction, a Padé[3/3] approximant, and cheap squaring to recover the result.
+metaDescription: "How DeFiMath's exp() computes a fixed-point exponential in Solidity in 289 gas — range reduction, Padé[3/3] approximation, and gas-cheap reduction recovery."
+metaKeywords:
+  - solidity exp
+  - exponential function solidity
+  - fixed-point exp solidity
+  - solidity gas optimization
+  - pade approximant solidity
+  - range reduction solidity
+  - solidity math library
+  - 289 gas exp
+author: DeFiMath
+authorUrl: https://x.com/defi_math
+---
+
+Exponential function is everywhere in DeFi: compounding, futures, options, binaries, interest rates, etc…
+
+In my Solidity math library DeFiMath, I use it as a building block for derivatives pricing such as European options, binary options, futures, as well as other math functions such as standard normal cumulative distribution function. That's why it's important that we have precise and optimized primitive such as [`exp()`](/docs/math/exp/) which is embedded into other functions/contracts. We want efficiency from the ground up.
+
+In this blog post I will share how I wrote exp function that is both simple and efficient. Let's start by looking at the code first, then we'll cover implementation details later.
+
+# Exp Function Code
+
+```solidity
+/// @notice Computes the natural exponential of x in 18-decimal fixed-point.
+/// @dev Reverts with ExpUpperBoundError when x >= EXP_UPPER_BOUND (135e18);
+///      returns 0 when x <= EXP_LOWER_BOUND (~-41.446e18).
+///      Max relative error: < 3e-14 for any y >= 1e18.
+///      Max absolute error: < 3e-16 for any y < 1e18.
+/// @param x Signed input in 18-decimal fixed-point format.
+/// @return y Result e^x in 18-decimal fixed-point format.
+function exp(int256 x) internal pure returns (uint256 y) {
+    unchecked {
+        if (x >= 0) {
+            // check input
+            if (x >= EXP_UPPER_BOUND) revert ExpUpperBoundError();
+
+            uint256 x_ = uint256(x);
+
+            // The algorithm works in 3 steps:
+            // 1) reduce the range of X to [0, ln(2)/64]
+            // 2) approximate result in a narrow range
+            // 3) recover reduction
+            //
+            // Two-stage range reduction:
+            //   stage 1 — split x = k·ln(2) + r with integer k, r ∈ [0, ln(2)).
+            //             Then exp(x) = exp(k·ln(2)) · exp(r) = 2^k · exp(r).
+            //   stage 2 — divide r by 64 (right-shift by 6): r' = r/64 ∈ [0, ~0.0108].
+            uint256 k = x_ / LN_2;
+            x_ -= k * LN_2;
+            x_ >>= 6;
+
+            // Next, we use Padé[3/3] approximant using the following formula:
+            // exp(x) ≈ (120 + 60x + 12x² + x³) / (120 - 60x + 12x² - x³)
+            uint256 x2 = x_ * x_;
+            uint256 even = 120e54 + x2 * 12e18;    // 120 + 12x²  (even powers of x)
+            uint256 odd  = x_ * (60e36 + x2);      // 60x + x³    (odd powers of x)
+            uint256 p = (even + odd) * 1e18;       // numerator:   120 + 60x + 12x² + x³
+            uint256 q = even - odd;                // denominator: 120 − 60x + 12x² − x³
+
+            assembly ("memory-safe") {
+                y := div(p, q)
+            }
+
+            // Finally, undo both reductions in reverse order:
+            //   stage 2 — raise y to the 64th power to recover exp(r) from exp(r/64).
+            //   stage 1 — left-shift by k to multiply by 2^k and undo the ln(2) factoring.
+            y = y * y;
+            y = y * y / 1e54;
+            y = y * y;
+            y = y * y / 1e54;
+            y = y * y;
+            y = y * y / 1e54;
+            y <<= k;
+        } else {
+            // check input
+            if (x <= EXP_LOWER_BOUND) return 0;
+
+            // Negative branch: exp(x) = 1 / exp(|x|). Runs the same algorithm as the
+            // positive branch on x_ = |x|
+            uint256 x_ = uint256(-x);
+
+            // range reduction (see positive branch)
+            uint256 k = x_ / LN_2;
+            x_ -= k * LN_2;
+            x_ >>= 6;
+
+            // Padé[3/3] approximant (see positive branch)
+            uint256 x2 = x_ * x_;
+            uint256 even = 120e54 + x2 * 12e18;    // 120 + 12x²  (even powers of x)
+            uint256 odd  = x_ * (60e36 + x2);      // 60x + x³    (odd powers of x)
+            uint256 p = (even + odd) * 1e18;       // numerator:   120 + 60x + 12x² + x³
+            uint256 q = even - odd;                // denominator: 120 − 60x + 12x² − x³
+
+            assembly ("memory-safe") {
+                y := div(p, q)
+            }
+
+            // undo reductions (see positive branch)
+            y = y * y;
+            y = y * y / 1e54;
+            y = y * y;
+            y = y * y / 1e54;
+            y = y * y;
+            y = y * y / 1e54;
+            y <<= k;
+
+            // reciprocate: exp(-|x|) = 1 / exp(|x|)
+            assembly ("memory-safe") {
+                y := div(1000000000000000000000000000000000000, y)
+            }
+        }
+    }
+}
+```
