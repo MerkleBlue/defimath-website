@@ -20,7 +20,7 @@ Exponential function is everywhere in DeFi: compounding, futures, options, binar
 
 In my Solidity math library DeFiMath, I use it as a building block for derivatives pricing such as European options, binary options, futures, as well as other math functions such as standard normal cumulative distribution function. That's why it's important that we have precise and optimized primitive such as [`exp()`](/docs/math/exp/) which is embedded into other functions/contracts. We want efficiency from the ground up.
 
-In this blog post I will share how I wrote exp function that is both simple and efficient. Let's start by looking at the code first, then we'll cover implementation details later.
+In this blog post I will share how I wrote exp function that is both simple and efficient. It calculates e^x in 289 gas, while preserving precision: max relative error is < 3e-14, while max absolute error (used when exp(x) < 1) is < 3e-16. Let's start by looking at the code first, then we'll cover implementation details later.
 
 # Exp Function Code
 
@@ -116,3 +116,37 @@ function exp(int256 x) internal pure returns (uint256 y) {
     }
 }
 ```
+
+Similar to how sqrt function is structured, exp function is split into two branches: for positive and negative input X. The code is almost identical in both branches, and we use identity exp(-x) = 1 / exp(x) to fold the negative case back into the positive one - the only extra work is a single division at the very end.
+
+Let's take a closer look at the positive branch.
+
+# 3-step Algorithm
+
+As we can see in [Computation section in Exponential function article on Wikipedia](https://en.wikipedia.org/wiki/Exponential_function#Computation), computing exponential function can look pretty straightforward on paper, but we are using Solidity to do the job. We can't have too many iterations because of gas economy. We need to select approximation that will be simple yet precise enough. Using Taylor series outright can provide precise approximation, but is costly. We need a different approach.
+
+## Range reduction
+
+Using the following identity, we can reduce the range in which we approximate, from the full input domain down to a single narrow interval:
+
+```
+exp(x) = exp(k·ln(2) + r) = 2^k · exp(r)
+```
+
+Every x splits into an integer multiple of ln(2) plus a remainder: `k` is the integer division x / ln(2), and `r` is what's left over, so `r ∈ [0, ln(2))`. That means we only ever have to approximate exp() on an interval of width 0.693, and the 2^k factor is recovered for free at the very end with a single left-shift.
+
+That stage alone isn't enough though — 0.693 is still too wide for a cheap approximant to hit our precision target. So we reduce once more, this time using the fact that dividing the argument turns into taking a root of the result:
+
+```
+exp(r) = exp(r / 64)^64
+```
+
+Dividing by 64 is a right-shift by 6, and raising back to the 64th power is just 6 successive squarings — no pow, no loop, no lookup table. In exchange, the interval shrinks by a factor of 64, from 0.693 down to `ln(2) / 64 ≈ 0.0108`. That narrow interval is what lets a very cheap approximation stay accurate enough — and that approximation is what we'll look at next.
+
+Put together, the whole two-stage reduction is three lines of code:
+```solidity
+uint256 k = x_ / LN_2;
+x_ -= k * LN_2;
+x_ >>= 6;
+```
+Both stages get undone at the very end, and that recovery turns out to be just as cheap — we'll come back to it.
