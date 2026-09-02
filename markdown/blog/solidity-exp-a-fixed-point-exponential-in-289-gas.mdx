@@ -1,6 +1,6 @@
 ---
 title: "Solidity exp(): A Fixed-Point Exponential in 289 Gas"
-date: 2026-08-31
+date: 2026-09-02
 excerpt: How I wrote a fixed-point exponential in Solidity that runs in 289 gas — two-stage range reduction, a Padé[3/3] approximant, and cheap squaring to recover the result.
 metaDescription: "How DeFiMath's exp() computes a fixed-point exponential in Solidity in 289 gas — range reduction, Padé[3/3] approximation, and gas-cheap reduction recovery."
 metaKeywords:
@@ -194,3 +194,17 @@ The bottom is a square. The top has no real roots — substitute u = x², and th
 **The reduction seams are checked, not proved.** Each time k ticks up, r drops from just under ln(2) back to 0 while the result doubles. On paper the two sides match exactly; in integers they differ by a wei or two, and the algebra says nothing about which way. There are 255 such points, so `test_MONO_expAtReductionSeams` sweeps every one of them, wei by wei. All pass.
 
 Together that gives non-decreasing, not strictly increasing — truncation makes neighbouring inputs share a wei, and exp(0) and exp(-1 wei) both return exactly 1e18.
+
+# Wrapping up
+
+The interesting part of this function turned out not to be the approximation. The Padé[3/3] is accurate to 1.7e-19 on the reduced interval, and even after recovery multiplies that by 64 it still lands three orders of magnitude inside the error budget. What the gas actually buys is the range reduction: three lines going in, seven coming out. Those ten lines are what let a small rational function stand in for e^x across the entire domain — shrink the interval far enough, and the approximation problem mostly disappears.
+
+## Try it
+
+```bash
+npm install defimath-lib
+```
+
+This `exp` is one of dozens of primitives in DeFiMath, a [gas-optimized fixed-point math library for Solidity](/) — [expm1](/docs/math/expm1/), [ln](/docs/math/ln/), [pow](/docs/math/pow/), [sqrt](/docs/math/sqrt/) and a full Black-Scholes options suite are all built the same way. The full reference for this function lives on the [exp docs page](/docs/math/exp/). It's MIT-licensed, pure Solidity, with zero runtime dependencies. Source is on [GitHub](https://github.com/MerkleBlue/defimath), with reference benchmarks against PRBMath, ABDK and Solady in [defimath-compare](https://github.com/MerkleBlue/defimath-compare).
+
+If you want more of the same, I wrote up [sqrt in 197 gas](/blog/how-i-wrote-a-fixed-point-solidity-sqrt-that-runs-in-197-gas/) and [the CLZ opcode](/blog/clz-opcode-solidity/) that several of these primitives lean on. The approximation used here is a [Padé approximant](https://en.wikipedia.org/wiki/Pad%C3%A9_approximant) of order [3/3].
