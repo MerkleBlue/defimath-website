@@ -19,7 +19,7 @@ coverImage: /images/blog/exp-289-gas-cover.webp
 
 The exponential function is everywhere in DeFi: compounding, discounting, interest rates, and the pricing of options, binaries and futures.
 
-In my DeFiMath library, [`exp()`](/docs/math/exp/) sits underneath most of that — it is a building block for European and binary options, for futures, and for other math functions like the standard normal cumulative distribution. Anything embedded that deeply has to be both cheap and accurate, because every function above it inherits whatever it costs and whatever it gets wrong.
+In my DeFiMath library, [`exp()`](/docs/math/exp/) sits underneath most of that — it is a building block for European and binary options, for futures, and for other math functions like the [standard normal cumulative distribution](/docs/math/stdnormcdf/). Anything embedded that deeply has to be both cheap and accurate, because every function above it inherits whatever it costs and whatever it gets wrong.
 
 This post is how I wrote one that is. It computes e^x in 289 gas, with a max relative error of 2.2e-14 — and 3.0e-16 absolute, the metric that matters when exp(x) < 1. We'll look at the code first, then work through how it gets there.
 
@@ -118,7 +118,7 @@ function exp(int256 x) internal pure returns (uint256 y) {
 }
 ```
 
-Like the sqrt function, exp is split into two branches, one for positive and one for negative input x. The code is almost identical in both, and the identity exp(-x) = 1 / exp(x) folds the negative case back into the positive one — the only extra work is a single division at the very end.
+Like the [sqrt function](/docs/math/sqrt/), exp is split into two branches, one for positive and one for negative input x. The code is almost identical in both, and the identity exp(-x) = 1 / exp(x) folds the negative case back into the positive one — the only extra work is a single division at the very end.
 
 Let's take a closer look at the positive branch.
 
@@ -206,6 +206,6 @@ The interesting part of this function turned out not to be the approximation. Th
 npm install defimath-lib
 ```
 
-This `exp` is one of dozens of primitives in DeFiMath, a [gas-optimized fixed-point math library for Solidity](/) — [expm1](/docs/math/expm1/), [ln](/docs/math/ln/), [pow](/docs/math/pow/), [sqrt](/docs/math/sqrt/) and a full Black-Scholes options suite are all built the same way. The full reference for this function lives on the [exp docs page](/docs/math/exp/). It's MIT-licensed, pure Solidity, with zero runtime dependencies. Source is on [GitHub](https://github.com/MerkleBlue/defimath), with reference benchmarks against PRBMath, ABDK and Solady in [defimath-compare](https://github.com/MerkleBlue/defimath-compare).
+This `exp` is one of dozens of primitives in DeFiMath, a [gas-optimized fixed-point math library for Solidity](/) — expm1, ln, pow, sqrt and a full [Black-Scholes options suite](/docs/black-scholes/) are all built the same way. The full reference for this function lives on the [exp docs page](/docs/math/exp/). It's MIT-licensed, pure Solidity, with zero runtime dependencies. Source is on [GitHub](https://github.com/MerkleBlue/defimath), with reference benchmarks against PRBMath, ABDK and Solady in [defimath-compare](https://github.com/MerkleBlue/defimath-compare).
 
 If you want more of the same, I wrote up [sqrt in 197 gas](/blog/how-i-wrote-a-fixed-point-solidity-sqrt-that-runs-in-197-gas/) and [the CLZ opcode](/blog/clz-opcode-solidity/) that several of these primitives lean on. The approximation used here is a [Padé approximant](https://en.wikipedia.org/wiki/Pad%C3%A9_approximant) of order [3/3].
