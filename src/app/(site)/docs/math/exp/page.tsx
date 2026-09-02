@@ -38,17 +38,20 @@ export default function Page() {
             howItWorks={(
                 <>
                     <p>
-                        The challenge is approximating <code className="text-primary">e^x</code> accurately across a wide input range with only integer arithmetic. DeFiMath applies a two-stage range reduction. <strong>Stage 1</strong> splits <code className="text-primary">x = k · ln(2) + r</code> with integer <code className="text-primary">k</code> and <code className="text-primary">r ∈ [0, ln(2))</code>, so <code className="text-primary">e^x = 2^k · e^r</code> — the <code className="text-primary">2^k</code> factor becomes a free left shift. <strong>Stage 2</strong> divides <code className="text-primary">r</code> by 64 (a right-shift by 6): <code className="text-primary">r' = r / 64 ∈ [0, ~0.0108]</code>, confining the costly part to a tiny interval.
+                        Reduce, approximate, recover:
                     </p>
+                    <pre>{`// 1. Two-stage range reduction — x = k·ln(2) + r, then r/64
+uint256 k = x / LN_2;   x -= k * LN_2;   x >>= 6;   // leaves [0, ~0.0108]
+
+// 2. Padé[3/3] on that narrow interval — a few muls, one div
+(120 + 60x + 12x² + x³) / (120 − 60x + 12x² − x³)
+
+// 3. Recover in reverse — six squarings undo the /64, a shift undoes the ln(2)
+y = y * y;   y = y * y / 1e54;   // ×3  →  y⁶⁴
+y <<= k;                         // × 2^k`}</pre>
                     <p>
-                        On that interval a <strong>[3,3] Padé approximant</strong> approximates <code className="text-primary">e^r&apos;</code> with a handful of multiplies and a single integer division:
-                    </p>
-                    <pre>{`e^r' ≈ (120 + 60r' + 12r'² + r'³) / (120 − 60r' + 12r'² − r'³)`}</pre>
-                    <p>
-                        The two reductions are then undone in reverse: the result is raised to the 64th power via six successive squarings (<code className="text-primary">y² → y⁴ → … → y⁶⁴</code>) to invert the <code className="text-primary">r / 64</code> step, then left-shifted by <code className="text-primary">k</code> to apply the <code className="text-primary">2^k</code> factor. Those squarings amplify the approximant&apos;s relative error, so the finished <code className="text-primary">exp</code> holds to a max relative error of <code className="text-primary">2.2e-14</code> (and <code className="text-primary">3.0e-16</code> absolute near the root <code className="text-primary">x = 0</code>).
-                    </p>
-                    <p>
-                        Negative inputs use the same machinery on <code className="text-primary">|x|</code>, then reciprocate: <code className="text-primary">exp(−x) = 1 / exp(x)</code>. The two endpoints are asymmetric: at <code className="text-primary">x ≥ EXP_UPPER_BOUND</code> (<code className="text-primary">135e18</code>) the function reverts with <code className="text-primary">ExpUpperBoundError</code>. The cap sits just below the <code className="text-primary">~135.306e18</code> point where the result would wrap <code className="text-primary">uint256</code> — the small margin keeps <code className="text-primary">int256(exp(x))</code> safe inside <code className="text-primary">expm1</code> even after approximation-error headroom, and <code className="text-primary">exp(135) ≈ 4.3e58</code> is already astronomically large. At <code className="text-primary">x ≤ EXP_LOWER_BOUND</code> (≈ <code className="text-primary">−41.446e18</code>) the true result is sub-<code className="text-primary">1e-18</code> — not representable in 18-decimal fixed-point — so the function returns <code className="text-primary">0</code> silently as a graceful underflow rather than reverting. The whole hot path stays in <code className="text-primary">unchecked</code> Yul assembly — no library calls, ~289 gas.
+                        Confining the costly part to an interval of width <code className="text-primary">0.0108</code> is what buys the gas: there a Padé[3/3] approximant is accurate to <code className="text-primary">1.7e-19</code>, and both reductions unwind with six squarings and a left shift. Fixed-point truncation, not the approximant, is what sets the published bound of <code className="text-primary">2.2e-14</code> relative (<code className="text-primary">3.0e-16</code> absolute near <code className="text-primary">x = 0</code>). Negative inputs run the same path on <code className="text-primary">|x|</code> and reciprocate. Full derivation in the walkthrough:{" "}
+                        <a className="text-primary underline" href="/blog/solidity-exp-a-fixed-point-exponential-in-289-gas/">Solidity exp(): a fixed-point exponential in 289 gas</a>.
                     </p>
                 </>
             )}
