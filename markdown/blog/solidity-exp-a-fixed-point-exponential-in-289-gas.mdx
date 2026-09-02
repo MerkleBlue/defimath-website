@@ -20,7 +20,7 @@ Exponential function is everywhere in DeFi: compounding, futures, options, binar
 
 In my Solidity math library DeFiMath, I use it as a building block for derivatives pricing such as European options, binary options, futures, as well as other math functions such as standard normal cumulative distribution function. That's why it's important that we have precise and optimized primitive such as [`exp()`](/docs/math/exp/) which is embedded into other functions/contracts. We want efficiency from the ground up.
 
-In this blog post I will share how I wrote exp function that is both simple and efficient. It calculates e^x in 289 gas, while preserving precision: max relative error is < 3e-14, while max absolute error (used when exp(x) < 1) is < 3e-16. Let's start by looking at the code first, then we'll cover implementation details later.
+In this blog post I will share how I wrote exp function that is both simple and efficient. It calculates e^x in 289 gas, while preserving precision: max relative error is < 2.2e-14, while max absolute error (used when exp(x) < 1) is < 3e-16. Let's start by looking at the code first, then we'll cover implementation details later.
 
 # Exp Function Code
 
@@ -28,7 +28,7 @@ In this blog post I will share how I wrote exp function that is both simple and 
 /// @notice Computes the natural exponential of x in 18-decimal fixed-point.
 /// @dev Reverts with ExpUpperBoundError when x >= EXP_UPPER_BOUND (135e18);
 ///      returns 0 when x <= EXP_LOWER_BOUND (~-41.446e18).
-///      Max relative error: < 3e-14 for any y >= 1e18.
+///      Max relative error: < 2.2e-14 for any y >= 1e18.
 ///      Max absolute error: < 3e-16 for any y < 1e18.
 /// @param x Signed input in 18-decimal fixed-point format.
 /// @return y Result e^x in 18-decimal fixed-point format.
@@ -150,3 +150,36 @@ x_ -= k * LN_2;
 x_ >>= 6;
 ```
 Both stages get undone at the very end, and that recovery turns out to be just as cheap — we'll come back to it.
+
+## Approximation
+
+I have tested multiple approximants in the narrow range of [0, 0.0108] to find the most efficient one. I wanted to minimize gas cost while maintaining high precision. In the end, I settled for the Pade [3, 3] approximant:
+
+```
+exp(x) ≈ (120 + 60x + 12x² + x³) / (120 - 60x + 12x² - x³)
+```
+
+On [0, 0.0108] this approximant is far more accurate than it needs to be: its own error peaks at 1.7e-19 relative, right at the top of the interval. Recovery then raises the result to the 64th power, and raising to a power multiplies relative error by that power — so about 1.1e-17 of it survives into the output.
+
+That is three orders of magnitude below the 2.2e-14 the function guarantees end to end, which is the whole point of reducing the range first. The approximation is not what limits precision here. Fixed-point truncation is — chiefly the `>>= 6`, which discards up to 63 wei of the argument before the approximant ever sees it, and those 63 wei get multiplied by 64 on the way back out.
+
+## Recovery
+
+
+## Monotonicity
+
+Does exp() ever step down? For a primitive sitting under option premiums and discount factors, a dip would be bad news — a premium falling while its input rises, a binary search that stops converging. So it is worth being precise about how much we can actually say.
+
+The answer comes in two parts, and they carry different weight.
+
+**The approximation is provably increasing.** Write it as N(x)/N(-x), with N(x) = x³ + 12x² + 60x + 120. Differentiate, and the mess cancels:
+
+```
+R'(x) = 24·(x⁴ - 30x² + 600) / N(-x)²
+```
+
+The bottom is a square. The top has no real roots — substitute u = x², and the discriminant is 900 - 2400 = -1500 — so with a positive leading coefficient it is positive everywhere. R'(x) > 0, always. And nothing downstream can undo that: truncating division, the squarings and the final shift all preserve order.
+
+**The reduction seams are checked, not proved.** Each time k ticks up, r drops from just under ln(2) back to 0 while the result doubles. On paper the two sides match exactly; in integers they differ by a wei or two, and the algebra says nothing about which way. There are 255 such points, so `test_MONO_expAtReductionSeams` sweeps every one of them, wei by wei. All pass.
+
+Together that gives non-decreasing, not strictly increasing — truncation makes neighbouring inputs share a wei, and exp(0) and exp(-1 wei) both return exactly 1e18.
