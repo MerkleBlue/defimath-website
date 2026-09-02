@@ -16,11 +16,11 @@ author: DeFiMath
 authorUrl: https://x.com/defi_math
 ---
 
-Exponential function is everywhere in DeFi: compounding, futures, options, binaries, interest rates, etc…
+The exponential function is everywhere in DeFi: compounding, discounting, interest rates, and the pricing of options, binaries and futures.
 
-In my Solidity math library DeFiMath, I use it as a building block for derivatives pricing such as European options, binary options, futures, as well as other math functions such as standard normal cumulative distribution function. That's why it's important that we have precise and optimized primitive such as [`exp()`](/docs/math/exp/) which is embedded into other functions/contracts. We want efficiency from the ground up.
+In my DeFiMath library, [`exp()`](/docs/math/exp/) sits underneath most of that — it is a building block for European and binary options, for futures, and for other math functions like the standard normal cumulative distribution. Anything embedded that deeply has to be both cheap and accurate, because every function above it inherits whatever it costs and whatever it gets wrong.
 
-In this blog post I will share how I wrote exp function that is both simple and efficient. It calculates e^x in 289 gas, while preserving precision: max relative error is < 2.2e-14, while max absolute error (used when exp(x) < 1) is < 3e-16. Let's start by looking at the code first, then we'll cover implementation details later.
+This post is how I wrote one that is. It computes e^x in 289 gas, with a max relative error of 2.2e-14 — and 3.0e-16 absolute, the metric that matters when exp(x) < 1. We'll look at the code first, then work through how it gets there.
 
 # Exp Function Code
 
