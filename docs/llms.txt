@@ -7,7 +7,7 @@ Requires Solidity `^0.8.31` and `evmVersion: "osaka"`. Install: `npm install def
 ## Math primitives
 
 - [Math overview](https://defimath.com/docs/math/): `exp`, `ln`, `log2`, `log10`, `pow`, `sqrt`, `cbrt`, `stdNormCDF`, `stdNormPDF`, `erf`, `expm1`, `log1p` — all 18-decimal fixed-point
-- [exp](https://defimath.com/docs/math/exp/): Exponential `e^x`, 289 gas, max rel error 2.2e-14 / max abs error 3.0e-16, three-stage range reduction + [2,2] Padé approximant
+- [exp](https://defimath.com/docs/math/exp/): Exponential `e^x`, 289 gas, max rel error 2.2e-14 / max abs error 3.0e-16, two-stage range reduction + Padé[3/3] approximant
 - [ln](https://defimath.com/docs/math/ln/): Natural logarithm, 390 gas, max rel error 1.6e-15 / max abs error 1.0e-15, CLZ range reduction + 10-term Mercator series
 - [sqrt](https://defimath.com/docs/math/sqrt/): Square root, 197 gas, max rel error 2.0e-18, CLZ-derived power-of-two seed (2^floor(bits/2)) + 5 Newton iterations, full uint256 domain (no revert)
 - [cbrt](https://defimath.com/docs/math/cbrt/): Cube root, 340 gas, max rel error 2.0e-13 / max abs error 1.0e-16, CLZ-derived initial guess + 6 Newton iterations, full uint256 domain (no revert)

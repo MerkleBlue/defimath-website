@@ -2,5 +2,5 @@
 2:I[23750,["/_next/static/chunks/0nbjh7e-zskwh.js","/_next/static/chunks/0qc1sqmhdir1o.js","/_next/static/chunks/09__2axu20agh.js","/_next/static/chunks/01-2oyla13~wm.js"],"DocsRedirect"]
 3:I[97367,["/_next/static/chunks/0nbjh7e-zskwh.js","/_next/static/chunks/0qc1sqmhdir1o.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"to":"/docs/black-scholes/call/","label":"call"}],[["$","script","script-0",{"src":"/_next/static/chunks/01-2oyla13~wm.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"4-9cSQtDbTidB4XMbKEGz"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"to":"/docs/black-scholes/call/","label":"call"}],[["$","script","script-0",{"src":"/_next/static/chunks/01-2oyla13~wm.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"ytA-_qgxQiD-Ps3foAvtm"}
 5:null
