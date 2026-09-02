@@ -29,7 +29,7 @@ This post is how I wrote one that is. It computes e^x in 289 gas, with a max rel
 /// @dev Reverts with ExpUpperBoundError when x >= EXP_UPPER_BOUND (135e18);
 ///      returns 0 when x <= EXP_LOWER_BOUND (~-41.446e18).
 ///      Max relative error: < 2.2e-14 for any y >= 1e18.
-///      Max absolute error: < 3e-16 for any y < 1e18.
+///      Max absolute error: < 3.0e-16 for any y < 1e18.
 /// @param x Signed input in 18-decimal fixed-point format.
 /// @return y Result e^x in 18-decimal fixed-point format.
 function exp(int256 x) internal pure returns (uint256 y) {
@@ -117,13 +117,13 @@ function exp(int256 x) internal pure returns (uint256 y) {
 }
 ```
 
-Similar to how sqrt function is structured, exp function is split into two branches: for positive and negative input X. The code is almost identical in both branches, and we use identity exp(-x) = 1 / exp(x) to fold the negative case back into the positive one - the only extra work is a single division at the very end.
+Like the sqrt function, exp is split into two branches, one for positive and one for negative input x. The code is almost identical in both, and the identity exp(-x) = 1 / exp(x) folds the negative case back into the positive one — the only extra work is a single division at the very end.
 
 Let's take a closer look at the positive branch.
 
 # 3-step Algorithm
 
-As we can see in [Computation section in Exponential function article on Wikipedia](https://en.wikipedia.org/wiki/Exponential_function#Computation), computing exponential function can look pretty straightforward on paper, but we are using Solidity to do the job. We can't have too many iterations because of gas economy. We need to select approximation that will be simple yet precise enough. Using Taylor series outright can provide precise approximation, but is costly. We need a different approach.
+Computing an exponential is straightforward enough on paper — the [Wikipedia article on the exponential function](https://en.wikipedia.org/wiki/Exponential_function#Computation) lists several ways to do it. But we are doing it in Solidity, where every iteration costs gas. A Taylor series gives us all the precision we could want and charges far too much for it. What we need is an approximation that stays simple and still lands inside our error budget.
 
 ## Range reduction
 
@@ -153,7 +153,7 @@ Both stages get undone at the very end, and that recovery turns out to be just a
 
 ## Approximation
 
-I have tested multiple approximants in the narrow range of [0, 0.0108] to find the most efficient one. I wanted to minimize gas cost while maintaining high precision. In the end, I settled for the Pade [3, 3] approximant:
+I have tested multiple approximants in the narrow range of [0, 0.0108] to find the most efficient one. I wanted to minimize gas cost while maintaining high precision. In the end, I settled for the Padé[3/3] approximant:
 
 ```
 exp(x) ≈ (120 + 60x + 12x² + x³) / (120 - 60x + 12x² - x³)
@@ -165,7 +165,7 @@ That is three orders of magnitude below the 2.2e-14 the function guarantees end 
 
 ## Recovery
 
-Recovery is done in reverse order of reductions: first we raise result to the power of 64, then we multiply it by 2 to the k. Raising to the power of 64 can be done efficiently by multiplying y with y four times before dividing with 1e54 (to go back to 1e18 base) since we know y is very close to 1e18 so it will not overflow:
+Recovery runs in the reverse order of the reductions: first we raise the result to the 64th power, then we multiply it by 2^k. The 64th power costs six squarings, since 2⁶ = 64, and they come in pairs — a plain `y * y`, then a second one that also divides by 1e54 to get back to 1e18 base. Because y stays very close to 1e18 throughout, the intermediates never overflow. The final 2^k is a left-shift:
 
 ```solidity
 y = y * y;
@@ -177,7 +177,7 @@ y = y * y / 1e54;
 y <<= k;
 ```
 
-## Monotonicity
+# Monotonicity
 
 Does exp() ever step down? For a primitive sitting under option premiums and discount factors, a dip would be bad news — a premium falling while its input rises, a binary search that stops converging. So it is worth being precise about how much we can actually say.
 
