@@ -21,7 +21,7 @@ The exponential function is everywhere in DeFi: compounding, discounting, intere
 
 In my DeFiMath library, [`exp()`](/docs/math/exp/) sits underneath most of that — it is a building block for European and binary options, for futures, and for other math functions like the [standard normal cumulative distribution](/docs/math/stdnormcdf/). Anything embedded that deeply has to be both cheap and accurate, because every function above it inherits whatever it costs and whatever it gets wrong.
 
-This post is how I wrote one that is. It computes e^x in 289 gas, with a max relative error of 2.2e-14 — and 3.0e-16 absolute, the metric that matters when exp(x) < 1. We'll look at the code first, then work through how it gets there.
+Here's how I wrote it. It computes e^x in 289 gas, with a max relative error of 2.2e-14 — and 3.0e-16 absolute, the metric that matters when exp(x) < 1. We'll look at the code first, then work through how it gets there.
 
 # Exp Function Code
 
